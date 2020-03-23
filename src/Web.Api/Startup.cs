@@ -134,8 +134,8 @@ namespace Web.Api
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
             services.AddMvc(options => options.EnableEndpointRouting=false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-            
-            services.AddAutoMapper();
+
+            services.AddAutoMapper(typeof(Startup));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
