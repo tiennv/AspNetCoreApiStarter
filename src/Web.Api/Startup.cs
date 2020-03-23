@@ -29,6 +29,7 @@ using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 using Web.Api.Infrastructure.Auth;
 using Web.Api.Infrastructure.Data;
+using Web.Api.Infrastructure.Data.Mapping;
 using Web.Api.Infrastructure.Helpers;
 using Web.Api.Infrastructure.Identity;
 using Web.Api.Models.Settings;
@@ -135,8 +136,15 @@ namespace Web.Api
 
             services.AddMvc(options => options.EnableEndpointRouting=false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            services.AddAutoMapper(typeof(Startup));
-
+            // Auto Mapper
+            //var mappingConfig = new MapperConfiguration(mc => {
+            //    mc.AddProfile(new DataProfile());
+            //});
+            //mappingConfig.AssertConfigurationIsValid();
+            //IMapper mapper = mappingConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+            services.AddAutoMapper(typeof(Web.Api.Infrastructure.Data.Mapping.DataProfile));
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
