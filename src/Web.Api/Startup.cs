@@ -140,7 +140,7 @@ namespace Web.Api
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AspNetCoreApiStarter", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DMMS Authentication Api", Version = "v1" });
                 // Swagger 2.+ support
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -214,7 +214,7 @@ namespace Web.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreApiStarter V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMMS Authentication Api V1");
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
