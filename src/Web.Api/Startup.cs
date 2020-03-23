@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,11 +16,12 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
 using Web.Api.Core;
@@ -31,7 +33,7 @@ using Web.Api.Infrastructure.Helpers;
 using Web.Api.Infrastructure.Identity;
 using Web.Api.Models.Settings;
 
-
+//https://fullstackmark.com/post/19/jwt-authentication-flow-with-refresh-tokens-in-aspnet-core-web-api
 namespace Web.Api
 {
     public class Startup
@@ -131,27 +133,45 @@ namespace Web.Api
             identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-
+            services.AddMvc(options => options.EnableEndpointRouting=false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            
             services.AddAutoMapper();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "AspNetCoreApiStarter", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AspNetCoreApiStarter", Version = "v1" });
                 // Swagger 2.+ support
-                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    In = "header",
+                    In = ParameterLocation.Header,
                     Description = "Please insert JWT with Bearer into field",
                     Name = "Authorization",
-                    Type = "apiKey"
+                    Type = SecuritySchemeType.ApiKey
                 });
 
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                     {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                     }
+                });
+
+                /*c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
                 {
                     { "Bearer", new string[] { } }
-                });
+                });*/
             });
 
             // Now register our services with Autofac container.
