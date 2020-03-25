@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MP.Author.Api.Models;
+using MP.Author.Api.Presenters;
 using MP.Author.Api.ViewModels.Auth;
+using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Interfaces.UseCases;
 
 namespace MP.Author.Api.Controllers
 {
@@ -15,50 +18,42 @@ namespace MP.Author.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
+		/*private readonly SignInManager<ApplicationUser> _signInManager;
 		public AuthController(SignInManager<ApplicationUser> signInManager)
 		{
 			_signInManager = signInManager;
+		}*/
+
+		private readonly ILoginUseCase _loginUseCase;
+		private readonly LoginPresenter _loginPresenter;
+
+		public AuthController(ILoginUseCase loginUseCase, LoginPresenter loginPresenter)
+		{
+			_loginUseCase = loginUseCase;
+			_loginPresenter = loginPresenter;
 		}
+
 
 		// POST: /auth/login
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody]LoginViewModel vm)
+		public async Task<ActionResult> Login([FromBody] Models.Request.LoginRequest request)
 		{
-			// Validate the requests
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(); // TODO: Say what's wrong with the request
-			}
-
-			var result = await _signInManager.PasswordSignInAsync(
-				userName: vm.Username,
-				password: vm.Password,
-				isPersistent: true, // TODO: Get this from the viewmodel
-				lockoutOnFailure: true
-			);
-
-			if (result.RequiresTwoFactor)
-			{
-				return StatusCode(StatusCodes.Status501NotImplemented);
-			}
-			if (result.IsLockedOut)
-			{
-				return StatusCode(StatusCodes.Status423Locked);
-			}
-			if (result.Succeeded)
-			{
-				return Ok();
-			}
-
-			return Unauthorized();
+			if (!ModelState.IsValid) { return BadRequest(ModelState); }
+			await _loginUseCase.Handle(new LoginRequest(request.UserName, request.Password, Request.HttpContext.Connection.RemoteIpAddress?.ToString()), _loginPresenter);
+			return _loginPresenter.ContentResult;
 		}
+
+		// POST api/auth/refreshtoken
+		//[HttpPost("refreshtoken")]
+		//public async Task<ActionResult> RefreshToken([FromBody] Models.Request.ExchangeRefreshTokenRequest request)
+		//{
+		//	return Ok();
+		//}
 
 		[Authorize, HttpPost("logout")]
 		public async Task<IActionResult> Logout()
 		{
-			await _signInManager.SignOutAsync();
+			//await _signInManager.SignOutAsync();
 			return Ok();
 		}
 	}

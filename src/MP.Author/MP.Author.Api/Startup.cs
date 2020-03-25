@@ -1,6 +1,7 @@
 
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +24,7 @@ using MP.Author.Core.UseCases;
 using MP.Author.Infrastructure;
 using MP.Author.Infrastructure.Auth;
 using MP.Author.Infrastructure.Data;
+using MP.Author.Infrastructure.Data.Mapping;
 using MP.Author.Infrastructure.Data.Repositories;
 using MP.Author.Infrastructure.Identity;
 using System;
@@ -159,6 +161,17 @@ namespace MP.Author.Api
             identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
+
+            // Auto Mapper
+            //var mappingConfig = new MapperConfiguration(mc =>
+            //{
+            //    mc.AddProfile(new DataProfile());
+            //});
+            //mappingConfig.AssertConfigurationIsValid();
+            //IMapper mapper = mappingConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+
+            services.AddAutoMapper(typeof(DataProfile));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

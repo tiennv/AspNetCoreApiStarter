@@ -7,21 +7,24 @@ using System;
 using System.Linq;
 using MP.Author.Core.Dto;
 using System.Threading.Tasks;
+using AutoMapper;
+using MP.Author.Core.Specifications;
 
 namespace MP.Author.Infrastructure.Data.Repositories
 {
     public sealed class UserRepository : EfRepository<User>, IUserRepository
     {
-        private readonly UserManager<AppUser> _userManager;        
-
-        public UserRepository(UserManager<AppUser> userManager, AppDbContext appDbContext) : base(appDbContext)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
+        public UserRepository(UserManager<AppUser> userManager, IMapper mapper, AppDbContext appDbContext) : base(appDbContext)
         {
-            _userManager = userManager;            
+            _userManager = userManager;
+            _mapper = mapper;
         }
 
-        public Task<bool> CheckPassword(User user, string password)
+        public async Task<bool> CheckPassword(User user, string password)
         {
-            throw new NotImplementedException();
+            return await _userManager.CheckPasswordAsync(_mapper.Map<AppUser>(user), password);
         }
 
         public async Task<CreateUserResponse> Create(string firstName, string lastName, string email, string userName, string password)
@@ -38,9 +41,11 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return new CreateUserResponse(appUser.Id, identityResult.Succeeded, identityResult.Succeeded ? null : identityResult.Errors.Select(e => new Error(e.Code, e.Description)));
         }
 
-        public Task<User> FindByName(string userName)
+        public async Task<User> FindByName(string userName)
         {
-            throw new NotImplementedException();
+            var appUser = await _userManager.FindByNameAsync(userName);
+            return appUser == null ? null : _mapper.Map(appUser, await GetSingleBySpec(new UserSpecification(appUser.Id)));
         }
+       
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Core.Shared;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MP.Author.Infrastructure.Data.Repositories
