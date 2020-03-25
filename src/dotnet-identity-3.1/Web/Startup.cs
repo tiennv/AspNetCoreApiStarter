@@ -32,7 +32,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseMySql("server=localhost;port=3306;user=root;password=123456&*()Abc;database=mp_author"), ServiceLifetime.Scoped);
+				options.UseMySql("server=localhost;port=3306;user=root;password=admin;database=mp_author"), ServiceLifetime.Scoped);
 
             // Configure Identity
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
