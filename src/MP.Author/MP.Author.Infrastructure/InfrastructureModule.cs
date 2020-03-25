@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Infrastructure.Data.Repositories;
+using Module = Autofac.Module;
 
 namespace MP.Author.Infrastructure
 {
@@ -9,11 +10,7 @@ namespace MP.Author.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
-            //builder.RegisterType<JwtFactory>().As<IJwtFactory>().SingleInstance().FindConstructorsWith(new InternalConstructorFinder());
-            //builder.RegisterType<JwtTokenHandler>().As<IJwtTokenHandler>().SingleInstance().FindConstructorsWith(new InternalConstructorFinder());
-            //builder.RegisterType<TokenFactory>().As<ITokenFactory>().SingleInstance();
-            //builder.RegisterType<JwtTokenValidator>().As<IJwtTokenValidator>().SingleInstance().FindConstructorsWith(new InternalConstructorFinder());
-            //builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
+            
         }
     }
 }

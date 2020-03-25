@@ -1,18 +1,22 @@
-﻿using MP.Author.Core.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
+using MP.Author.Infrastructure.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using MP.Author.Core.Dto;
 using System.Threading.Tasks;
 
 namespace MP.Author.Infrastructure.Data.Repositories
 {
-    public sealed class UserRepository : IUserRepository
+    public sealed class UserRepository : EfRepository<User>, IUserRepository
     {
-        public Task<User> Add(User entity)
+        private readonly UserManager<AppUser> _userManager;        
+
+        public UserRepository(UserManager<AppUser> userManager, AppDbContext appDbContext) : base(appDbContext)
         {
-            throw new NotImplementedException();
+            _userManager = userManager;            
         }
 
         public Task<bool> CheckPassword(User user, string password)
@@ -20,42 +24,21 @@ namespace MP.Author.Infrastructure.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<CreateUserResponse> Create(string firstName, string lastName, string email, string userName, string password)
+        public async Task<CreateUserResponse> Create(string firstName, string lastName, string email, string userName, string password)
         {
-            throw new NotImplementedException();
-        }
+            var appUser = new AppUser { Email = email, UserName = userName };
+            var identityResult = await _userManager.CreateAsync(appUser, password);
 
-        public Task Delete(User entity)
-        {
-            throw new NotImplementedException();
+            if (!identityResult.Succeeded) return new CreateUserResponse(appUser.Id, false, identityResult.Errors.Select(e => new Error(e.Code, e.Description)));
+
+            var user = new User(firstName, lastName, appUser.Id, appUser.UserName);
+            _appDbContext.Users.Add(user);
+            await _appDbContext.SaveChangesAsync();
+
+            return new CreateUserResponse(appUser.Id, identityResult.Succeeded, identityResult.Succeeded ? null : identityResult.Errors.Select(e => new Error(e.Code, e.Description)));
         }
 
         public Task<User> FindByName(string userName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetSingleBySpec(ISpecification<User> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<User>> List(ISpecification<User> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<User>> ListAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(User entity)
         {
             throw new NotImplementedException();
         }

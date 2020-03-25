@@ -22,6 +22,7 @@ using MP.Author.Core.Interfaces.UseCases;
 using MP.Author.Core.UseCases;
 using MP.Author.Infrastructure;
 using MP.Author.Infrastructure.Auth;
+using MP.Author.Infrastructure.Data;
 using MP.Author.Infrastructure.Data.Repositories;
 using MP.Author.Infrastructure.Identity;
 using System;
@@ -47,14 +48,13 @@ namespace MP.Author.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //   options.UseMySql("server=localhost;port=3308;user=root;password=root;database=mp_author"), ServiceLifetime.Scoped);
+            services.AddControllers();            
+            
             var connection = Configuration["ConnectionStrings:Default"];
-            services.AddDbContext<ApplicationDbContext>(options =>
+            /*services.AddDbContext<ApplicationDbContext>(options =>
                options.UseMySql(connection), ServiceLifetime.Scoped);
+
+            
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -65,8 +65,10 @@ namespace MP.Author.Api
                 options.Password.RequireUppercase = false;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders();*/
 
+            services.AddDbContext<AppDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
 
             // Register the ConfigurationBuilder instance of AuthSettings
             var authSettings = Configuration.GetSection(nameof(AuthSettings));
@@ -142,13 +144,10 @@ namespace MP.Author.Api
                 c.Cookie.SecurePolicy = CookieSecurePolicy.None; // Should ideally be "Always"
 
                 c.SlidingExpiration = true;
-            });
-
-
-            ///========================================================================
+            });            
             
             // add identity
-          /*  var identityBuilder = services.AddIdentityCore<AppUser>(o =>
+            var identityBuilder = services.AddIdentityCore<AppUser>(o =>
             {
                 // configure identity options
                 o.Password.RequireDigit = false;
@@ -159,7 +158,7 @@ namespace MP.Author.Api
             });
             identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
-*/
+
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -197,7 +196,7 @@ namespace MP.Author.Api
             // ============================================================
             // Now register our services with Autofac container.
 
-            var builder = new ContainerBuilder();
+            /*var builder = new ContainerBuilder();
 
             //builder.RegisterModule(new CoreModule());
             //builder.RegisterModule(new InfrastructureModule());
@@ -211,16 +210,20 @@ namespace MP.Author.Api
 
 
             services.AddSingleton(typeof(IRegisterUserUseCase), typeof(RegisterUserUseCase));
-            services.AddSingleton(typeof(IUserRepository), typeof(UserRepository));
+            services.AddSingleton(typeof(IUserRepository), typeof(UserRepository));*/
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            // Presenters
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
+
             containerBuilder.RegisterModule(new CoreModule());
             containerBuilder.RegisterModule(new InfrastructureModule());
 
-            // Presenters
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
+            /*            containerBuilder.RegisterType<RegisterUserUseCase>().As<IRegisterUserUseCase>().InstancePerDependency();
+                        containerBuilder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerDependency();*/
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

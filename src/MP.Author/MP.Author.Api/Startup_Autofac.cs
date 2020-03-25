@@ -29,6 +29,7 @@ namespace MP.Author.Api
 
         public ILifetimeScope AutofacContainer { get; private set; }
 
+        [Obsolete]
         public Startup_Autofac(IHostingEnvironment env)
         {
             // Do Startup-ish things like read configuration.
@@ -172,11 +173,11 @@ namespace MP.Author.Api
             // Add things to the Autofac ContainerBuilder.
             // Now register our services with Autofac container.            
 
-            builder.RegisterModule(new CoreModule());
+            /*builder.RegisterModule(new CoreModule());
             builder.RegisterModule(new InfrastructureModule());
 
             // Presenters
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();*/
         }
 
         // This only gets called if your environment is Production. The
@@ -189,11 +190,11 @@ namespace MP.Author.Api
             // Add things to the Autofac ContainerBuilder.
             // Now register our services with Autofac container.            
 
-            builder.RegisterModule(new CoreModule());
+            /*builder.RegisterModule(new CoreModule());
             builder.RegisterModule(new InfrastructureModule());
 
             // Presenters
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();*/
         }
 
         // This is the default if you don't have an environment specific method.
