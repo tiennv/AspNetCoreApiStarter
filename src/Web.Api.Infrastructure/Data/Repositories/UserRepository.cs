@@ -16,9 +16,9 @@ namespace Web.Api.Infrastructure.Data.Repositories
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        
 
-        public UserRepository(UserManager<AppUser> userManager, IMapper mapper, AppDbContext appDbContext): base(appDbContext)
+
+        public UserRepository(UserManager<AppUser> userManager, IMapper mapper, AppDbContext appDbContext) : base(appDbContext)
         {
             _userManager = userManager;
             _mapper = mapper;

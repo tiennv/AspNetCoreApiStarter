@@ -1,52 +1,49 @@
-
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Autofac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MP.Author.Api.Models;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Core;
-using MP.Author.Core.Interfaces.Gateways.Repositories;
-using MP.Author.Core.Interfaces.UseCases;
-using MP.Author.Core.UseCases;
 using MP.Author.Infrastructure;
 using MP.Author.Infrastructure.Auth;
-using MP.Author.Infrastructure.Data.Repositories;
-using MP.Author.Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MP.Author.Api
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+    public class Startup_Autofac
+    {        
+        public IConfigurationRoot Configuration { get; private set; }
 
         public ILifetimeScope AutofacContainer { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public Startup_Autofac(IHostingEnvironment env)
+        {
+            // Do Startup-ish things like read configuration.
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(env.ContentRootPath)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                            .AddEnvironmentVariables();
+            this.Configuration = builder.Build();
+        }
+
+        // This is the default if you don't have an environment specific method.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add things to the service collection.
             services.AddControllers();
 
 
@@ -126,41 +123,6 @@ namespace MP.Author.Api
                 };
             });
 
-            // Configure the Application Cookie
-            services.ConfigureApplicationCookie(c => {
-                // Override the default events
-                c.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToAccessDenied = ReplaceRedirectorWithStatusCode(HttpStatusCode.Forbidden),
-                    OnRedirectToLogin = ReplaceRedirectorWithStatusCode(HttpStatusCode.Unauthorized)
-                };
-
-                // Customize other stuff as needed
-                c.Cookie.Name = ".applicationname";
-                c.Cookie.HttpOnly = true; // This must be true to prevent XSS
-                c.Cookie.SameSite = SameSiteMode.None;
-                c.Cookie.SecurePolicy = CookieSecurePolicy.None; // Should ideally be "Always"
-
-                c.SlidingExpiration = true;
-            });
-
-
-            ///========================================================================
-            
-            // add identity
-          /*  var identityBuilder = services.AddIdentityCore<AppUser>(o =>
-            {
-                // configure identity options
-                o.Password.RequireDigit = false;
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
-                o.Password.RequiredLength = 6;
-            });
-            identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
-            identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
-*/
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -193,44 +155,51 @@ namespace MP.Author.Api
                 });
 
             });
+        }
 
-            // ============================================================
-            // Now register our services with Autofac container.
+        // This only gets called if your environment is Development. The
+        // default ConfigureServices won't be automatically called if this
+        // one is called.
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // Add things to the service collection that are only for the
+            // development environment.
+        }
 
-            var builder = new ContainerBuilder();
+        // This is the default if you don't have an environment specific method.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Add things to the Autofac ContainerBuilder.
+            // Now register our services with Autofac container.            
 
-            //builder.RegisterModule(new CoreModule());
-            //builder.RegisterModule(new InfrastructureModule());
+            builder.RegisterModule(new CoreModule());
+            builder.RegisterModule(new InfrastructureModule());
 
             // Presenters
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
-
-            builder.Populate(services);
-
-            var container = builder.Build();
-
-
-            services.AddSingleton(typeof(IRegisterUserUseCase), typeof(RegisterUserUseCase));
-            services.AddSingleton(typeof(IUserRepository), typeof(UserRepository));
         }
 
-        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        // This only gets called if your environment is Production. The
+        // default ConfigureContainer won't be automatically called if this
+        // one is called.
+        public void ConfigureProductionContainer(ContainerBuilder builder)
         {
-            containerBuilder.RegisterModule(new CoreModule());
-            containerBuilder.RegisterModule(new InfrastructureModule());
+            // Add things to the ContainerBuilder that are only for the
+            // production environment.
+            // Add things to the Autofac ContainerBuilder.
+            // Now register our services with Autofac container.            
+
+            builder.RegisterModule(new CoreModule());
+            builder.RegisterModule(new InfrastructureModule());
 
             // Presenters
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // This is the default if you don't have an environment specific method.
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            // Set up the application.
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
@@ -245,19 +214,19 @@ namespace MP.Author.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
 
-        private static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirectorWithStatusCode(HttpStatusCode statusCode) => context =>
+        // This only gets called if your environment is Staging. The
+        // default Configure won't be automatically called if this one is called.
+        public void ConfigureStaging(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            // Adapted from https://stackoverflow.com/questions/42030137/suppress-redirect-on-api-urls-in-asp-net-core
-            context.Response.StatusCode = (int)statusCode;
-            return Task.CompletedTask;
-        };
+            // Set up the application for staging.
+        }
     }
 }
