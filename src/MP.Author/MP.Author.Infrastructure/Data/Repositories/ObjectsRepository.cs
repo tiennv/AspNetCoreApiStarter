@@ -27,12 +27,15 @@ namespace MP.Author.Infrastructure.Data.Repositories
             {
                 foreach(var item in objects.Childrents)
                 {
-                    var child = _mapper.Map<Objects>(item);
-                    child.ParentId = entityInserted.Entity.Id;
-                    _appDbContext.Objects.Add(child);
+                    if (item != null)
+                    {
+                        var child = _mapper.Map<Objects>(item);
+                        child.ParentId = entityInserted.Entity.Id;
+                        _appDbContext.Objects.Add(child);
+                    }
                 }
 
-                inserted = await _appDbContext.SaveChangesAsync();
+                await _appDbContext.SaveChangesAsync();
             }
 
             return inserted > 0 ? true : false;                        
