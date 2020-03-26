@@ -20,8 +20,22 @@ namespace MP.Author.Infrastructure.Data.Repositories
         public async Task<bool> Create(ObjectsRequest objects)
         {
             var entity = _mapper.Map<Objects>(objects);
-            _appDbContext.Objects.Add(entity);
-            return await _appDbContext.SaveChangesAsync() > 0 ? true : false;                        
+            var entityInserted = _appDbContext.Objects.Add(entity);
+            var inserted = await _appDbContext.SaveChangesAsync();
+            // Neu co list childrent
+            if(inserted > 0 && objects.Childrents!=null && objects.Childrents.Count > 0)
+            {
+                foreach(var item in objects.Childrents)
+                {
+                    var child = _mapper.Map<Objects>(item);
+                    child.ParentId = entityInserted.Entity.Id;
+                    _appDbContext.Objects.Add(child);
+                }
+
+                inserted = await _appDbContext.SaveChangesAsync();
+            }
+
+            return inserted > 0 ? true : false;                        
         }
     }
 }

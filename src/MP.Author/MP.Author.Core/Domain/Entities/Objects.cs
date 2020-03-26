@@ -12,7 +12,7 @@ namespace MP.Author.Core.Domain.Entities
         public string ActionName { get; private set; }
         public bool IsApp { get; private set; }
         public bool IsShow { get; private set; } 
-        public int ParentId { get; private set; }
+        public int ParentId { get; set; }
         public string Route { get; private set; }
         public int EnumAction { get; private set; }
         public string Icon { get; private set; }
