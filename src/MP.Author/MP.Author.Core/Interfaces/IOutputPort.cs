@@ -1,4 +1,6 @@
-﻿namespace MP.Author.Core.Interfaces
+﻿using MP.Author.Core.Dto;
+
+namespace MP.Author.Core.Interfaces
 {
     public interface IOutputPort<in TUseCaseResponse>
     {
