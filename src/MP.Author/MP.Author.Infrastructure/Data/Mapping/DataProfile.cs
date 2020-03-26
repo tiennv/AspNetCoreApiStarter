@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MP.Author.Core.Domain.Entities;
+using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Infrastructure.Identity;
 
 namespace MP.Author.Infrastructure.Data.Mapping
@@ -13,7 +14,7 @@ namespace MP.Author.Infrastructure.Data.Mapping
                                        ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash)).
                                        ForAllOtherMembers(opt => opt.Ignore());
 
-
+            CreateMap<ObjectsRequest, Objects>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MP.Author.Core.Domain.Entities;
+using MP.Author.Core.Dto.UseCaseRequests;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
     public interface IObjectsRepository : IRepository<Objects>
     {
-        Task<bool> Create(Objects objects);
+        Task<bool> Create(ObjectsRequest objects);
     }
 }

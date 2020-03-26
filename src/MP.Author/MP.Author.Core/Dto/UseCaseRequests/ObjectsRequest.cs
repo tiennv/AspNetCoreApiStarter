@@ -6,20 +6,19 @@ namespace MP.Author.Core.Dto.UseCaseRequests
 {
     public class ObjectsRequest : IUseCaseRequest<ObjectsResponse>
     {
-        public string Name { get; }
-        public string ParentName { get; }
-        public string Method { get; }
-        public bool IsPage { get; }
-        public string ControllerName { get; }
-        public string ActionName { get; }
-        public bool IsApp { get; }
-        public bool IsShow { get; }
-        public int ParentId { get; }
-        public string Route { get; }
-        public int EnumAction { get; }
-        public string Icon { get; }
-
-        public List<ObjectsRequest> Childrents { get; }
+        public string Name { get; set; }
+        public string ParentName { get; set; }
+        public string Method { get; set; }
+        public bool IsPage { get; set; }
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }
+        public bool IsApp { get; set; }
+        public bool IsShow { get; set; }
+        public int ParentId { get; set; }
+        public string Route { get; set; }
+        public int EnumAction { get; set; }
+        public string Icon { get; set; }
+        public List<ObjectsRequest> Childrents { get; set; }
 
 
         public ObjectsRequest(string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,

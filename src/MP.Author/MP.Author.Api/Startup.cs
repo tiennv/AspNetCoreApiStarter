@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MP.Author.Api.Mapping;
 using MP.Author.Api.Models;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Core;
@@ -165,14 +166,18 @@ namespace MP.Author.Api
             // Auto Mapper
             //var mappingConfig = new MapperConfiguration(mc =>
             //{
-            //    mc.AddProfile(new DataProfile());
+            //    mc.AddProfile(new RequestProfile());
+            //    //mc.AddProfile(new DataProfile());
             //});
             //mappingConfig.AssertConfigurationIsValid();
             //IMapper mapper = mappingConfig.CreateMapper();
             //services.AddSingleton(mapper);
 
-            services.AddAutoMapper(typeof(DataProfile));
-
+            // Auto Mapper
+            services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile) });
+            //services.AddAutoMapper(typeof(RequestProfile));
+            
+            //services.AddSingleton(mapper);
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {

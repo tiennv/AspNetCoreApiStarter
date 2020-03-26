@@ -50,6 +50,58 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("MP.Author.Core.Domain.Entities.Objects", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                b.Property<DateTime>("Created")
+                    .HasColumnType("datetime(6)");
+
+                b.Property<DateTime>("Modified")
+                    .HasColumnType("datetime(6)");
+
+                b.Property<string>("Name")
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.Property<string>("ParentName")
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.Property<string>("Method")
+                    .HasColumnType("varchar(8) CHARACTER SET utf8mb4");                
+
+                b.Property<string>("ControllerName")
+                    .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+
+                b.Property<string>("ActionName")
+                    .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+
+                b.Property<string>("Route")
+                    .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+
+                b.Property<string>("Icon")
+                    .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+
+                b.Property<bool>("IsShow")
+                    .HasColumnType("tinyint(1)");
+
+                b.Property<bool>("IsPage")
+                   .HasColumnType("tinyint(1)");
+
+                b.Property<bool>("IsApp")
+                   .HasColumnType("tinyint(1)");
+
+                b.Property<int>("EnumAction")
+                       .HasColumnType("int");
+
+                b.Property<int>("ParentId")
+                       .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.ToTable("Objects");
+            });
             modelBuilder.Entity("MP.Author.Core.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
