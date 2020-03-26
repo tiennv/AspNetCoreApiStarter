@@ -17,6 +17,7 @@ namespace MP.Author.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(ConfigureUser);
+            modelBuilder.Entity<Objects>();
         }
 
         public void ConfigureUser(EntityTypeBuilder<User> builder)
@@ -31,6 +32,7 @@ namespace MP.Author.Infrastructure.Data
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Objects> Objects { get; set; }
 
         public override int SaveChanges()
         {
