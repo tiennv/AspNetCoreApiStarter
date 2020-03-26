@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 using MP.Author.Api.Models;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Api.Presenters;
-using MP.Author.Api.ViewModels.Auth;
 using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Interfaces.UseCases;
 
