@@ -33,5 +33,20 @@ namespace MP.Author.Api.Controllers
             await _objectsUserCase.Handle(requestDto, _objectsPresenter);
             return _objectsPresenter.ContentResult;         
         }
+
+        [HttpPost("post-list")]
+        public async Task<ActionResult> PostList([FromBody] List<Models.Request.ObjectsRequest> request)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var requestDto = _mapper.Map<List<Models.Request.ObjectsRequest>, List<Core.Dto.UseCaseRequests.ObjectsRequest>>(request);
+            if(requestDto!=null && requestDto.Count > 0)
+            {
+                foreach(var item in requestDto)
+                {
+                    await _objectsUserCase.Handle(item, _objectsPresenter);
+                }
+            }
+            return _objectsPresenter.ContentResult;
+        }
     }
 }

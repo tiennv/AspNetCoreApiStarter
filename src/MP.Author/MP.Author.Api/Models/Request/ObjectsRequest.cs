@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Api.Models.Request
 {
+    public class ListObjectRequest
+    {
+        public List<ObjectsRequest> objects { get; set; }
+    }
     public class ObjectsRequest
     {        
         public string Name { get; set; }
