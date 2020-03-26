@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Api.Models.Request
 {
-    public class LogoutRequest
+    public class LogoutRequest : ExchangeRefreshTokenRequest
     {
-        public string AccessToken { get; set; }
+        
     }
 }

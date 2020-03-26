@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MP.Author.Api.Presenters
 {
-    public sealed class LogoutPresenter: IOutputPort<Core.Dto.UseCaseResponses.LogoutResponse>, IBaseResponse<BaseResponse<Models.Response.LogoutResponse>, Core.Dto.UseCaseResponses.LogoutResponse>
+    public sealed class LogoutPresenter: IOutputPort<LogoutDtoResponse>, IBaseResponse<BaseResponse<LogoutResponse>, LogoutDtoResponse>
     {
         public JsonContentResult ContentResult { get; }
 
@@ -17,7 +17,7 @@ namespace MP.Author.Api.Presenters
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(Core.Dto.UseCaseResponses.LogoutResponse response)
+        public void Handle(LogoutDtoResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
             ContentResult.Content = JsonSerializer.SerializeObject(HandleResponse(response));
@@ -27,13 +27,17 @@ namespace MP.Author.Api.Presenters
         }
 
 
-        public BaseResponse<Models.Response.LogoutResponse> HandleResponse(Core.Dto.UseCaseResponses.LogoutResponse response)
+        public BaseResponse<LogoutResponse> HandleResponse(LogoutDtoResponse response)
         {
-            var result = new BaseResponse<Models.Response.LogoutResponse>();
+            var result = new BaseResponse<LogoutResponse>();
 
             result.code = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
+            result.error = response.Success ? 0 : 1;
             result.msg = response.Errors != null && response.Errors.Count() > 0 ? response.Errors.FirstOrDefault().Description : response.Message;
-            result.data = new Models.Response.LogoutResponse(message: response.Message);
+            if (response != null && response.Success)
+            {
+                result.data = new LogoutResponse(message: response.Message);
+            }
 
             return result;
         }

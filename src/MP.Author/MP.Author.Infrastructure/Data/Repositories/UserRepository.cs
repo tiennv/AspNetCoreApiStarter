@@ -27,6 +27,12 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return await _userManager.CheckPasswordAsync(_mapper.Map<AppUser>(user), password);
         }
 
+        public async Task<bool> IsExistRefreshToken(string refreshToken)
+        {
+            var obj = _appDbContext.RefreshTokens.Any(x => x.Token.Equals(refreshToken));
+            return obj;
+        }
+
         public async Task<CreateUserResponse> Create(string firstName, string lastName, string email, string userName, string password)
         {
             var appUser = new AppUser { Email = email, UserName = userName };

@@ -5,17 +5,17 @@ using System.Text;
 
 namespace MP.Author.Core.Dto.UseCaseResponses
 {
-    public class LogoutResponse : UseCaseResponseMessage
+    public class LogoutDtoResponse : UseCaseResponseMessage
     {    
         public IEnumerable<Error> Errors { get; }
         
 
-        public LogoutResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public LogoutDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
             Errors = errors;
         }
 
-        public LogoutResponse(bool success = false, string message = null) : base(success, message)
+        public LogoutDtoResponse(bool success = false, string message = null) : base(success, message)
         {
         
         }

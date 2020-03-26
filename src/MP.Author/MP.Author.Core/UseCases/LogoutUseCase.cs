@@ -24,7 +24,7 @@ namespace MP.Author.Core.UseCases
         }
 
 
-        public async Task<bool> Handle(LogoutRequest message, IOutputPort<LogoutResponse> outputPort)
+        public async Task<bool> Handle(LogoutRequest message, IOutputPort<LogoutDtoResponse> outputPort)
         {
             var cp = _jwtTokenValidator.GetPrincipalFromToken(message.AccessToken, message.SigningKey);
 
@@ -36,19 +36,27 @@ namespace MP.Author.Core.UseCases
 
                 if (user!=null)
                 {
-                    if(await _userRepository.RemoveRefreshToken(user))
+                    if (await _userRepository.IsExistRefreshToken(message.RefreshToken))
                     {
-                        outputPort.Handle(new LogoutResponse(true, "Logout success!"));
-                        return true;
+                        if (await _userRepository.RemoveRefreshToken(user))
+                        {
+                            outputPort.Handle(new LogoutDtoResponse(true, "Logout success!"));
+                            return true;
+                        }
+                        else
+                        {
+                            outputPort.Handle(new LogoutDtoResponse(new[] { new Error("logout_failure", "Logout failure!") }));
+                            return false;
+                        }
                     }
                     else
                     {
-                        outputPort.Handle(new LogoutResponse(new[] { new Error("logout_failure", "Logout failure!")}));
+                        outputPort.Handle(new LogoutDtoResponse(new[] { new Error("invalid_token", "Token is not exist!") }));
                         return false;
                     }
                 }
             }
-            outputPort.Handle(new LogoutResponse(new[] { new Error("invalid_token", "Invalid token!") }));
+            outputPort.Handle(new LogoutDtoResponse(new[] { new Error("invalid_token", "Invalid token!") }));
             return false;
         }
     }

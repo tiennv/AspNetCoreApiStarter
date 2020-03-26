@@ -22,16 +22,5 @@ namespace MP.Author.Api.Serialization
         }
     }
 
-    public interface IBaseResponseSerializer<T>
-    {
-        BaseResponse<T> BaseResponse();
-    }
-
-    public class BaseResponseSerializer : IBaseResponseSerializer<LoginResponse>
-    {
-        public BaseResponse<LoginResponse> BaseResponse()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    
 }

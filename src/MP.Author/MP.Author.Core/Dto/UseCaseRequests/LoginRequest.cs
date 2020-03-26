@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MP.Author.Core.Dto.UseCaseRequests
 {
-    public class LoginRequest : IUseCaseRequest<LoginResponse>
+    public class LoginRequest : IUseCaseRequest<LoginDtoResponse>
     {
         public string UserName { get; }
         public string Password { get; }

@@ -62,7 +62,7 @@ namespace MP.Author.Api.Controllers
 		public async Task<IActionResult> Logout([FromBody] Models.Request.LogoutRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
-			await _logoutUseCase.Handle(new LogoutRequest(request.AccessToken, _authSettings.SecretKey), _logoutPresenter);
+			await _logoutUseCase.Handle(new LogoutRequest(request.AccessToken, _authSettings.SecretKey,request.RefreshToken), _logoutPresenter);
 			return _logoutPresenter.ContentResult;
 		}
 	}

@@ -16,5 +16,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> RemoveRefreshToken(User user);
+
+        Task<bool> IsExistRefreshToken(string refreshToken);
     }
 }

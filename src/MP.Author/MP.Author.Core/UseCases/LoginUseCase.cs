@@ -23,7 +23,7 @@ namespace MP.Author.Core.UseCases
             _tokenFactory = tokenFactory;
         }
 
-        public async Task<bool> Handle(LoginRequest message, IOutputPort<LoginResponse> outputPort)
+        public async Task<bool> Handle(LoginRequest message, IOutputPort<LoginDtoResponse> outputPort)
         {
             if (!string.IsNullOrEmpty(message.UserName) && !string.IsNullOrEmpty(message.Password))
             {
@@ -40,12 +40,12 @@ namespace MP.Author.Core.UseCases
                         await _userRepository.Update(user);
 
                         // generate access token
-                        outputPort.Handle(new LoginResponse(await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
                         return true;
                     }
                 }
             }
-            outputPort.Handle(new LoginResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
+            outputPort.Handle(new LoginDtoResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
             return false;
         }
     }
