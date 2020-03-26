@@ -22,15 +22,19 @@ namespace MP.Author.Api.Controllers
     {
 	
 		private readonly ILoginUseCase _loginUseCase;
+		private readonly ILogoutUseCase _logoutUseCase;
 		private readonly LoginPresenter _loginPresenter;
+		private readonly LogoutPresenter _logoutPresenter;
 		private readonly IExchangeRefreshTokenUseCase _exchangeRefreshTokenUseCase;
 		private readonly ExchangeRefreshTokenPresenter _exchangeRefreshTokenPresenter;
 		private readonly AuthSettings _authSettings;
 
-		public AuthController(ILoginUseCase loginUseCase, LoginPresenter loginPresenter, IExchangeRefreshTokenUseCase exchangeRefreshTokenUseCase, ExchangeRefreshTokenPresenter exchangeRefreshTokenPresenter, IOptions<AuthSettings> authSettings)
+		public AuthController(ILoginUseCase loginUseCase, LoginPresenter loginPresenter, ILogoutUseCase logoutUseCase,  LogoutPresenter logoutPresenter, IExchangeRefreshTokenUseCase exchangeRefreshTokenUseCase, ExchangeRefreshTokenPresenter exchangeRefreshTokenPresenter, IOptions<AuthSettings> authSettings)
 		{
 			_loginUseCase = loginUseCase;
+			_logoutUseCase = logoutUseCase;
 			_loginPresenter = loginPresenter;
+			_logoutPresenter = logoutPresenter;
 			_exchangeRefreshTokenUseCase = exchangeRefreshTokenUseCase;
 			_exchangeRefreshTokenPresenter = exchangeRefreshTokenPresenter;
 			_authSettings = authSettings.Value;
@@ -55,11 +59,12 @@ namespace MP.Author.Api.Controllers
 			return _exchangeRefreshTokenPresenter.ContentResult;
 		}
 
-		[Authorize, HttpPost("logout")]
-		public async Task<IActionResult> Logout()
+		[HttpPost("logout")]
+		public async Task<IActionResult> Logout([FromBody] Models.Request.LogoutRequest request)
 		{
-			//await _signInManager.SignOutAsync();
-			return Ok();
+			if (!ModelState.IsValid) { return BadRequest(ModelState); }
+			await _logoutUseCase.Handle(new LogoutRequest(request.AccessToken, _authSettings.SecretKey), _logoutPresenter);
+			return _logoutPresenter.ContentResult;
 		}
 	}
 }

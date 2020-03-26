@@ -46,6 +46,18 @@ namespace MP.Author.Infrastructure.Data.Repositories
             var appUser = await _userManager.FindByNameAsync(userName);
             return appUser == null ? null : _mapper.Map(appUser, await GetSingleBySpec(new UserSpecification(appUser.Id)));
         }
-       
+
+        public async Task<bool> RemoveRefreshToken(User user)
+        {
+            var refreshToken = _appDbContext.RefreshTokens.FirstOrDefault(x => x.UserId == user.Id);
+            if (refreshToken != null)
+            {
+                _appDbContext.RefreshTokens.Remove(refreshToken);
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
