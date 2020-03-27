@@ -147,8 +147,8 @@ namespace MP.Author.Api
                 c.Cookie.SecurePolicy = CookieSecurePolicy.None; // Should ideally be "Always"
 
                 c.SlidingExpiration = true;
-            });            
-            
+            });
+
             // add identity
             var identityBuilder = services.AddIdentityCore<AppUser>(o =>
             {
@@ -158,23 +158,24 @@ namespace MP.Author.Api
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
-            });
+            });            
+
             identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+             // Auto Mapper
+             //var mappingConfig = new MapperConfiguration(mc =>
+             //{
+             //    mc.AddProfile(new RequestProfile());
+             //    //mc.AddProfile(new DataProfile());
+             //});
+             //mappingConfig.AssertConfigurationIsValid();
+             //IMapper mapper = mappingConfig.CreateMapper();
+             //services.AddSingleton(mapper);
 
-            // Auto Mapper
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new RequestProfile());
-            //    //mc.AddProfile(new DataProfile());
-            //});
-            //mappingConfig.AssertConfigurationIsValid();
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
-            // Auto Mapper
-            services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile) });
+             // Auto Mapper
+             services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile) });
             //services.AddAutoMapper(typeof(RequestProfile));
             
             //services.AddSingleton(mapper);
