@@ -21,11 +21,11 @@ namespace MP.Author.Core.UseCases
             _objectsRepository = objectsRepository;
         }
 
-        public async Task<bool> Handle(ObjectsRequest message, IOutputPort<ObjectsResponse> outputPort)
+        public async Task<bool> Handle(ObjectsRequest message, IOutputPort<ObjectsDtoResponse> outputPort)
         {                    
             
             var response = await _objectsRepository.Create(message);
-            outputPort.Handle(response ? new ObjectsResponse(response, GlobalMessage.INSERT_SUCCESS_MES) : new ObjectsResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES)}));
+            outputPort.Handle(response ? new ObjectsDtoResponse(response, GlobalMessage.INSERT_SUCCESS_MES) : new ObjectsDtoResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES)}));
             return response;
 
         }

@@ -17,10 +17,10 @@ namespace MP.Author.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(RegisterUserRequest message, IOutputPort<RegisterUserResponse> outputPort)
+        public async Task<bool> Handle(RegisterUserRequest message, IOutputPort<RegisterUserDtoResponse> outputPort)
         {
             var response = await _userRepository.Create(message.FirstName, message.LastName, message.Email, message.UserName, message.Password);
-            outputPort.Handle(response.Success ? new RegisterUserResponse(response.Id, true) : new RegisterUserResponse(response.Errors.Select(e => e.Description)));
+            outputPort.Handle(response.Success ? new RegisterUserDtoResponse(response.Id, true) : new RegisterUserDtoResponse(response.Errors.Select(e => e.Description)));
             return response.Success;
         }
     }

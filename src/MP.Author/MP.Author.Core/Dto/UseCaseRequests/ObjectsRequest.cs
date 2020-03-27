@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MP.Author.Core.Dto.UseCaseRequests
 {
-    public class ObjectsRequest : IUseCaseRequest<ObjectsResponse>
+    public class ObjectsRequest : IUseCaseRequest<ObjectsDtoResponse>
     {
         public string Name { get; set; }
         public string ParentName { get; set; }

@@ -3,7 +3,7 @@ using MP.Author.Core.Interfaces;
 
 namespace MP.Author.Core.Dto.UseCaseRequests
 {
-    public class RegisterUserRequest : IUseCaseRequest<RegisterUserResponse>
+    public class RegisterUserRequest : IUseCaseRequest<RegisterUserDtoResponse>
     {
         public string FirstName { get; }
         public string LastName { get; }
