@@ -14,6 +14,8 @@ namespace MP.Author.Core
             builder.RegisterType<ExchangeRefreshTokenUseCase>().As<IExchangeRefreshTokenUseCase>().InstancePerLifetimeScope();
             builder.RegisterType<ObjectsUserCase>().As<IObjectsUserCase>().InstancePerLifetimeScope();
             builder.RegisterType<OperationsUserCase>().As<IOperationsUserCase>().InstancePerLifetimeScope();
+            builder.RegisterType<PermissionsUserCase>().As<IPermissionsUserCase>().InstancePerLifetimeScope();
+            builder.RegisterType<RolePermissionUserCase>().As<IRolePermissionUserCase>().InstancePerLifetimeScope();
         }
     }
 }

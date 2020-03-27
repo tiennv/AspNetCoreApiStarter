@@ -16,6 +16,8 @@ namespace MP.Author.Infrastructure.Data.Mapping
 
             CreateMap<ObjectsDtoRequest, Objects>();
             CreateMap<OperationsDtoRequest, Operations>();
+            CreateMap<PermissionsDtoRequest, Permissions>();
+            CreateMap<RolePermissionDtoRequest, Role_Permission>();
         }
     }
 }

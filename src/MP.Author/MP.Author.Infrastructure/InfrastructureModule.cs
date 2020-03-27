@@ -16,6 +16,8 @@ namespace MP.Author.Infrastructure
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ObjectsRepository>().As<IObjectsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<OperationsRepository>().As<IOperationsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<PermissionsRepository>().As<IPermissionsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<RolePermissionRepository>().As<IRolePermissionRepository>().InstancePerLifetimeScope();
             builder.RegisterType<JwtFactory>().As<IJwtFactory>().SingleInstance().FindConstructorsWith(new InternalConstructorFinder());
             builder.RegisterType<JwtTokenHandler>().As<IJwtTokenHandler>().SingleInstance().FindConstructorsWith(new InternalConstructorFinder());
             builder.RegisterType<TokenFactory>().As<ITokenFactory>().SingleInstance();
