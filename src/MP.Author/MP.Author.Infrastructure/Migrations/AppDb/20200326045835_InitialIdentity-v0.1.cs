@@ -91,6 +91,9 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+               name: "Objects");
         }
     }
 }

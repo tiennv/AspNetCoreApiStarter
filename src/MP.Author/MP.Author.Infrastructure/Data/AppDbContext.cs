@@ -33,6 +33,9 @@ namespace MP.Author.Infrastructure.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Objects> Objects { get; set; }
+        public DbSet<Operations> Operations { get; set; }
+        public DbSet<Permissions> Permissions { get; set; }
+        public DbSet<Role_Permission> Role_Permission { get; set; }
 
         public override int SaveChanges()
         {
