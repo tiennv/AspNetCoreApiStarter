@@ -11,6 +11,8 @@ namespace MP.Author.Core.Domain.Entities
         public int UserId { get; private set; }
         public bool Active => DateTime.UtcNow <= Expires;
         public string RemoteIpAddress { get; private set; }
+        public DateTime Created { get; private set; }
+        public DateTime Modified { get; private set; }
 
         public RefreshToken(string token, DateTime expires, int userId, string remoteIpAddress)
         {

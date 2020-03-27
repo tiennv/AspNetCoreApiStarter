@@ -1,4 +1,5 @@
-﻿using MP.Author.Api.Serialization;
+﻿using MP.Author.Api.Models.Response;
+using MP.Author.Api.Serialization;
 using MP.Author.Core.Dto.UseCaseResponses;
 using MP.Author.Core.Interfaces;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Api.Presenters
 {
-    public sealed class ExchangeRefreshTokenPresenter : IOutputPort<ExchangeRefreshTokenResponse>
+    public sealed class ExchangeRefreshTokenPresenter : IOutputPort<ExchangeRefreshTokenDtoResponse>
     {
         public JsonContentResult ContentResult { get; }
 
@@ -18,10 +19,25 @@ namespace MP.Author.Api.Presenters
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(ExchangeRefreshTokenResponse response)
+        public void Handle(ExchangeRefreshTokenDtoResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? JsonSerializer.SerializeObject(new Models.Response.ExchangeRefreshTokenResponse(response.AccessToken, response.RefreshToken)) : JsonSerializer.SerializeObject(response.Message);
+            ContentResult.Content = JsonSerializer.SerializeObject(HandleResponse(response));
+        }
+
+        private BaseResponse<ExchangeRefreshTokenDtoResponse> HandleResponse(ExchangeRefreshTokenDtoResponse response)
+        {
+            var result = new BaseResponse<ExchangeRefreshTokenDtoResponse>();
+
+            result.code = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
+            result.error = response.Success ? 0 : 1;
+            result.msg = response.Message;
+            if (response != null && response.Success)
+            {
+                result.data = response;
+            }
+
+            return result;
         }
     }
 }

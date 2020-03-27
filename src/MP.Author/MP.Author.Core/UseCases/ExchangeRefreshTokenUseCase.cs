@@ -29,7 +29,7 @@ namespace MP.Author.Core.UseCases
             _tokenFactory = tokenFactory;
         }
 
-        public async Task<bool> Handle(ExchangeRefreshTokenDtoRequest message, IOutputPort<ExchangeRefreshTokenResponse> outputPort)
+        public async Task<bool> Handle(ExchangeRefreshTokenDtoRequest message, IOutputPort<ExchangeRefreshTokenDtoResponse> outputPort)
         {
             var cp = _jwtTokenValidator.GetPrincipalFromToken(message.AccessToken, message.SigningKey);
 
@@ -46,11 +46,11 @@ namespace MP.Author.Core.UseCases
                     user.RemoveRefreshToken(message.RefreshToken); // delete the token we've exchanged
                     user.AddRefreshToken(refreshToken, user.Id, ""); // add the new one
                     await _userRepository.Update(user);
-                    outputPort.Handle(new ExchangeRefreshTokenResponse(jwtToken, refreshToken, true));
+                    outputPort.Handle(new ExchangeRefreshTokenDtoResponse(jwtToken, refreshToken, true));
                     return true;
                 }
             }
-            outputPort.Handle(new ExchangeRefreshTokenResponse(false, "Invalid token."));
+            outputPort.Handle(new ExchangeRefreshTokenDtoResponse(false, "Invalid token."));
             return false;
         }
     }
