@@ -13,7 +13,8 @@ namespace MP.Author.Api.Mapping
             CreateMap<PermissionsRequest, PermissionsDtoRequest>();
             CreateMap<RolePermissionRequest, RolePermissionDtoRequest>();
             CreateMap<RoleRequest, RoleDtoRequest>();
-
+            CreateMap<UserRoleRequest, UserRoleDtoRequest>();
+            CreateMap<AddUserRoleRequest, AddUserRoleDtoRequest>();
             //CreateMap<AppUser, User>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email)).
             //                           ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash)).
             //                           ForAllOtherMembers(opt => opt.Ignore());

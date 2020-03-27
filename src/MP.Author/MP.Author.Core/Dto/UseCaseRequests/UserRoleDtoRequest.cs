@@ -17,4 +17,16 @@ namespace MP.Author.Core.Dto.UseCaseRequests
             RoleId = roleId;
         }
     }
+
+    public class AddUserRoleDtoRequest : IUseCaseRequest<UserRoleDtoResponse>
+    {
+        public string UserId { get; }
+        public List<string> RoleIds { get; }
+
+        public AddUserRoleDtoRequest(string userId, List<string> roleIds)
+        {
+            UserId = userId;
+            RoleIds = roleIds;
+        }
+    }
 }

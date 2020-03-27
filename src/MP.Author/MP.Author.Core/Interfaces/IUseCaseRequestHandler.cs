@@ -6,4 +6,5 @@ namespace MP.Author.Core.Interfaces
     {
         Task<bool> Handle(TUseCaseRequest message, IOutputPort<TUseCaseResponse> outputPort);
     }
+
 }

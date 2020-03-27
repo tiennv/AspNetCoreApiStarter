@@ -14,6 +14,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
+        //private readonly IdentityUserRole
         private readonly IMapper _mapper;
         public UserRoleRepository(RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
@@ -22,7 +23,10 @@ namespace MP.Author.Infrastructure.Data.Repositories
         }
         public Task<bool> Create(List<UserRoleDtoRequest> requests)
         {
-
+            foreach(var item in requests)
+            {
+                
+            }
             throw new NotImplementedException();
         }
     }

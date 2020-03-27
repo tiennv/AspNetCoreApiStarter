@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MP.Author.Api.Models.Request;
@@ -19,14 +20,17 @@ namespace MP.Author.Api.Controllers
         private readonly IUserRoleUserCase _userRoleUserCase;
         private readonly RegisterUserPresenter _registerUserPresenter;
         private readonly UserRolePresenter _userRolePresenter;
+        private readonly IMapper _mapper;
 
         public AccountsController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter, 
-            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter)
+            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter,
+            IMapper mapper)
         {
             _registerUserUseCase = registerUserUseCase;
             _registerUserPresenter = registerUserPresenter;
             _userRoleUserCase = userRoleUserCase;
             _userRolePresenter = userRolePresenter;
+            _mapper = mapper;
         }
 
         // POST api/accounts
@@ -42,12 +46,17 @@ namespace MP.Author.Api.Controllers
         }
 
         [HttpPost("add-roles")]
-        public async Task<ActionResult> AddRoles([FromBody] List<AddUserRoleRequest> request)
+        public async Task<ActionResult> AddRoles([FromBody] AddUserRoleRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var requestDto = _mapper.Map<AddUserRoleRequest, AddUserRoleDtoRequest>(request);
+
+            var result = await _userRoleUserCase.CreateAsync(requestDto);
+
             return _userRolePresenter.ContentResult;
         }
 
