@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MP.Author.Core.Dto.UseCaseRequests
 {
-    public class ObjectsRequest : IUseCaseRequest<ObjectsDtoResponse>
+    public class ObjectsDtoRequest : IUseCaseRequest<ObjectsDtoResponse>
     {
         public string Name { get; set; }
         public string ParentName { get; set; }
@@ -18,11 +18,11 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public string Route { get; set; }
         public int EnumAction { get; set; }
         public string Icon { get; set; }
-        public List<ObjectsRequest> Childrents { get; set; }
+        public List<ObjectsDtoRequest> Childrents { get; set; }
 
 
-        public ObjectsRequest(string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
-            int enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsRequest> childrents)
+        public ObjectsDtoRequest(string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
+            int enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsDtoRequest> childrents)
         {
             Name = name;
             ParentName = parentName;

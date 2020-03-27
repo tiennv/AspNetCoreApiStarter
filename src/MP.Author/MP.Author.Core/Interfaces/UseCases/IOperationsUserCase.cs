@@ -3,7 +3,7 @@ using MP.Author.Core.Dto.UseCaseResponses;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IExchangeRefreshTokenUseCase : IUseCaseRequestHandler<ExchangeRefreshTokenDtoRequest, ExchangeRefreshTokenResponse>
+    public interface IOperationsUserCase : IUseCaseRequestHandler<OperationsDtoRequest, OperationsDtoResponse>
     {
     }
 }

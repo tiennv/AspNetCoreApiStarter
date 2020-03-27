@@ -29,7 +29,7 @@ namespace MP.Author.Api.Controllers
         public async Task<ActionResult> Post([FromBody] Models.Request.ObjectsRequest request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var requestDto = _mapper.Map<Models.Request.ObjectsRequest,Core.Dto.UseCaseRequests.ObjectsRequest>(request);
+            var requestDto = _mapper.Map<Models.Request.ObjectsRequest,Core.Dto.UseCaseRequests.ObjectsDtoRequest>(request);
             await _objectsUserCase.Handle(requestDto, _objectsPresenter);
             return _objectsPresenter.ContentResult;         
         }
@@ -38,7 +38,7 @@ namespace MP.Author.Api.Controllers
         public async Task<ActionResult> PostList([FromBody] List<Models.Request.ObjectsRequest> request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var requestDto = _mapper.Map<List<Models.Request.ObjectsRequest>, List<Core.Dto.UseCaseRequests.ObjectsRequest>>(request);
+            var requestDto = _mapper.Map<List<Models.Request.ObjectsRequest>, List<Core.Dto.UseCaseRequests.ObjectsDtoRequest>>(request);
             if(requestDto!=null && requestDto.Count > 0)
             {
                 foreach(var item in requestDto)

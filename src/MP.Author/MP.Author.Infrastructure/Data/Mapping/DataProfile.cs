@@ -14,7 +14,8 @@ namespace MP.Author.Infrastructure.Data.Mapping
                                        ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash)).
                                        ForAllOtherMembers(opt => opt.Ignore());
 
-            CreateMap<ObjectsRequest, Objects>();
+            CreateMap<ObjectsDtoRequest, Objects>();
+            CreateMap<OperationsDtoRequest, Operations>();
         }
     }
 }

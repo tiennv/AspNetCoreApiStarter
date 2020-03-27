@@ -3,17 +3,16 @@ using MP.Author.Core.Interfaces;
 
 namespace MP.Author.Core.Dto.UseCaseRequests
 {
-    public class ExchangeRefreshTokenRequest : IUseCaseRequest<ExchangeRefreshTokenResponse>
+    public class LogoutDtoRequest : IUseCaseRequest<LogoutDtoResponse>
     {
         public string AccessToken { get; }
         public string RefreshToken { get; }
         public string SigningKey { get; }
-
-        public ExchangeRefreshTokenRequest(string accessToken, string refreshToken, string signingKey)
+        public LogoutDtoRequest(string accessToken, string signingKey, string refreshToken)
         {
             AccessToken = accessToken;
-            RefreshToken = refreshToken;
             SigningKey = signingKey;
+            RefreshToken = refreshToken;
         }
     }
 }

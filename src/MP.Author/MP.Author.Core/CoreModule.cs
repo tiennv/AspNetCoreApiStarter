@@ -13,6 +13,7 @@ namespace MP.Author.Core
             builder.RegisterType<LogoutUseCase>().As<ILogoutUseCase>().InstancePerLifetimeScope();
             builder.RegisterType<ExchangeRefreshTokenUseCase>().As<IExchangeRefreshTokenUseCase>().InstancePerLifetimeScope();
             builder.RegisterType<ObjectsUserCase>().As<IObjectsUserCase>().InstancePerLifetimeScope();
+            builder.RegisterType<OperationsUserCase>().As<IOperationsUserCase>().InstancePerLifetimeScope();
         }
     }
 }

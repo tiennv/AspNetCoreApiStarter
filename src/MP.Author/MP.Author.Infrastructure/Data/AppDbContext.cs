@@ -52,6 +52,8 @@ namespace MP.Author.Infrastructure.Data
         private void AddAuitInfo()
         {
             var entries = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+            /*
+            TODO: Remove date
             foreach (var entry in entries)
             {
                 if (entry.State == EntityState.Added)
@@ -59,7 +61,7 @@ namespace MP.Author.Infrastructure.Data
                     ((BaseEntity)entry.Entity).Created = DateTime.UtcNow;
                 }
                 ((BaseEntity)entry.Entity).Modified = DateTime.UtcNow;
-            }
+            }*/
         }
     }
 }

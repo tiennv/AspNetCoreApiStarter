@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MP.Author.Api.Models.Request;
+using MP.Author.Core.Dto.UseCaseRequests;
 
 namespace MP.Author.Api.Mapping
 {
@@ -7,8 +8,9 @@ namespace MP.Author.Api.Mapping
     {
         public RequestProfile()
         {
-            CreateMap<ObjectsRequest, Core.Dto.UseCaseRequests.ObjectsRequest>();
-                
+            CreateMap<ObjectsRequest, ObjectsDtoRequest>();
+            CreateMap<OperationsRequest, OperationsDtoRequest>();
+
             //CreateMap<AppUser, User>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email)).
             //                           ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash)).
             //                           ForAllOtherMembers(opt => opt.Ignore());

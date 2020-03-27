@@ -24,7 +24,7 @@ namespace MP.Author.Core.UseCases
         }
 
 
-        public async Task<bool> Handle(LogoutRequest message, IOutputPort<LogoutDtoResponse> outputPort)
+        public async Task<bool> Handle(LogoutDtoRequest message, IOutputPort<LogoutDtoResponse> outputPort)
         {
             var cp = _jwtTokenValidator.GetPrincipalFromToken(message.AccessToken, message.SigningKey);
 

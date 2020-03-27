@@ -23,7 +23,7 @@ namespace MP.Author.Core.UseCases
             _tokenFactory = tokenFactory;
         }
 
-        public async Task<bool> Handle(LoginRequest message, IOutputPort<LoginDtoResponse> outputPort)
+        public async Task<bool> Handle(LoginDtoRequest message, IOutputPort<LoginDtoResponse> outputPort)
         {
             if (!string.IsNullOrEmpty(message.UserName) && !string.IsNullOrEmpty(message.Password))
             {

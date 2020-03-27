@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MP.Author.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200327063301_InitialDB")]
+    [Migration("20200327074712_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.Property<string>("ControllerName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("EnumAction")
                         .HasColumnType("int");
 
@@ -51,9 +48,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
 
                     b.Property<string>("Method")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -81,9 +75,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.Property<bool>("Create")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<bool>("Delete")
                         .HasColumnType("tinyint(1)");
 
@@ -95,9 +86,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
 
                     b.Property<bool>("Import")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -116,12 +104,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("ObjectId")
                         .HasColumnType("int");
 
@@ -139,13 +121,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<DateTime>("Expires")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Modified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RemoteIpAddress")
@@ -170,12 +146,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
 
@@ -193,9 +163,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -204,9 +171,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
 
                     b.Property<string>("LastName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

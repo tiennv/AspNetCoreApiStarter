@@ -17,7 +17,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
             _mapper = mapper;
         }
 
-        public async Task<bool> Create(ObjectsRequest objects)
+        public async Task<bool> Create(ObjectsDtoRequest objects)
         {
             var entity = _mapper.Map<Objects>(objects);
             var entityInserted = _appDbContext.Objects.Add(entity);

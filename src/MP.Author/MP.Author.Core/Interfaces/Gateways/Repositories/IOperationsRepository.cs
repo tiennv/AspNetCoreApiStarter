@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
-    public interface IObjectsRepository : IRepository<Objects>
+    public interface IOperationsRepository : IRepository<Operations>
     {
-        Task<bool> Create(ObjectsDtoRequest objects);
+        Task<int> Create(OperationsDtoRequest request);
     }
 }

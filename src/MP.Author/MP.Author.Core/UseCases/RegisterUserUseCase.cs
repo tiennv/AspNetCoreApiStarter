@@ -17,7 +17,7 @@ namespace MP.Author.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(RegisterUserRequest message, IOutputPort<RegisterUserDtoResponse> outputPort)
+        public async Task<bool> Handle(RegisterUserDtoRequest message, IOutputPort<RegisterUserDtoResponse> outputPort)
         {
             var response = await _userRepository.Create(message.FirstName, message.LastName, message.Email, message.UserName, message.Password);
             outputPort.Handle(response.Success ? new RegisterUserDtoResponse(response.Id, true) : new RegisterUserDtoResponse(response.Errors.Select(e => e.Description)));

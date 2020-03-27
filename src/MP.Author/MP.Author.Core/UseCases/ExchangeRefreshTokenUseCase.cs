@@ -29,7 +29,7 @@ namespace MP.Author.Core.UseCases
             _tokenFactory = tokenFactory;
         }
 
-        public async Task<bool> Handle(ExchangeRefreshTokenRequest message, IOutputPort<ExchangeRefreshTokenResponse> outputPort)
+        public async Task<bool> Handle(ExchangeRefreshTokenDtoRequest message, IOutputPort<ExchangeRefreshTokenResponse> outputPort)
         {
             var cp = _jwtTokenValidator.GetPrincipalFromToken(message.AccessToken, message.SigningKey);
 

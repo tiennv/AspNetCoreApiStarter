@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface ILogoutUseCase : IUseCaseRequestHandler<LogoutRequest, LogoutDtoResponse>
+    public interface ILogoutUseCase : IUseCaseRequestHandler<LogoutDtoRequest, LogoutDtoResponse>
     {
     }
 }

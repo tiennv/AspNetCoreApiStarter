@@ -45,7 +45,7 @@ namespace MP.Author.Api.Controllers
 		public async Task<ActionResult> Login([FromBody] Models.Request.LoginRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
-			await _loginUseCase.Handle(new LoginRequest(request.UserName, request.Password, Request.HttpContext.Connection.RemoteIpAddress?.ToString()), _loginPresenter);
+			await _loginUseCase.Handle(new LoginDtoRequest(request.UserName, request.Password, Request.HttpContext.Connection.RemoteIpAddress?.ToString()), _loginPresenter);
 			return _loginPresenter.ContentResult;
 		}
 
@@ -54,7 +54,7 @@ namespace MP.Author.Api.Controllers
 		public async Task<ActionResult> RefreshToken([FromBody] Models.Request.ExchangeRefreshTokenRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
-			await _exchangeRefreshTokenUseCase.Handle(new ExchangeRefreshTokenRequest(request.AccessToken, request.RefreshToken, _authSettings.SecretKey), _exchangeRefreshTokenPresenter);
+			await _exchangeRefreshTokenUseCase.Handle(new ExchangeRefreshTokenDtoRequest(request.AccessToken, request.RefreshToken, _authSettings.SecretKey), _exchangeRefreshTokenPresenter);
 			return _exchangeRefreshTokenPresenter.ContentResult;
 		}
 
@@ -62,7 +62,7 @@ namespace MP.Author.Api.Controllers
 		public async Task<IActionResult> Logout([FromBody] Models.Request.LogoutRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
-			await _logoutUseCase.Handle(new LogoutRequest(request.AccessToken, _authSettings.SecretKey,request.RefreshToken), _logoutPresenter);
+			await _logoutUseCase.Handle(new LogoutDtoRequest(request.AccessToken, _authSettings.SecretKey,request.RefreshToken), _logoutPresenter);
 			return _logoutPresenter.ContentResult;
 		}
 	}

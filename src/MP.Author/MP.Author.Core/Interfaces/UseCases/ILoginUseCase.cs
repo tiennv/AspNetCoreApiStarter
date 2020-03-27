@@ -3,7 +3,7 @@ using MP.Author.Core.Dto.UseCaseResponses;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface ILoginUseCase : IUseCaseRequestHandler<LoginRequest, LoginDtoResponse>
+    public interface ILoginUseCase : IUseCaseRequestHandler<LoginDtoRequest, LoginDtoResponse>
     {
     }
 }
