@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Interfaces.UseCases;
@@ -15,12 +16,17 @@ namespace MP.Author.Api.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IRegisterUserUseCase _registerUserUseCase;
+        private readonly IUserRoleUserCase _userRoleUserCase;
         private readonly RegisterUserPresenter _registerUserPresenter;
+        private readonly UserRolePresenter _userRolePresenter;
 
-        public AccountsController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter)
+        public AccountsController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter, 
+            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter)
         {
             _registerUserUseCase = registerUserUseCase;
             _registerUserPresenter = registerUserPresenter;
+            _userRoleUserCase = userRoleUserCase;
+            _userRolePresenter = userRolePresenter;
         }
 
         // POST api/accounts
@@ -33,6 +39,16 @@ namespace MP.Author.Api.Controllers
             }
             await _registerUserUseCase.Handle(new RegisterUserDtoRequest(request.FirstName, request.LastName, request.Email, request.UserName, request.Password), _registerUserPresenter);
             return _registerUserPresenter.ContentResult;
+        }
+
+        [HttpPost("add-roles")]
+        public async Task<ActionResult> AddRoles([FromBody] List<AddUserRoleRequest> request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return _userRolePresenter.ContentResult;
         }
 
     }
