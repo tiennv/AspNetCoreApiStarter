@@ -16,6 +16,7 @@ namespace MP.Author.Core
             builder.RegisterType<OperationsUserCase>().As<IOperationsUserCase>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionsUserCase>().As<IPermissionsUserCase>().InstancePerLifetimeScope();
             builder.RegisterType<RolePermissionUserCase>().As<IRolePermissionUserCase>().InstancePerLifetimeScope();
+            builder.RegisterType<RoleUserCase>().As<IRoleUserCase>().InstancePerLifetimeScope();
         }
     }
 }

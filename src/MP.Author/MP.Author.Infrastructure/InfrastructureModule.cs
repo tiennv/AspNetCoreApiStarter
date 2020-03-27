@@ -14,6 +14,7 @@ namespace MP.Author.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<RoleRepository>().As<IRoleRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ObjectsRepository>().As<IObjectsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<OperationsRepository>().As<IOperationsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionsRepository>().As<IPermissionsRepository>().InstancePerLifetimeScope();

@@ -15,6 +15,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
     public sealed class UserRepository : EfRepository<User>, IUserRepository
     {
         private readonly UserManager<AppUser> _userManager;
+        
         private readonly IMapper _mapper;
         public UserRepository(UserManager<AppUser> userManager, IMapper mapper, AppDbContext appDbContext) : base(appDbContext)
         {
