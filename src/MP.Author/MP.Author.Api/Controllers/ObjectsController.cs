@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
+using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Interfaces.UseCases;
 
 namespace MP.Author.Api.Controllers
@@ -26,19 +28,28 @@ namespace MP.Author.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Models.Request.ObjectsRequest request)
+        public async Task<ActionResult> Post([FromBody] ObjectsRequest request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var requestDto = _mapper.Map<Models.Request.ObjectsRequest,Core.Dto.UseCaseRequests.ObjectsDtoRequest>(request);
+            var requestDto = _mapper.Map<ObjectsRequest, ObjectsDtoRequest>(request);
             await _objectsUserCase.Handle(requestDto, _objectsPresenter);
-            return _objectsPresenter.ContentResult;         
+            return _objectsPresenter.ContentResult;
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] ObjectsRequest request)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var requestDto = _mapper.Map<ObjectsRequest, ObjectsDtoRequest>(request);
+            await _objectsUserCase.Update(requestDto, _objectsPresenter);
+            return _objectsPresenter.ContentResult;
         }
 
         [HttpPost("post-list")]
-        public async Task<ActionResult> PostList([FromBody] List<Models.Request.ObjectsRequest> request)
+        public async Task<ActionResult> PostList([FromBody] List<ObjectsRequest> request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var requestDto = _mapper.Map<List<Models.Request.ObjectsRequest>, List<Core.Dto.UseCaseRequests.ObjectsDtoRequest>>(request);
+            var requestDto = _mapper.Map<List<ObjectsRequest>, List<ObjectsDtoRequest>>(request);
             if(requestDto!=null && requestDto.Count > 0)
             {
                 foreach(var item in requestDto)

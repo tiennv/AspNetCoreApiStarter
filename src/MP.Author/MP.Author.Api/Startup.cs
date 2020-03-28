@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MP.Author.Api.Presenters;
+using MP.Author.Core.Mapping;
 
 namespace MP.Author.Api
 {
@@ -173,7 +174,7 @@ namespace MP.Author.Api
              //services.AddSingleton(mapper);
 
              // Auto Mapper
-             services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile) });
+             services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile), typeof(EntityProfile) });
             //services.AddAutoMapper(typeof(RequestProfile));
             
             //services.AddSingleton(mapper);

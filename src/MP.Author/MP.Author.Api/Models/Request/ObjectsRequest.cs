@@ -11,6 +11,7 @@ namespace MP.Author.Api.Models.Request
     }
     public class ObjectsRequest
     {        
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ParentName { get; set; }
         public string Method { get; set; }

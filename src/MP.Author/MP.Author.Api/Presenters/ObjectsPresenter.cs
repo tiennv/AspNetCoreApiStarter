@@ -26,7 +26,8 @@ namespace MP.Author.Api.Presenters
         {
             var result = new BaseResponse<ObjectsDtoResponse>();
 
-            result.code = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
+            //result.code = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
+            result.code = response.StatusCode;
             result.error = response.Success ? 0 : 1;
             result.msg = response.Errors != null && response.Errors.Count() > 0 ? response.Errors.FirstOrDefault().Description : response.Message;
             if (response != null && response.Success)

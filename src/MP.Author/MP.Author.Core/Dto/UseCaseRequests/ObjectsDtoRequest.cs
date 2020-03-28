@@ -6,6 +6,7 @@ namespace MP.Author.Core.Dto.UseCaseRequests
 {
     public class ObjectsDtoRequest : IUseCaseRequest<ObjectsDtoResponse>
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ParentName { get; set; }
         public string Method { get; set; }
@@ -21,9 +22,10 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public List<ObjectsDtoRequest> Childrents { get; set; }
 
 
-        public ObjectsDtoRequest(string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
+        public ObjectsDtoRequest(int id,string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
             int enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsDtoRequest> childrents)
         {
+            Id = id;
             Name = name;
             ParentName = parentName;
             Method = method;

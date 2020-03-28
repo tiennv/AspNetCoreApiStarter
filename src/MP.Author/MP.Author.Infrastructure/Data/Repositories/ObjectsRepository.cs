@@ -39,6 +39,6 @@ namespace MP.Author.Infrastructure.Data.Repositories
             }
 
             return inserted > 0 ? true : false;                        
-        }
+        }        
     }
 }
