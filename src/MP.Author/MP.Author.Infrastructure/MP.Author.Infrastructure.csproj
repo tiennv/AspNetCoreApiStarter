@@ -28,4 +28,8 @@
     <ProjectReference Include="..\MP.Author.Core\MP.Author.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ScriptDb\" />
+  </ItemGroup>
+
 </Project>
