@@ -14,8 +14,8 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Created = table.Column<DateTime>(nullable: false),
-                    Modified = table.Column<DateTime>(nullable: false),
+                    /*Created = table.Column<DateTime>(nullable: false),
+                    Modified = table.Column<DateTime>(nullable: false),*/
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     IdentityId = table.Column<string>(nullable: true),

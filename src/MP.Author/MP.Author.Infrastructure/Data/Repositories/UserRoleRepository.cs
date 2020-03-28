@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Dto.UseCaseResponses;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Infrastructure.Identity;
 using System;
@@ -23,15 +24,15 @@ namespace MP.Author.Infrastructure.Data.Repositories
             _mapper = mapper;
             _userManager = userManager;
         }
-        public async Task<bool> Create(List<UserRoleDtoRequest> requests)
+        public async Task<UserRoleDtoResponse> Create(AddUserRoleDtoRequest requests)
         {
-            var appUser = await _userManager.FindByIdAsync(requests[0].UserId);
-            if (appUser != null)
+            var appUser = await _userManager.FindByIdAsync(requests.UserId);
+            if (appUser != null && requests.RoleIds!=null && requests.RoleIds.Count>0)
             {
-                await _userManager.AddToRolesAsync(appUser, requests.Select(x => x.RoleId.ToUpper()));
-                return true;
+                var role = await _userManager.AddToRolesAsync(appUser, requests.RoleIds);
+                return new UserRoleDtoResponse(role.Succeeded ? null : role.Errors.Select(e => new Core.Dto.Error(e.Code, e.Description)), role.Succeeded);
             }
-            return false;
+            return new UserRoleDtoResponse(false, "Has not item!");
         }
     }
 }

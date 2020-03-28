@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Dto.UseCaseResponses;
 using MP.Author.Core.Interfaces.UseCases;
 
 namespace MP.Author.Api.Controllers
@@ -35,7 +36,7 @@ namespace MP.Author.Api.Controllers
 
         // POST api/accounts
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
+        public async Task<ActionResult> Post([FromBody]RegisterUserRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -55,8 +56,8 @@ namespace MP.Author.Api.Controllers
 
             var requestDto = _mapper.Map<AddUserRoleRequest, AddUserRoleDtoRequest>(request);
 
-            var result = await _userRoleUserCase.CreateAsync(requestDto);
-
+            await _userRoleUserCase.CreateAsync(requestDto, _userRolePresenter);            
+            
             return _userRolePresenter.ContentResult;
         }
 

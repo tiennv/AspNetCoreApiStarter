@@ -9,6 +9,6 @@ namespace MP.Author.Core.Interfaces.UseCases
 {
     public interface IUserRoleUserCase : IUseCaseRequestHandler<UserRoleDtoRequest, UserRoleDtoResponse>
     {
-        Task<UserRoleDtoResponse> CreateAsync(AddUserRoleDtoRequest request);
+        Task<bool> CreateAsync(AddUserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort);     
     }
 }

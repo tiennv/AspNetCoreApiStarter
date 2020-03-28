@@ -54,10 +54,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("int");                    
 
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -66,10 +63,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");                   
 
                     b.Property<string>("UserName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
