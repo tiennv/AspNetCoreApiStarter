@@ -29,8 +29,8 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.Property<string>("ControllerName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("EnumAction")
-                        .HasColumnType("int");
+                    b.Property<string>("EnumAction")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Icon")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

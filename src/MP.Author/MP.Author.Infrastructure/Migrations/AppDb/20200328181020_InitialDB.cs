@@ -4,10 +4,34 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MP.Author.Infrastructure.Migrations.AppDb
 {
-    public partial class InitialIdentityv01 : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Objects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    ParentName = table.Column<string>(nullable: true),
+                    Method = table.Column<string>(nullable: true),
+                    IsPage = table.Column<bool>(nullable: false),
+                    ControllerName = table.Column<string>(nullable: true),
+                    ActionName = table.Column<string>(nullable: true),
+                    IsApp = table.Column<bool>(nullable: false),
+                    IsShow = table.Column<bool>(nullable: false),
+                    ParentId = table.Column<int>(nullable: false),
+                    Route = table.Column<string>(nullable: true),
+                    EnumAction = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Objects", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Operations",
                 columns: table => new
@@ -56,29 +80,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Objects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    ParentName = table.Column<string>(nullable: true),
-                    Method = table.Column<string>(nullable: true),
-                    ControllerName = table.Column<string>(nullable: true),
-                    ActionName = table.Column<string>(nullable: true),
-                    Route = table.Column<string>(nullable: true),
-                    Icon = table.Column<string>(nullable: true),
-                    IsShow = table.Column<Boolean>(nullable: true),
-                    IsPage = table.Column<Boolean>(nullable: true),
-                    IsApp = table.Column<Boolean>(nullable: true),
-                    EnumAction = table.Column<int>(nullable: true),
-                    ParentId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Objects", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -94,9 +95,6 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
-
-            
-
             migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
@@ -106,7 +104,9 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     Token = table.Column<string>(nullable: true),
                     Expires = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    RemoteIpAddress = table.Column<string>(nullable: true)
+                    RemoteIpAddress = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Modified = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,13 +128,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RefreshTokens");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-               name: "Objects");
+                name: "Objects");
 
             migrationBuilder.DropTable(
                 name: "Operations");
@@ -143,7 +137,13 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 name: "Permissions");
 
             migrationBuilder.DropTable(
+                name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
                 name: "Role_Permission");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

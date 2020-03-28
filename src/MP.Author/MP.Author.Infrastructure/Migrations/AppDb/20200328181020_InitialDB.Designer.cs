@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MP.Author.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200328053648_InitialIdentity-v0.3")]
-    partial class InitialIdentityv03
+    [Migration("20200328181020_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,8 +31,8 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.Property<string>("ControllerName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("EnumAction")
-                        .HasColumnType("int");
+                    b.Property<string>("EnumAction")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Icon")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
