@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,24 +17,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MP.Author.Api.Mapping;
-using MP.Author.Api.Models;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Core;
-using MP.Author.Core.Interfaces.Gateways.Repositories;
-using MP.Author.Core.Interfaces.UseCases;
-using MP.Author.Core.UseCases;
 using MP.Author.Infrastructure;
 using MP.Author.Infrastructure.Auth;
 using MP.Author.Infrastructure.Data;
 using MP.Author.Infrastructure.Data.Mapping;
-using MP.Author.Infrastructure.Data.Repositories;
 using MP.Author.Infrastructure.Identity;
+using MP.Author.Api.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MP.Author.Api.Presenters;
 
 namespace MP.Author.Api
 {
@@ -251,7 +249,33 @@ namespace MP.Author.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+
+                app.UseExceptionHandler(
+                builder =>
+                {
+                    builder.Run(
+                        async context =>
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                            context.Response.ContentType = "application/json";
+                            var error = context.Features.Get<IExceptionHandlerFeature>();
+                            if (error != null)
+                            {
+                                context.Response.AddApplicationError(error.Error.Message);                                                               
+                                await context.Response.WriteAsync(new ErorrPresenter(error.Error).ErorrResult).ConfigureAwait(false);
+                            }
+                        });
+                });
+
             }
+            else
+            {
+
+            }         
+
+
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
