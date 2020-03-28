@@ -5,7 +5,5 @@ using System.Text;
 
 namespace MP.Author.Core.Domain.Entities
 {
-    public class Roles : BaseEntity
-    {
-    }
+    
 }

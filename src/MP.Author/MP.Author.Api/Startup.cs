@@ -250,7 +250,6 @@ namespace MP.Author.Api
             {
                 app.UseDeveloperExceptionPage();
 
-
                 app.UseExceptionHandler(
                 builder =>
                 {
