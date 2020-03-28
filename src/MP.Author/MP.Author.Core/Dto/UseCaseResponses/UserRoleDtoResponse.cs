@@ -9,12 +9,12 @@ namespace MP.Author.Core.Dto.UseCaseResponses
     {
         public IEnumerable<Error> Errors { get; }
 
-        public UserRoleDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public UserRoleDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null, int statusCode = 200) : base(success, message, statusCode)
         {
             Errors = errors;
         }
 
-        public UserRoleDtoResponse( bool success = false, string message = null) : base(success, message)
+        public UserRoleDtoResponse( bool success = false, string message = null, int statusCode=200) : base(success, message, statusCode)
         {
         }
     }

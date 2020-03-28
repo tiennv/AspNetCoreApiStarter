@@ -22,15 +22,10 @@ namespace MP.Author.Core.UseCases
        
 
         public async Task<bool> CreateAsync(AddUserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
-        {       
-            
-            if (request != null && request.RoleIds != null && request.RoleIds.Count > 0)
-            {
-                var response = await _userRoleRepository.Create(request);
-                outputPort.Handle(response);
-                return response.Success;
-            }
-            return false;
+        {
+            var response = await _userRoleRepository.Create(request);
+            outputPort.Handle(response);
+            return response.Success;
         }
 
         public Task<bool> Handle(UserRoleDtoRequest message, IOutputPort<UserRoleDtoResponse> outputPort)

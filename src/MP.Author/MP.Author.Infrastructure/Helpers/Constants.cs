@@ -17,6 +17,15 @@ namespace MP.Author.Infrastructure.Helpers
             {
                 public const string ApiAccess = "api_access";
             }
+        }       
+
+        public enum EnumStatusCode
+        {
+            NOT_FOUND = 404,
+            ERORR = 500,
+            BAD_INPUT = 400
         }
     }
+
+    
 }
