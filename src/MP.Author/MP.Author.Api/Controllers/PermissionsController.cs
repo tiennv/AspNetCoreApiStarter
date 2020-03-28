@@ -36,5 +36,17 @@ namespace MP.Author.Api.Controllers
             await _permissionsUserCase.Handle(requestDto, _permissionsPresenter);
             return _permissionsPresenter.ContentResult;
         }
+
+        [HttpPost("list")]
+        public async Task<ActionResult> PostList([FromBody] List<PermissionsRequest> request)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            foreach (var item in request)
+            {
+                var requestDto = _mapper.Map<PermissionsRequest, PermissionsDtoRequest>(item);
+                await _permissionsUserCase.Handle(requestDto, _permissionsPresenter);
+            }
+            return _permissionsPresenter.ContentResult;
+        }
     }
 }

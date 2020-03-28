@@ -22,9 +22,18 @@ namespace MP.Author.Core.UseCases
 
         public async Task<bool> Handle(PermissionsDtoRequest message, IOutputPort<PermissionsDtoResponse> outputPort)
         {
-            var response = await _permissionsRepository.Create(message);
-            outputPort.Handle(response > 0 ? new PermissionsDtoResponse(response, true, GlobalMessage.INSERT_SUCCESS_MES) : new PermissionsDtoResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES) }));
-            return response > 0 ? true : false;
+            // Check exist            
+            if (!_permissionsRepository.CheckExistObjectOperation(message))
+            {
+                var response = await _permissionsRepository.Create(message);
+                outputPort.Handle(response > 0 ? new PermissionsDtoResponse(response, true, GlobalMessage.INSERT_SUCCESS_MES) : new PermissionsDtoResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES) }));
+                return response > 0 ? true : false;
+            }
+            else
+            {
+                outputPort.Handle(new PermissionsDtoResponse(message.Id, message.ObjectId, message.OperationId,false, GlobalMessage.EXIST_ITEM, 400));
+                return false;
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,12 +18,19 @@ namespace MP.Author.Infrastructure.Data.Repositories
             _mapper = mapper;
         }
 
+
+        public bool CheckExistObjectOperation(PermissionsDtoRequest request)
+        {
+            var entity = _appDbContext.Permissions.FirstOrDefault(x => x.ObjectId == request.ObjectId && x.OperationId == request.OperationId);
+
+            return entity == null ? false : true;
+        }
+
         public async Task<int> Create(PermissionsDtoRequest request)
         {
             var entity = _mapper.Map<Permissions>(request);
             var entityInserted = _appDbContext.Permissions.Add(entity);
             await _appDbContext.SaveChangesAsync();
-
             return entityInserted.Entity.Id;
         }
     }

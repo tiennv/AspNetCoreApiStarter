@@ -10,5 +10,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     public interface IPermissionsRepository : IRepository<Permissions>
     {
         Task<int> Create(PermissionsDtoRequest request);
+        bool CheckExistObjectOperation(PermissionsDtoRequest request);
     }
 }
