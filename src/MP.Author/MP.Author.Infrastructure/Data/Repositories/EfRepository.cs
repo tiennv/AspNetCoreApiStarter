@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Core.Shared;
+using MP.Author.Infrastructure.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,13 @@ namespace MP.Author.Infrastructure.Data.Repositories
     public abstract class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly AppDbContext _appDbContext;
+        protected readonly AppIdentityDbContext _appIdentityDbContext;
+
+        protected EfRepository(AppDbContext appDbContext, AppIdentityDbContext appIdentityDbContext)
+        {
+            _appDbContext = appDbContext;
+            _appIdentityDbContext = appIdentityDbContext;
+        }
 
         protected EfRepository(AppDbContext appDbContext)
         {

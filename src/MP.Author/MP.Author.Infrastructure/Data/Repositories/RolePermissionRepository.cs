@@ -4,6 +4,7 @@ using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,11 @@ namespace MP.Author.Infrastructure.Data.Repositories
             await _appDbContext.SaveChangesAsync();
 
             return entityInserted.Entity.Id;
+        }
+
+        public List<Role_Permission> GetPermissionsByRoleId(string roleId)
+        {
+            return _appDbContext.Role_Permission.Where(x => x.RoleId.Equals(roleId)).ToList();
         }
     }
 }

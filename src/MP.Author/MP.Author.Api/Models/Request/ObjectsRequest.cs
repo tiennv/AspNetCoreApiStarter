@@ -22,7 +22,7 @@ namespace MP.Author.Api.Models.Request
         public bool IsShow { get; set; }
         public int ParentId { get; set; }
         public string Route { get; set; }
-        public int EnumAction { get; set; }
+        public string EnumAction { get; set; }
         public string Icon { get; set; }
 
         public List<ObjectsRequest> Childrents { get; set; }

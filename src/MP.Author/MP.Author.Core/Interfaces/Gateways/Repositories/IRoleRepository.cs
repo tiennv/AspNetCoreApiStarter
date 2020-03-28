@@ -1,4 +1,5 @@
-﻿using MP.Author.Core.Dto.GatewayResponses.Repositories;
+﻿using MP.Author.Core.Domain.Entities;
+using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         Task<RoleResponse> Create(string name);
         Task<RoleResponse> Delete(string id);
         Task<RoleResponse> Update(string id, string name);
+        Task<RoleResponse> GetRole(string id);
+        //Task<List<RoleResponse>> GetRoles(User user);
     }
 }

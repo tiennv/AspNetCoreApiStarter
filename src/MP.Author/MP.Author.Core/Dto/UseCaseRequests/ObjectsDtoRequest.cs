@@ -17,13 +17,13 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public bool IsShow { get; set; }
         public int ParentId { get; set; }
         public string Route { get; set; }
-        public int EnumAction { get; set; }
+        public string EnumAction { get; set; }
         public string Icon { get; set; }
         public List<ObjectsDtoRequest> Childrents { get; set; }
 
 
         public ObjectsDtoRequest(int id,string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
-            int enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsDtoRequest> childrents)
+            string enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsDtoRequest> childrents)
         {
             Id = id;
             Name = name;

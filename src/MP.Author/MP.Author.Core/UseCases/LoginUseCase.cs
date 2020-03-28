@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using MP.Author.Core.Dto;
 using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Dto.UseCaseResponses;
@@ -6,6 +7,7 @@ using MP.Author.Core.Interfaces;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Core.Interfaces.Services;
 using MP.Author.Core.Interfaces.UseCases;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
@@ -13,14 +15,28 @@ namespace MP.Author.Core.UseCases
     public sealed class LoginUseCase : ILoginUseCase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPermissionsRepository _permissionsRepository;
+        private readonly IOperationsRepository _operationsRepository;
+        private readonly IRolePermissionRepository _rolePermissionRepository;
+        private readonly IObjectsRepository _objectsRepository;
         private readonly IJwtFactory _jwtFactory;
         private readonly ITokenFactory _tokenFactory;
+        private readonly IMapper _mapper;
 
-        public LoginUseCase(IUserRepository userRepository, IJwtFactory jwtFactory, ITokenFactory tokenFactory)
+        public LoginUseCase(IUserRepository userRepository, IPermissionsRepository permissionsRepository, 
+            IOperationsRepository operationsRepository, IObjectsRepository objectsRepository,
+            IRolePermissionRepository rolePermissionRepository,
+            IJwtFactory jwtFactory, ITokenFactory tokenFactory,
+            IMapper mapper)
         {
             _userRepository = userRepository;
             _jwtFactory = jwtFactory;
             _tokenFactory = tokenFactory;
+            _permissionsRepository = permissionsRepository;
+            _operationsRepository = operationsRepository;
+            _objectsRepository = objectsRepository;
+            _rolePermissionRepository = rolePermissionRepository;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(LoginDtoRequest message, IOutputPort<LoginDtoResponse> outputPort)
@@ -40,7 +56,7 @@ namespace MP.Author.Core.UseCases
                         await _userRepository.Update(user);
 
                         // generate access token
-                        outputPort.Handle(new LoginDtoResponse(await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
                         return true;
                     }
                 }
@@ -48,5 +64,7 @@ namespace MP.Author.Core.UseCases
             outputPort.Handle(new LoginDtoResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
             return false;
         }
+
+        
     }
 }

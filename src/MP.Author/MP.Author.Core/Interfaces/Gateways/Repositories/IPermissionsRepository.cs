@@ -11,5 +11,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     {
         Task<int> Create(PermissionsDtoRequest request);
         bool CheckExistObjectOperation(PermissionsDtoRequest request);
+        //List<Permissions> GetPermissionsByRoleId(string roleId);
     }
 }

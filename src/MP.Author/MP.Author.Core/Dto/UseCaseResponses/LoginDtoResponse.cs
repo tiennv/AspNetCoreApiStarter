@@ -7,6 +7,7 @@ namespace MP.Author.Core.Dto.UseCaseResponses
 {
     public class LoginDtoResponse : UseCaseResponseMessage
     {
+        public List<RoleDto> Roles { get; }
         public AccessToken AccessToken { get; }
         public string RefreshToken { get; }
         public IEnumerable<Error> Errors { get; }
@@ -16,10 +17,11 @@ namespace MP.Author.Core.Dto.UseCaseResponses
             Errors = errors;
         }
 
-        public LoginDtoResponse(AccessToken accessToken, string refreshToken, bool success = false, string message = null) : base(success, message)
+        public LoginDtoResponse(List<RoleDto> roles, AccessToken accessToken, string refreshToken, bool success = false, string message = null) : base(success, message)
         {
             AccessToken = accessToken;
             RefreshToken = refreshToken;
+            Roles = roles;
         }
     }
 }

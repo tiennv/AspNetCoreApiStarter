@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto;
 using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
@@ -54,5 +55,17 @@ namespace MP.Author.Infrastructure.Data.Repositories
             errors.Add(new Error("action_fail", "Update fail"));
             return new RoleResponse(id, name, false, errors);
         }
+
+        public async Task<RoleResponse> GetRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                return new RoleResponse(role.Id, role.Name, true, null);
+            }
+            return new RoleResponse("", "", false, null);
+        }
+
+        
     }
 }

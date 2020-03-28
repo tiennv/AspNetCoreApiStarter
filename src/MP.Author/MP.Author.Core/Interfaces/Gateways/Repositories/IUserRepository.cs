@@ -1,6 +1,8 @@
 ﻿using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using System.Threading.Tasks;
 using MP.Author.Core.Domain.Entities;
+using System.Collections.Generic;
+using MP.Author.Core.Dto;
 
 namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
@@ -18,5 +20,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         Task<bool> RemoveRefreshToken(User user);
 
         Task<bool> IsExistRefreshToken(string refreshToken);
+
+        Task<List<RoleDto>> GetRoles(string username);
     }
 }

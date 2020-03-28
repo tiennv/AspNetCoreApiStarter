@@ -9,18 +9,27 @@ using MP.Author.Core.Dto;
 using System.Threading.Tasks;
 using AutoMapper;
 using MP.Author.Core.Specifications;
+using System.Collections.Generic;
 
 namespace MP.Author.Infrastructure.Data.Repositories
 {
     public sealed class UserRepository : EfRepository<User>, IUserRepository
     {
         private readonly UserManager<AppUser> _userManager;
-        
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
-        public UserRepository(UserManager<AppUser> userManager, IMapper mapper, AppDbContext appDbContext) : base(appDbContext)
+        //public UserRepository(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, AppDbContext appDbContext, AppIdentityDbContext appIdentityDbContext) : base(appDbContext, appIdentityDbContext)
+        //{
+        //    _userManager = userManager;
+        //    _mapper = mapper;
+        //    _roleManager = roleManager;
+        //}
+        public UserRepository(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, 
+            AppDbContext appDbContext) : base(appDbContext)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<bool> CheckPassword(User user, string password)
@@ -66,5 +75,33 @@ namespace MP.Author.Infrastructure.Data.Repositories
 
             return false;
         }
+
+        public async Task<List<RoleDto>> GetRoles(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            IList<string> roleNames = await _userManager.GetRolesAsync(user);
+            var roles = _roleManager.Roles.Where(x => roleNames.Any(r=>r.Equals(x.Name)));
+            var roleDtos = _mapper.Map<List<RoleDto>>(roles.ToList());
+
+            var roleIds = _roleManager.Roles.Where(x => roleNames.Any(r => r.Equals(x.Name))).Select(x=> x.Id);
+
+            GetPermissions(roleDtos.ToList());
+            return roleDtos;
+        }
+
+        public void GetPermissions(List<RoleDto> roleDtos)
+        {
+            var roleIds = roleDtos.Select(x => x.Id);
+            var permissionIds = _appDbContext.Role_Permission.Where(x => roleIds.Any(r => r.Equals(x.RoleId))).Select(x=>x.PermissionId);
+
+            var permissions = _appDbContext.Permissions.Where(x => permissionIds.Any(r => r.Equals(x.Id)));
+
+            var objectIds = permissions.Select(x => x.ObjectId);
+            var operationIds = permissions.Select(x=>x.OperationId);
+
+            var objects = _appDbContext.Objects.Where(x => objectIds.Any(o=>o.Equals(x.Id)));
+            var operations = _appDbContext.Operations.Where(x=> operationIds.Any(o=>o.Equals(x.Id)));
+        }
+
     }
 }

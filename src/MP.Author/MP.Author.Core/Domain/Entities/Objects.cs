@@ -14,11 +14,11 @@ namespace MP.Author.Core.Domain.Entities
         public bool IsShow { get; private set; } 
         public int ParentId { get; set; }
         public string Route { get; private set; }
-        public int EnumAction { get; private set; }
+        public string EnumAction { get; private set; }
         public string Icon { get; private set; }
         internal Objects() { /* Required by EF */ }
         public Objects(string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route, 
-            int enumAction, string icon, bool isShow, bool isApp, int parentId)
+            string enumAction, string icon, bool isShow, bool isApp, int parentId)
         {
             Name = name;
             ParentName = parentName;
