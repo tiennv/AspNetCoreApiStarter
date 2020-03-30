@@ -8,6 +8,7 @@ using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Core.Interfaces.Services;
 using MP.Author.Core.Interfaces.UseCases;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
@@ -54,17 +55,42 @@ namespace MP.Author.Core.UseCases
                         var refreshToken = _tokenFactory.GenerateToken();
                         user.AddRefreshToken(refreshToken, user.Id, message.RemoteIpAddress);
                         await _userRepository.Update(user);
-
+                        var objs = await _userRepository.GetObjects(message.UserName);                        
+                        var objParents = objs.Where(x => x.ParentId.Equals(0));                        
+                        var target = ReturnObjects(objs, objParents.ToList());
                         // generate access token
-                        outputPort.Handle(new LoginDtoResponse(await _userRepository.GetObjects(message.UserName), await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(target, await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
                         return true;
                     }
                 }
             }
             outputPort.Handle(new LoginDtoResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
             return false;
+        }        
+
+        private List<ObjectDto> ReturnObjects(List<ObjectDto> source, List<ObjectDto> parentRoot)
+        {
+            var result = new List<ObjectDto>();
+            
+            foreach (var item in parentRoot)
+            {
+                RecusiveObjects(source, item, result);                
+            }
+            return result;
         }
 
-        
+        private List<ObjectDto> RecusiveObjects(List<ObjectDto> childs, ObjectDto parents, List<ObjectDto> target)
+        {
+            var objChild = childs.Where(x => x.ParentId.Equals(parents.Id));
+            if (objChild != null && objChild.Count() > 0)
+            {
+                parents.Childrents = objChild.ToList();
+                target.Add(parents);
+                foreach (var child in objChild) {
+                    return RecusiveObjects(childs, child, target);
+                }
+            }
+            return target;
+        }       
     }
 }
