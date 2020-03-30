@@ -58,8 +58,10 @@ namespace MP.Author.Core.UseCases
                         var objs = await _userRepository.GetObjects(message.UserName);                        
                         var objParents = objs.Where(x => x.ParentId.Equals(0));                        
                         var target = ReturnObjects(objs, objParents.ToList());
+                        var roles = await _userRepository.GetRoles(message.UserName);
                         // generate access token
-                        outputPort.Handle(new LoginDtoResponse(target, await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        //outputPort.Handle(new LoginDtoResponse(target, roles, await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(target, roles, await _jwtFactory.GenerateEncodedToken(user), refreshToken, true));
                         return true;
                     }
                 }
