@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MP.Author.Core.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MP.Author.Core.Dto
@@ -11,7 +13,7 @@ namespace MP.Author.Core.Dto
     public class RoleDto
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }        
     }
 
     public class PermissionDto
@@ -27,4 +29,11 @@ namespace MP.Author.Core.Dto
         public string RoleId { get; set; }
         public string PermissionId { get; set; }
     }
+
+    public class ObjectDto : Objects
+    {
+        public Operations Operation { get; set; }
+        public List<ObjectDto> Childrents { get; set; }
+    }    
 }
+

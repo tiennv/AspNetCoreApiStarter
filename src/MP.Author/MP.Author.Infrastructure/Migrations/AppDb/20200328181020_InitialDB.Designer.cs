@@ -26,16 +26,16 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("ActionName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ControllerName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("EnumAction")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(6)");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("IsApp")
                         .HasColumnType("tinyint(1)");
@@ -47,19 +47,19 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Method")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(6)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
                     b.Property<string>("ParentName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Route")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -88,7 +88,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("View")
                         .HasColumnType("tinyint(1)");
@@ -131,7 +131,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RemoteIpAddress")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Token")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -156,7 +156,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -170,16 +170,16 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("IdentityId")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 

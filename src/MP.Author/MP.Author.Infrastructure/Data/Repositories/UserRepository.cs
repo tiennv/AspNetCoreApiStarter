@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MP.Author.Core.Specifications;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace MP.Author.Infrastructure.Data.Repositories
 {
@@ -84,24 +85,55 @@ namespace MP.Author.Infrastructure.Data.Repositories
             var roleDtos = _mapper.Map<List<RoleDto>>(roles.ToList());
 
             var roleIds = _roleManager.Roles.Where(x => roleNames.Any(r => r.Equals(x.Name))).Select(x=> x.Id);
-
-            GetPermissions(roleDtos.ToList());
+            
             return roleDtos;
         }
 
-        public void GetPermissions(List<RoleDto> roleDtos)
+        private async Task<List<string>> GetRoleIds(string username)
         {
-            var roleIds = roleDtos.Select(x => x.Id);
-            var permissionIds = _appDbContext.Role_Permission.Where(x => roleIds.Any(r => r.Equals(x.RoleId))).Select(x=>x.PermissionId);
+            var user = await _userManager.FindByNameAsync(username);
+            IList<string> roleNames = await _userManager.GetRolesAsync(user);
+            var roles = _roleManager.Roles.Where(x => roleNames.Any(r => r.Equals(x.Name)));
+            var roleDtos = _mapper.Map<List<RoleDto>>(roles.ToList());
 
-            var permissions = _appDbContext.Permissions.Where(x => permissionIds.Any(r => r.Equals(x.Id)));
+            var roleIds = _roleManager.Roles.Where(x => roleNames.Any(r => r.Equals(x.Name))).Select(x => x.Id);
 
-            var objectIds = permissions.Select(x => x.ObjectId);
-            var operationIds = permissions.Select(x=>x.OperationId);
-
-            var objects = _appDbContext.Objects.Where(x => objectIds.Any(o=>o.Equals(x.Id)));
-            var operations = _appDbContext.Operations.Where(x=> operationIds.Any(o=>o.Equals(x.Id)));
+            return roleIds.Distinct().ToList();
         }
+
+        public async Task<List<ObjectDto>> GetObjects(string username)
+        {
+            var roleIds = await GetRoleIds(username);            
+
+            var permissionIds = _appDbContext.Role_Permission.Where(x => roleIds.Any(r => r.Equals(x.RoleId))).Select(x => x.PermissionId).Distinct();
+
+            var permissions = _appDbContext.Permissions.Where(x => permissionIds.Any(r => r.Equals(x.Id))).Distinct();
+
+            var objectIds = permissions.Select(x => x.ObjectId).Distinct();
+
+            var operationIds = permissions.Select(x => x.OperationId).Distinct();
+
+            var objects = _appDbContext.Objects.Where(x => objectIds.Any(o => o.Equals(x.Id))).Distinct();
+
+            var operations = _appDbContext.Operations.Where(x => operationIds.Any(o => o.Equals(x.Id))).Distinct();
+
+
+            var objObjects = new List<ObjectDto>();
+
+            foreach (var per in permissions.ToList())
+            {
+                var tempObj = objects.ToList().FirstOrDefault(x => x.Id.Equals(per.ObjectId));
+                var tempOper = operations.ToList().FirstOrDefault(x => x.Id.Equals(per.OperationId));
+                if (tempObj != null)
+                {
+                    var objDto = _mapper.Map<ObjectDto>(tempObj);
+                    objDto.Operation = tempOper;
+                    objObjects.Add(objDto);
+                }
+            }
+
+            return objObjects;
+        }        
 
     }
 }

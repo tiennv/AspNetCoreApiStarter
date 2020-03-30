@@ -56,7 +56,7 @@ namespace MP.Author.Core.UseCases
                         await _userRepository.Update(user);
 
                         // generate access token
-                        outputPort.Handle(new LoginDtoResponse(await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(await _userRepository.GetObjects(message.UserName), await _userRepository.GetRoles(message.UserName), await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
                         return true;
                     }
                 }

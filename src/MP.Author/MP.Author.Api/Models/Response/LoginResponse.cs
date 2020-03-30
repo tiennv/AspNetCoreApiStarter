@@ -9,11 +9,14 @@ namespace MP.Author.Api.Models.Response
         public string RefreshToken { get; }
         public List<RoleDto> Roles { get; set; }
 
-        public LoginResponse(AccessToken accessToken, List<RoleDto> roles, string refreshToken)
+        public List<ObjectDto> Objects { get; set; }
+
+        public LoginResponse(AccessToken accessToken, List<RoleDto> roles, List<ObjectDto> objects, string refreshToken)
         {
             AccessToken = accessToken;
             RefreshToken = refreshToken;
             Roles = roles;
+            Objects = objects;
         }
     }
 }

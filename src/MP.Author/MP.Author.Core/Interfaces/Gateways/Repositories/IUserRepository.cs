@@ -22,5 +22,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         Task<bool> IsExistRefreshToken(string refreshToken);
 
         Task<List<RoleDto>> GetRoles(string username);
+
+        Task<List<ObjectDto>> GetObjects(string username);
     }
 }

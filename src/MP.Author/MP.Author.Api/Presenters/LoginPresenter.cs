@@ -36,7 +36,7 @@ namespace MP.Author.Api.Presenters
             result.msg = response.Errors != null && response.Errors.Count() > 0 ? response.Errors.FirstOrDefault().Description : response.Message;
             if (response.Success)
             {
-                result.data = new LoginResponse(response.AccessToken, response.Roles, response.RefreshToken);
+                result.data = new LoginResponse(response.AccessToken, response.Roles, response.Objects, response.RefreshToken);
             }
 
 
