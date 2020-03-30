@@ -123,17 +123,30 @@ namespace MP.Author.Infrastructure.Data.Repositories
             foreach (var per in permissions.ToList())
             {
                 var tempObj = objects.ToList().FirstOrDefault(x => x.Id.Equals(per.ObjectId));
-                var tempOper = operations.ToList().FirstOrDefault(x => x.Id.Equals(per.OperationId));
-                if (tempObj != null)
+                if (!IsExistObject(objObjects, tempObj.Id))
                 {
-                    var objDto = _mapper.Map<ObjectDto>(tempObj);
-                    objDto.Operation = tempOper;
-                    objObjects.Add(objDto);
+                    var tempOper = operations.ToList().FirstOrDefault(x => x.Id.Equals(per.OperationId));
+                    if (tempObj != null)
+                    {
+                        var objDto = _mapper.Map<ObjectDto>(tempObj);
+                        objDto.Operation = tempOper;                        
+                        objObjects.Add(objDto);
+                        
+                    }
                 }
             }
 
             return objObjects;
         }        
+
+        private bool IsExistObject(List<ObjectDto> source, int id)
+        {
+            if (source.Count > 0 && source.Any(x => x.Id.Equals(id)))
+            {
+                return true;
+            }
+            return false;
+        }
 
     }
 }
