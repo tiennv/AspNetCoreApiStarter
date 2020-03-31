@@ -9,3 +9,7 @@ Update DbContext
 2. dotnet ef database update --context AppDbContext
 
 format: dotnet ef database update --context {name dbcontext}
+
+Gen context form DB
+
+dotnet ef dbcontext scaffold "server=localhost;port=3308;user=root;password=root;database=mp_author" "Pomelo.EntityFrameworkCore.MySql" -c MyDbContext
