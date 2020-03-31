@@ -134,6 +134,9 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     b.Property<string>("Token")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("ReToken")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 

@@ -44,13 +44,27 @@ namespace MP.Author.Core.UseCases
                     var jwtToken = await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName);
                     var refreshToken = _tokenFactory.GenerateToken();
                     user.RemoveRefreshToken(message.RefreshToken); // delete the token we've exchanged
-                    user.AddRefreshToken(refreshToken, user.Id, ""); // add the new one
+                    user.AddRefreshToken(refreshToken, jwtToken.Token, user.Id, ""); // add the new one
                     await _userRepository.Update(user);
                     outputPort.Handle(new ExchangeRefreshTokenDtoResponse(jwtToken, refreshToken, true));
                     return true;
                 }
             }
             outputPort.Handle(new ExchangeRefreshTokenDtoResponse(false, "Invalid token."));
+            return false;
+        }
+
+        public async Task<bool> ValidationToken(ExchangeRefreshTokenDtoRequest message)
+        {
+            var cp = _jwtTokenValidator.GetPrincipalFromToken(message.AccessToken, message.SigningKey);
+            if (cp != null)
+            {
+                var id = cp.Claims.First(c => c.Type == "id");
+                var user = await _userRepository.GetSingleBySpec(new UserSpecification(id.Value));
+                var isExistToken = user.RefreshTokens.Any(x => x.Token.Equals(message.AccessToken));
+                return isExistToken;
+            }
+
             return false;
         }
     }

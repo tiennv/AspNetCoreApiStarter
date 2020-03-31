@@ -5,5 +5,5 @@ namespace MP.Author.Api.Models.Request
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-    }
+    }    
 }

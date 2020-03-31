@@ -40,7 +40,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
 
         public async Task<bool> IsExistRefreshToken(string refreshToken)
         {
-            var obj = _appDbContext.RefreshTokens.Any(x => x.Token.Equals(refreshToken));
+            var obj = _appDbContext.RefreshTokens.Any(x => x.ReToken.Equals(refreshToken));
             return obj;
         }
 

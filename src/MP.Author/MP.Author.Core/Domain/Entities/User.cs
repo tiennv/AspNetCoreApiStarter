@@ -29,17 +29,22 @@ namespace MP.Author.Core.Domain.Entities
 
         public bool HasValidRefreshToken(string refreshToken)
         {
-            return _refreshTokens.Any(rt => rt.Token == refreshToken && rt.Active);
+            return _refreshTokens.Any(rt => rt.ReToken == refreshToken && rt.Active);
         }
 
-        public void AddRefreshToken(string token, int userId, string remoteIpAddress, double daysToExpire = 5)
+        public void AddRefreshToken(string reToken,string token, int userId, string remoteIpAddress, double daysToExpire = 5)
         {
-            _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.AddDays(daysToExpire), userId, remoteIpAddress));
+            _refreshTokens.Add(new RefreshToken(token, DateTime.UtcNow.AddDays(daysToExpire), userId, remoteIpAddress, reToken));
         }
 
         public void RemoveRefreshToken(string refreshToken)
         {
-            _refreshTokens.Remove(_refreshTokens.First(t => t.Token == refreshToken));
+            _refreshTokens.Remove(_refreshTokens.First(t => t.ReToken == refreshToken));
         }
+
+        public void RemoveRefreshToken(int userId)
+        {
+            _refreshTokens.Remove(_refreshTokens.First(t => t.UserId == userId));
+        }        
     }
 }

@@ -53,15 +53,18 @@ namespace MP.Author.Core.UseCases
                     {
                         // generate refresh token
                         var refreshToken = _tokenFactory.GenerateToken();
-                        user.AddRefreshToken(refreshToken, user.Id, message.RemoteIpAddress);
+                        var jwtToken = await _jwtFactory.GenerateEncodedToken(user);
+                        await _userRepository.RemoveRefreshToken(user);
+                        user.AddRefreshToken(refreshToken, jwtToken.Token, user.Id, message.RemoteIpAddress);
                         await _userRepository.Update(user);
                         var objs = await _userRepository.GetObjects(message.UserName);                        
                         var objParents = objs.Where(x => x.ParentId.Equals(0));                        
                         var target = ReturnObjects(objs, objParents.ToList());
-                        var roles = await _userRepository.GetRoles(message.UserName);
+                        var roles = await _userRepository.GetRoles(message.UserName);                        
                         // generate access token
                         //outputPort.Handle(new LoginDtoResponse(target, roles, await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
-                        outputPort.Handle(new LoginDtoResponse(target, roles, await _jwtFactory.GenerateEncodedToken(user), refreshToken, true));
+                        outputPort.Handle(new LoginDtoResponse(target, roles, jwtToken, refreshToken, true));
+                        
                         return true;
                     }
                 }

@@ -106,7 +106,8 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                     UserId = table.Column<int>(nullable: false),
                     RemoteIpAddress = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    Modified = table.Column<DateTime>(nullable: false)
+                    Modified = table.Column<DateTime>(nullable: false),
+                    ReToken = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {

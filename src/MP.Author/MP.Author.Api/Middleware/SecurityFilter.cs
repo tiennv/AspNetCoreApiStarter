@@ -5,26 +5,23 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Api.Presenters;
-using MP.Author.Api.Serialization;
 using MP.Author.Core.Interfaces.Services;
-using System;
-using System.Collections.Generic;
+using MP.Author.Core.Interfaces.UseCases;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace MP.Author.Api.Middleware
 {
     public class SecurityFilter : IAuthorizationFilter
     {
-        private readonly IJwtFactory _jwtFactory;
         private readonly IJwtTokenValidator _jwtTokenValidator;
         private readonly AuthSettings _authSettings;
-        public SecurityFilter(IJwtFactory jwtFactory, IJwtTokenValidator jwtTokenValidator, IOptions<AuthSettings> authSettings)
-        {
-            _jwtFactory = jwtFactory;
+        private readonly IExchangeRefreshTokenUseCase _exchangeRefreshTokenUseCase;
+        public SecurityFilter(IExchangeRefreshTokenUseCase exchangeRefreshTokenUseCase, IJwtTokenValidator jwtTokenValidator, IOptions<AuthSettings> authSettings)
+        {            
             _jwtTokenValidator = jwtTokenValidator;
             _authSettings = authSettings.Value;
+            _exchangeRefreshTokenUseCase = exchangeRefreshTokenUseCase;
         }
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
@@ -41,7 +38,7 @@ namespace MP.Author.Api.Middleware
                     if (authToken != null)
                     {
                         if (IsValidToken(authToken))                        
-                        {
+                        {                            
                             filterContext.HttpContext.Response.Headers.Add("Authorization", authToken);
                             filterContext.HttpContext.Response.Headers.Add("AuthStatus", "Authorized");                            
                             return;
@@ -78,6 +75,7 @@ namespace MP.Author.Api.Middleware
         }
         public bool IsValidToken(string authToken)
         {
+            /*
             if (authToken.StartsWith(JwtBearerDefaults.AuthenticationScheme))
             {
                 authToken = authToken.Replace(JwtBearerDefaults.AuthenticationScheme.ToString(),"").Trim();
@@ -89,6 +87,18 @@ namespace MP.Author.Api.Middleware
             }
             
             return false;
+            */
+
+            if (authToken.StartsWith(JwtBearerDefaults.AuthenticationScheme))
+            {
+                authToken = authToken.Replace(JwtBearerDefaults.AuthenticationScheme.ToString(), "").Trim();
+                var request = new Core.Dto.UseCaseRequests.ExchangeRefreshTokenDtoRequest(accessToken: authToken, refreshToken: "", signingKey: _authSettings.SecretKey);
+                var validation = _exchangeRefreshTokenUseCase.ValidationToken(request);
+                return validation.Result;
+            }
+
+            return false;
         }
+        
     }
 }

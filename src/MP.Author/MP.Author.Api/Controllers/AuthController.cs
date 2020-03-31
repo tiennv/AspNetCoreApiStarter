@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MP.Author.Api.Middleware;
 using MP.Author.Api.Models;
+using MP.Author.Api.Models.Request;
 using MP.Author.Api.Models.Settings;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
@@ -42,7 +44,7 @@ namespace MP.Author.Api.Controllers
 
 		// POST: /auth/login
 		[HttpPost("login")]
-		public async Task<ActionResult> Login([FromBody] Models.Request.LoginRequest request)
+		public async Task<ActionResult> Login([FromBody] LoginRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
 			await _loginUseCase.Handle(new LoginDtoRequest(request.UserName, request.Password, Request.HttpContext.Connection.RemoteIpAddress?.ToString()), _loginPresenter);
@@ -51,7 +53,7 @@ namespace MP.Author.Api.Controllers
 
 		// POST api/auth/refreshtoken
 		[HttpPost("refreshtoken")]
-		public async Task<ActionResult> RefreshToken([FromBody] Models.Request.ExchangeRefreshTokenRequest request)
+		public async Task<ActionResult> RefreshToken([FromBody] ExchangeRefreshTokenRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
 			await _exchangeRefreshTokenUseCase.Handle(new ExchangeRefreshTokenDtoRequest(request.AccessToken, request.RefreshToken, _authSettings.SecretKey), _exchangeRefreshTokenPresenter);
@@ -59,11 +61,21 @@ namespace MP.Author.Api.Controllers
 		}
 
 		[HttpPost("logout")]
-		public async Task<IActionResult> Logout([FromBody] Models.Request.LogoutRequest request)
+		public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
 			await _logoutUseCase.Handle(new LogoutDtoRequest(request.AccessToken, _authSettings.SecretKey,request.RefreshToken), _logoutPresenter);
 			return _logoutPresenter.ContentResult;
+		}
+
+		[HttpGet("validation-token")]
+		[ServiceFilter(typeof(SecurityFilter))]
+		public IActionResult ValidationToken()
+		{
+			return Ok(new { 
+				code = 200,
+				msg = "Token valid!"
+			});
 		}
 	}
 }
