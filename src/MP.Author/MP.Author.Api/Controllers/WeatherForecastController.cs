@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MP.Author.Api.Middleware;
 
 namespace MP.Author.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    //[Authorize]
+    //[CustomAuthorization]
+    [ServiceFilter(typeof(SecurityFilter))]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

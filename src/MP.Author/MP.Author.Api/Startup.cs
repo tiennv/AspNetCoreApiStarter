@@ -33,6 +33,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Mapping;
+using MP.Author.Api.Middleware;
 
 namespace MP.Author.Api
 {
@@ -52,22 +53,7 @@ namespace MP.Author.Api
         {
             services.AddControllers();            
             
-            var connection = Configuration["ConnectionStrings:Default"];
-            /*services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseMySql(connection), ServiceLifetime.Scoped);
-
-            
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();*/
+            var connection = Configuration["ConnectionStrings:Default"];           
 
             services.AddDbContext<AppDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
             services.AddDbContext<AppIdentityDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
@@ -128,25 +114,7 @@ namespace MP.Author.Api
                         return Task.CompletedTask;
                     }
                 };
-            });
-
-            // Configure the Application Cookie
-            services.ConfigureApplicationCookie(c => {
-                // Override the default events
-                c.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToAccessDenied = ReplaceRedirectorWithStatusCode(HttpStatusCode.Forbidden),
-                    OnRedirectToLogin = ReplaceRedirectorWithStatusCode(HttpStatusCode.Unauthorized)
-                };
-
-                // Customize other stuff as needed
-                c.Cookie.Name = ".applicationname";
-                c.Cookie.HttpOnly = true; // This must be true to prevent XSS
-                c.Cookie.SameSite = SameSiteMode.None;
-                c.Cookie.SecurePolicy = CookieSecurePolicy.None; // Should ideally be "Always"
-
-                c.SlidingExpiration = true;
-            });
+            });          
 
             // add identity
             var identityBuilder = services.AddIdentityCore<AppUser>(o =>
@@ -163,19 +131,10 @@ namespace MP.Author.Api
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-             // Auto Mapper
-             //var mappingConfig = new MapperConfiguration(mc =>
-             //{
-             //    mc.AddProfile(new RequestProfile());
-             //    //mc.AddProfile(new DataProfile());
-             //});
-             //mappingConfig.AssertConfigurationIsValid();
-             //IMapper mapper = mappingConfig.CreateMapper();
-             //services.AddSingleton(mapper);
-
+    
              // Auto Mapper
              services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile), typeof(EntityProfile) });
-            //services.AddAutoMapper(typeof(RequestProfile));
+            
             
             //services.AddSingleton(mapper);
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -211,24 +170,9 @@ namespace MP.Author.Api
 
             });
 
-            // ============================================================
-            // Now register our services with Autofac container.
 
-            /*var builder = new ContainerBuilder();
+            services.AddScoped<SecurityFilter>();
 
-            //builder.RegisterModule(new CoreModule());
-            //builder.RegisterModule(new InfrastructureModule());
-
-            // Presenters
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();
-
-            builder.Populate(services);
-
-            var container = builder.Build();
-
-
-            services.AddSingleton(typeof(IRegisterUserUseCase), typeof(RegisterUserUseCase));
-            services.AddSingleton(typeof(IUserRepository), typeof(UserRepository));*/
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -238,10 +182,7 @@ namespace MP.Author.Api
 
             containerBuilder.RegisterModule(new CoreModule());
             containerBuilder.RegisterModule(new InfrastructureModule());
-
-            /*            containerBuilder.RegisterType<RegisterUserUseCase>().As<IRegisterUserUseCase>().InstancePerDependency();
-                        containerBuilder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerDependency();*/
-            
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -273,8 +214,9 @@ namespace MP.Author.Api
             else
             {
 
-            }         
+            }
 
+            //app.UseMiddleware<AuthenticationMiddleware>();
 
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
@@ -290,6 +232,19 @@ namespace MP.Author.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            /*app.UseSession();
+
+            //Add JWToken to all incoming HTTP Request Header
+            app.Use(async (context, next) =>
+            {
+                var JWToken = context.Session.GetString("JWToken");
+                if (!string.IsNullOrEmpty(JWToken))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+                }
+                await next();
+            });*/
 
             app.UseAuthentication();
 

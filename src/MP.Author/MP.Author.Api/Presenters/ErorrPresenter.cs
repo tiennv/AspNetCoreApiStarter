@@ -28,4 +28,18 @@ namespace MP.Author.Api.Presenters
             return result;
         }
     }
+
+    public class AuthorizePresenter
+    { 
+        public BaseResponse<object> HandleResponse(string message, int statusCode)
+        {
+            var result = new BaseResponse<object>();
+
+            result.code = statusCode;
+            result.error = 1;
+            result.msg = message;            
+
+            return result;
+        }
+    }
 }
