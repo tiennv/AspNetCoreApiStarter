@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
@@ -10,7 +9,7 @@ using MP.Author.Core.Interfaces.UseCases;
 namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    
     [ApiController]
     public class OperationsController : ControllerBase
     {

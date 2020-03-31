@@ -3,14 +3,16 @@ using System;
 using MP.Author.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MP.Author.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200331063111_InitialIdentity")]
+    partial class InitialIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("ParentName")
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Route")
                         .HasColumnType("varchar(255)");
@@ -132,7 +134,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RemoteIpAddress")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Token")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

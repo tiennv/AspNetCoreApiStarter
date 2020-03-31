@@ -63,6 +63,20 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissions", x => x.Id);
+                    //table.ForeignKey(
+                    //    name: "PK_Permissions_Objects_ObjectId",
+                    //    column: x => x.ObjectId,
+                    //    principalTable: "Objects",
+                    //    principalColumn: "Id",
+                    //    onDelete: ReferentialAction.Cascade
+                    //);
+                    //table.ForeignKey(
+                    //    name: "PK_Permissions_Operations_OperationId",
+                    //    column: x => x.OperationId,
+                    //    principalTable: "Operations",
+                    //    principalColumn: "Id",
+                    //    onDelete: ReferentialAction.Cascade
+                    //);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +91,20 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Role_Permission", x => x.Id);
+                    //table.ForeignKey(
+                    //    name: "PK_RolePermission_AspNetRoles_RoleId",
+                    //    column: x => x.RoleId,
+                    //    principalTable: "AspNetRoles",
+                    //    principalColumn: "Id",
+                    //    onDelete: ReferentialAction.Cascade
+                    //);
+                    //table.ForeignKey(
+                    //    name: "PK_RolePermission_Permnissions_PermissionId",
+                    //    column: x => x.RoleId,
+                    //    principalTable: "Permissions",
+                    //    principalColumn: "Id",
+                    //    onDelete: ReferentialAction.Cascade
+                    //);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,6 +121,7 @@ namespace MP.Author.Infrastructure.Migrations.AppDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+
                 });
 
             migrationBuilder.CreateTable(
