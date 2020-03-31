@@ -9,6 +9,7 @@ namespace MP.Author.Core.Domain.Entities
     {
         public string RoleId { get; set; }
         public int PermissionId { get; set; }
+        public virtual Permissions Permission { get; set; }
         internal Role_Permission() { }
         internal Role_Permission(string roleId, int permissionId)
         {

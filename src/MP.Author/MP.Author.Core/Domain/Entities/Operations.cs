@@ -15,7 +15,11 @@ namespace MP.Author.Core.Domain.Entities
         public bool Import { get; set; }
         public bool Export { get; set; }
 
-        internal Operations() { /* Required by EF */ }
+        public virtual ICollection<Permissions> Permissions { get; set; }
+
+        internal Operations() {
+            Permissions = new HashSet<Permissions>();
+        }
 
         internal Operations(string name, bool create, bool edit, bool delete, bool view, bool import, bool export) {
             Name = name;
