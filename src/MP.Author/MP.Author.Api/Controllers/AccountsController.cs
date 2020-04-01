@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MP.Author.Api.Middleware;
 using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
@@ -47,6 +48,7 @@ namespace MP.Author.Api.Controllers
         }
 
         [HttpPost("add-roles")]
+        [ServiceFilter(typeof(SecurityFilter))]
         public async Task<ActionResult> AddRoles([FromBody] AddUserRoleRequest request)
         {
             if (!ModelState.IsValid)

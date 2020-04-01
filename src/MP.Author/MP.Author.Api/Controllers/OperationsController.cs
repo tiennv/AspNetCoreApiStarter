@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MP.Author.Api.Middleware;
 using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
@@ -9,7 +10,7 @@ using MP.Author.Core.Interfaces.UseCases;
 namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
-    
+    [ServiceFilter(typeof(SecurityFilter))]
     [ApiController]
     public class OperationsController : ControllerBase
     {

@@ -53,6 +53,7 @@ namespace MP.Author.Api.Controllers
 
 		// POST api/auth/refreshtoken
 		[HttpPost("refreshtoken")]
+		[ServiceFilter(typeof(SecurityFilter))]
 		public async Task<ActionResult> RefreshToken([FromBody] ExchangeRefreshTokenRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }
@@ -61,6 +62,7 @@ namespace MP.Author.Api.Controllers
 		}
 
 		[HttpPost("logout")]
+		[ServiceFilter(typeof(SecurityFilter))]
 		public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
 		{
 			if (!ModelState.IsValid) { return BadRequest(ModelState); }

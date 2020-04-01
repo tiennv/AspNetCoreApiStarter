@@ -11,7 +11,7 @@ namespace MP.Author.Core.Mapping
     {
         public EntityProfile()
         {
-            CreateMap<ObjectsDtoRequest, Objects>();
+            CreateMap<ObjectsDtoRequest, Objects>();//.ForMember(dest=>dest.Permissions, opt=>opt.Ignore());
         }
     }
 }

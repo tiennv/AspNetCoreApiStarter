@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MP.Author.Api.Middleware;
 using MP.Author.Api.Models.Request;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Dto.UseCaseRequests;
@@ -14,6 +15,7 @@ namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(SecurityFilter))]
     public class PermissionsController : ControllerBase
     {
         private readonly IPermissionsUserCase _permissionsUserCase;

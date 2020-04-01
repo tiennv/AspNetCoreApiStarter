@@ -20,12 +20,12 @@ namespace MP.Author.Infrastructure.Data.Mapping
                                               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                                               .ForAllOtherMembers(opt=>opt.Ignore());
 
-            CreateMap<Objects, ObjectDto>();
-            //CreateMap<Objects, ObjectDtos>().ForMember(dest=> dest.Operation, opt=> opt.Ignore());
+            CreateMap<Objects, ObjectDto>();//.ForMember(dest=>dest.Permissions, opt=>opt.Ignore());
+            CreateMap<Operations, OperationDto>();
 
-            CreateMap<ObjectsDtoRequest, Objects>();
-            CreateMap<OperationsDtoRequest, Operations>();
-            CreateMap<PermissionsDtoRequest, Permissions>();
+            CreateMap<ObjectsDtoRequest, Objects>();//.ForMember(dest => dest.Permissions, opt => opt.Ignore());
+            CreateMap<OperationsDtoRequest, Operations>().ForMember(dest => dest.Permissions, opt => opt.Ignore());
+            CreateMap<PermissionsDtoRequest, Permissions>();                
             CreateMap<RolePermissionDtoRequest, Role_Permission>();
         }
     }

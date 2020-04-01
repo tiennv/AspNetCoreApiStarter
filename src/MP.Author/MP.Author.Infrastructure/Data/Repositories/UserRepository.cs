@@ -129,7 +129,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
                     if (tempObj != null)
                     {
                         var objDto = _mapper.Map<ObjectDto>(tempObj);
-                        objDto.Operation = tempOper;                        
+                        objDto.Operation = _mapper.Map<OperationDto>(tempOper);                        
                         objObjects.Add(objDto);
                         
                     }
