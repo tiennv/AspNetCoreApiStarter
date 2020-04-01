@@ -39,6 +39,14 @@ namespace MP.Author.Infrastructure.Data.Repositories
             }
 
             return inserted > 0 ? true : false;                        
-        }        
+        }
+
+        public async Task<int> Create(List<ObjectsDtoRequest> requests)
+        {
+            var entities = _mapper.Map<List<Objects>>(requests);
+            _appDbContext.Objects.AddRange(entities);
+            var inserted = await _appDbContext.SaveChangesAsync();
+            return inserted;
+        }
     }
 }

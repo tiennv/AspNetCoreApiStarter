@@ -28,12 +28,13 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return entityInserted.Entity.Id;
         }
 
-        public async void Create(List<RolePermissionDtoRequest> requests)
+        public async Task<int> Create(List<RolePermissionDtoRequest> requests)
         {
             var entities = _mapper.Map<List<Role_Permission>>(requests);
             _appDbContext.Role_Permission.AddRange(entities);
-            await _appDbContext.SaveChangesAsync();            
-        }
+            var inserted = await _appDbContext.SaveChangesAsync();
+            return inserted;
+        } 
 
         public List<Role_Permission> GetPermissionsByRoleId(string roleId)
         {

@@ -9,6 +9,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
     public interface IObjectsRepository : IRepository<Objects>
     {
-        Task<bool> Create(ObjectsDtoRequest objects);
+        Task<bool> Create(ObjectsDtoRequest request);
+        Task<int> Create(List<ObjectsDtoRequest> requests);
     }
 }

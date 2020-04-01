@@ -51,14 +51,15 @@ namespace MP.Author.Api.Controllers
         public async Task<ActionResult> PostList([FromBody] List<ObjectsRequest> request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var requestDto = _mapper.Map<List<ObjectsRequest>, List<ObjectsDtoRequest>>(request);
-            if(requestDto!=null && requestDto.Count > 0)
-            {
-                foreach(var item in requestDto)
-                {
-                    await _objectsUserCase.Handle(item, _objectsPresenter);
-                }
-            }
+            var requestDtos = _mapper.Map<List<ObjectsRequest>, List<ObjectsDtoRequest>>(request);
+            //if(requestDto!=null && requestDto.Count > 0)
+            //{
+            //    foreach(var item in requestDto)
+            //    {
+            //        await _objectsUserCase.Handle(item, _objectsPresenter);
+            //    }
+            //}
+            await _objectsUserCase.Create(requestDtos, _objectsPresenter);
             return _objectsPresenter.ContentResult;
         }
     }

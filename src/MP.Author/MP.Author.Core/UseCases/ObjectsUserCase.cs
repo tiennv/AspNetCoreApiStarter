@@ -24,6 +24,13 @@ namespace MP.Author.Core.UseCases
             _mapper = mapper;
         }
 
+        public async Task<bool> Create(List<ObjectsDtoRequest> request, IOutputPort<ObjectsDtoResponse> outputPort)
+        {            
+            var response = await _objectsRepository.Create(request);
+            outputPort.Handle(response > 0 ? new ObjectsDtoResponse(response > 0, GlobalMessage.INSERT_SUCCESS_MES) : new ObjectsDtoResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES) }));
+            return response > 0;
+        }
+
         public async Task<bool> Handle(ObjectsDtoRequest message, IOutputPort<ObjectsDtoResponse> outputPort)
         {                    
             var response = await _objectsRepository.Create(message);

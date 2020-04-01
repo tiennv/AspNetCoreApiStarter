@@ -10,7 +10,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     public interface IRolePermissionRepository : IRepository<Role_Permission>
     {
         Task<int> Create(RolePermissionDtoRequest request);
-        void Create(List<RolePermissionDtoRequest> requests);
+        Task<int> Create(List<RolePermissionDtoRequest> requests);
         List<Role_Permission> GetPermissionsByRoleId(string roleId);
     }
 }
