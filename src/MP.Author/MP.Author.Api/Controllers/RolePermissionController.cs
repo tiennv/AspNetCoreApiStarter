@@ -39,5 +39,13 @@ namespace MP.Author.Api.Controllers
             return _rolePermissionsPresenter.ContentResult;
         }
 
+        [HttpPost("list")]
+        public async Task<ActionResult> PostList([FromBody] List<RolePermissionRequest> requests)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var requestDto = _mapper.Map<List<RolePermissionRequest>, List<RolePermissionDtoRequest>>(requests);
+            _rolePermissionsUserCase.PostList(requestDto, _rolePermissionsPresenter);
+            return _rolePermissionsPresenter.ContentResult;
+        }
     }
 }

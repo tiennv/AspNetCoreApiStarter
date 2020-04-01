@@ -47,7 +47,7 @@ namespace MP.Author.Api.Controllers
             return _objectsPresenter.ContentResult;
         }
 
-        [HttpPost("post-list")]
+        [HttpPost("list")]
         public async Task<ActionResult> PostList([FromBody] List<ObjectsRequest> request)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }

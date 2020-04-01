@@ -26,5 +26,12 @@ namespace MP.Author.Core.UseCases
             outputPort.Handle(response > 0 ? new RolePermissionDtoResponse(response, true, GlobalMessage.INSERT_SUCCESS_MES) : new RolePermissionDtoResponse(new[] { new Error(GlobalMessage.INSERT_FAIL_CODE, GlobalMessage.INSERT_FAIL_MES) }));
             return response > 0 ? true : false;
         }
+
+        public bool PostList(List<RolePermissionDtoRequest> requests, IOutputPort<RolePermissionDtoResponse> outputPort)
+        {
+            _rolePermissionRepository.Create(requests);
+            outputPort.Handle(new RolePermissionDtoResponse(0, true, GlobalMessage.INSERT_SUCCESS_MES));
+            return true;
+        }
     }
 }
