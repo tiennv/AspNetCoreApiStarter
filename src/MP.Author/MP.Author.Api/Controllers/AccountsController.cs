@@ -48,18 +48,34 @@ namespace MP.Author.Api.Controllers
         }
 
         [HttpPost("add-roles")]
-        [ServiceFilter(typeof(SecurityFilter))]
-        public async Task<ActionResult> AddRoles([FromBody] AddUserRoleRequest request)
+        //[ServiceFilter(typeof(SecurityFilter))]
+        public async Task<ActionResult> AddRoles([FromBody] UserRoleRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var requestDto = _mapper.Map<AddUserRoleRequest, AddUserRoleDtoRequest>(request);
+            var requestDto = _mapper.Map<UserRoleRequest, UserRoleDtoRequest>(request);
 
-            await _userRoleUserCase.CreateAsync(requestDto, _userRolePresenter);            
+            await _userRoleUserCase.Handle(requestDto, _userRolePresenter);            
             
+            return _userRolePresenter.ContentResult;
+        }
+
+        [HttpPost("remove-roles")]
+        //[ServiceFilter(typeof(SecurityFilter))]
+        public async Task<ActionResult> RemoveRoles([FromBody] UserRoleRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var requestDto = _mapper.Map<UserRoleRequest, UserRoleDtoRequest>(request);
+
+           await _userRoleUserCase.Delete(requestDto, _userRolePresenter);
+
             return _userRolePresenter.ContentResult;
         }
 

@@ -10,11 +10,12 @@ namespace MP.Author.Core.Dto.UseCaseRequests
     {
         public string UserId { get; }
         public string RoleId { get; }
-
-        public UserRoleDtoRequest(string userId, string roleId)
+        public List<string> RoleIds { get; }
+        public UserRoleDtoRequest(string userId, string roleId, List<string> roleIds)
         {
             UserId = userId;
             RoleId = roleId;
+            RoleIds = roleIds;
         }
     }
 

@@ -15,9 +15,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
 {
     public class UserRoleRepository : IUserRoleRepository
     {
-        //private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<AppUser> _userManager;
-        //private readonly IdentityUserRole
+        private readonly UserManager<AppUser> _userManager;        
         private readonly IMapper _mapper;
         public UserRoleRepository(UserManager<AppUser> userManager, IMapper mapper)
         {
@@ -25,12 +23,23 @@ namespace MP.Author.Infrastructure.Data.Repositories
             _mapper = mapper;
             _userManager = userManager;
         }
-        public async Task<UserRoleDtoResponse> Create(AddUserRoleDtoRequest requests)
+        public async Task<UserRoleDtoResponse> Create(UserRoleDtoRequest requests)
         {
             var appUser = await _userManager.FindByIdAsync(requests.UserId);
             if (appUser != null && requests.RoleIds!=null && requests.RoleIds.Count>0)
             {
                 var role = await _userManager.AddToRolesAsync(appUser, requests.RoleIds);
+                return new UserRoleDtoResponse(role.Succeeded ? null : role.Errors.Select(e => new Core.Dto.Error(e.Code, e.Description)), role.Succeeded);
+            }
+            return new UserRoleDtoResponse(false, "Please check request data!", (int)Constants.EnumStatusCode.BAD_INPUT);
+        }
+
+        public async Task<UserRoleDtoResponse> Delete(UserRoleDtoRequest requests)
+        {
+            var appUser = await _userManager.FindByIdAsync(requests.UserId);
+            if (appUser != null && requests.RoleIds != null && requests.RoleIds.Count > 0)
+            {
+                var role = await _userManager.RemoveFromRolesAsync(appUser, requests.RoleIds);
                 return new UserRoleDtoResponse(role.Succeeded ? null : role.Errors.Select(e => new Core.Dto.Error(e.Code, e.Description)), role.Succeeded);
             }
             return new UserRoleDtoResponse(false, "Please check request data!", (int)Constants.EnumStatusCode.BAD_INPUT);

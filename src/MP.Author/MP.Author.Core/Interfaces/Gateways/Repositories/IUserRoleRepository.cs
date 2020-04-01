@@ -9,6 +9,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
     public interface IUserRoleRepository
     {
-        Task<UserRoleDtoResponse> Create(AddUserRoleDtoRequest requests);
+        Task<UserRoleDtoResponse> Create(UserRoleDtoRequest requests);
+        Task<UserRoleDtoResponse> Delete(UserRoleDtoRequest requests);
     }
 }

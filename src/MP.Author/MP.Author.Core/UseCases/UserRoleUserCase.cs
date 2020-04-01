@@ -21,16 +21,25 @@ namespace MP.Author.Core.UseCases
         }
        
 
-        public async Task<bool> CreateAsync(AddUserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
+        public async Task<bool> Create(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
         {
             var response = await _userRoleRepository.Create(request);
             outputPort.Handle(response);
             return response.Success;
         }
 
-        public Task<bool> Handle(UserRoleDtoRequest message, IOutputPort<UserRoleDtoResponse> outputPort)
+        public async Task<bool> Delete(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
         {
-            return null;
+            var response = await _userRoleRepository.Delete(request);
+            outputPort.Handle(response);
+            return response.Success;
+        }
+
+        public async Task<bool> Handle(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
+        {
+            var response = await _userRoleRepository.Create(request);
+            outputPort.Handle(response);
+            return response.Success;
         }
 
        
