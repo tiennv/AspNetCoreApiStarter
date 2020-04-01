@@ -9,6 +9,8 @@ namespace MP.Author.Core.Dto.UseCaseResponses
     {
         public IEnumerable<Error> Errors { get; }
         public int Id { get; }
+        public List<OperationDto> Operations;
+        public OperationDto Operation;
         public OperationsDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
             Errors = errors;
@@ -18,5 +20,16 @@ namespace MP.Author.Core.Dto.UseCaseResponses
         {
             Id = id;
         }
+
+        public OperationsDtoResponse(List<OperationDto> operations, bool success = false, string message = null) : base(success, message)
+        {
+            Operations = operations; 
+        }
+
+        public OperationsDtoResponse(OperationDto operation, bool success = false, string message = null) : base(success, message)
+        {
+            Operation = operation;
+        }
+
     }
 }

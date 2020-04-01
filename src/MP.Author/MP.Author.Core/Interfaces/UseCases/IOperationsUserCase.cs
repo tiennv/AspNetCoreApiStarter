@@ -8,5 +8,11 @@ namespace MP.Author.Core.Interfaces.UseCases
     public interface IOperationsUserCase : IUseCaseRequestHandler<OperationsDtoRequest, OperationsDtoResponse>
     {
         Task<bool> Delete(List<OperationsDtoRequest> ids, IOutputPort<OperationsDtoResponse> outputPort);
+
+        Task<bool> Get(int id, IOutputPort<OperationsDtoResponse> outputPort);
+
+        Task<bool> GetByObject(int objectId, IOutputPort<OperationsDtoResponse> outputPort);
+
+        Task<bool> Gets(IOutputPort<OperationsDtoResponse> outputPort);
     }
 }

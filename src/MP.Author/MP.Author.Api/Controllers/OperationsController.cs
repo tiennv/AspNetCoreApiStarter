@@ -28,6 +28,28 @@ namespace MP.Author.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("get-by-object/{objectId}")]
+
+        public async Task<ActionResult> GetByObject(int objectId)
+        {
+            await _operationsUserCase.GetByObject(objectId,_operationsPresenter);
+            return _operationsPresenter.ContentResult;
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult> Gets()
+        {
+            await _operationsUserCase.Gets(_operationsPresenter);
+            return _operationsPresenter.ContentResult;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+            await _operationsUserCase.Get(id, _operationsPresenter);
+            return _operationsPresenter.ContentResult;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] OperationsRequest request)
         {
