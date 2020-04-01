@@ -63,7 +63,7 @@ namespace MP.Author.Api.Controllers
             return _userRolePresenter.ContentResult;
         }
 
-        [HttpPost("remove-roles")]
+        [HttpDelete("remove-roles")]
         //[ServiceFilter(typeof(SecurityFilter))]
         public async Task<ActionResult> RemoveRoles([FromBody] UserRoleRequest request)
         {

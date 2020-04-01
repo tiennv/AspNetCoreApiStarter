@@ -31,6 +31,13 @@ namespace MP.Author.Core.UseCases
             return response > 0;
         }
 
+        public async Task<bool> Delete(List<ObjectsDtoRequest> requests, IOutputPort<ObjectsDtoResponse> outputPort)
+        {
+            var response=  await _objectsRepository.Delete(requests);
+            outputPort.Handle(response ? new ObjectsDtoResponse(response, GlobalMessage.DELETE_SUCCESS_MES) : new ObjectsDtoResponse(new[] { new Error(GlobalMessage.DELETE_FAIL_CODE, GlobalMessage.DELETE_FAIL_MES) }));
+            return response;
+        }
+
         public async Task<bool> Handle(ObjectsDtoRequest message, IOutputPort<ObjectsDtoResponse> outputPort)
         {                    
             var response = await _objectsRepository.Create(message);

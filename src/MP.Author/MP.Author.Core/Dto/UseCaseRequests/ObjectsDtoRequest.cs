@@ -21,7 +21,10 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public string Icon { get; set; }
         public List<ObjectsDtoRequest> Childrents { get; set; }
 
-
+        public ObjectsDtoRequest(int id)
+        {
+            Id = id;
+        }
         public ObjectsDtoRequest(int id,string name, string parentName, string method, bool isPage, string controllerName, string actionName, string route,
             string enumAction, string icon, bool isShow, bool isApp, int parentId, List<ObjectsDtoRequest> childrents)
         {

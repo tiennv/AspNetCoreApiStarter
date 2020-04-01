@@ -26,5 +26,10 @@ namespace MP.Author.Api.Models.Request
         public string Icon { get; set; }
 
         public List<ObjectsRequest> Childrents { get; set; }
-    }    
+    }   
+    
+    public class ObjectIdRequest
+    {
+        public int Id { get; set; }
+    }
 }

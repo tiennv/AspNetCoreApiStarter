@@ -62,5 +62,13 @@ namespace MP.Author.Api.Controllers
             await _objectsUserCase.Create(requestDtos, _objectsPresenter);
             return _objectsPresenter.ContentResult;
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody]List<int> requests)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            await _objectsUserCase.Delete(requests.Select(x => new ObjectsDtoRequest(id: x)).ToList(), _objectsPresenter);
+            return _objectsPresenter.ContentResult;
+        }
     }
 }

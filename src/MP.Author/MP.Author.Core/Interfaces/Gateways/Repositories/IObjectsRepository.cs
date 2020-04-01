@@ -11,5 +11,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     {
         Task<bool> Create(ObjectsDtoRequest request);
         Task<int> Create(List<ObjectsDtoRequest> requests);
+        Task<bool> Delete(List<ObjectsDtoRequest> request);
     }
 }

@@ -48,5 +48,13 @@ namespace MP.Author.Infrastructure.Data.Repositories
             var inserted = await _appDbContext.SaveChangesAsync();
             return inserted;
         }
+
+        public async Task<bool> Delete(List<ObjectsDtoRequest> request)
+        {
+            var entities = _mapper.Map<List<Objects>>(request);
+            _appDbContext.Objects.RemoveRange(entities);
+            var inserted = await _appDbContext.SaveChangesAsync();
+            return inserted > 0;
+        }
     }
 }
