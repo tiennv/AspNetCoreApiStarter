@@ -56,5 +56,6 @@ namespace MP.Author.Infrastructure.Data.Repositories
             var inserted = await _appDbContext.SaveChangesAsync();
             return inserted > 0;
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using MP.Author.Core.Converts;
 using MP.Author.Core.Dto;
 using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Dto.UseCaseResponses;
@@ -59,7 +60,7 @@ namespace MP.Author.Core.UseCases
                         await _userRepository.Update(user);
                         var objs = await _userRepository.GetObjects(message.UserName);                        
                         var objParents = objs.Where(x => x.ParentId.Equals(0));                        
-                        var target = ReturnObjects(objs, objParents.ToList());
+                        var target = ObjectsRecusiver.ReturnObjects(objs, objParents.ToList());
                         var roles = await _userRepository.GetRoles(message.UserName);                        
                         // generate access token
                         //outputPort.Handle(new LoginDtoResponse(target, roles, await _jwtFactory.GenerateEncodedToken(user.IdentityId, user.UserName), refreshToken, true));
@@ -72,7 +73,7 @@ namespace MP.Author.Core.UseCases
             outputPort.Handle(new LoginDtoResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
             return false;
         }        
-
+/*
         private List<ObjectDto> ReturnObjects(List<ObjectDto> source, List<ObjectDto> parentRoot)
         {
             var result = new List<ObjectDto>();
@@ -96,6 +97,6 @@ namespace MP.Author.Core.UseCases
                 }
             }
             return target;
-        }       
+        }       */
     }
 }

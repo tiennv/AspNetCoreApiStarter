@@ -26,5 +26,13 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return entityInserted.Entity.Id;
             
         }
+
+        public async Task<bool> Delete(List<OperationsDtoRequest> request)
+        {
+            var entities = _mapper.Map<List<Operations>>(request);
+            _appDbContext.Operations.RemoveRange(entities);
+            var deleted = await _appDbContext.SaveChangesAsync();
+            return deleted > 0;
+        }
     }
 }

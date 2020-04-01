@@ -10,5 +10,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     public interface IOperationsRepository : IRepository<Operations>
     {
         Task<int> Create(OperationsDtoRequest request);
+        Task<bool> Delete(List<OperationsDtoRequest> requests);
     }
 }

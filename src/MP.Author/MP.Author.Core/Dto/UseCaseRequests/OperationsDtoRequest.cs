@@ -16,5 +16,9 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public bool View { get; set; }
         public bool Import { get; set; }
         public bool Export { get; set; }
+        public OperationsDtoRequest(int id)
+        {
+            Id = id;
+        }
     }
 }

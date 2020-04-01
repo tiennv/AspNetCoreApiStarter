@@ -170,8 +170,14 @@ namespace MP.Author.Api
 
             });
 
-
             services.AddScoped<SecurityFilter>();
+
+            //services.AddCors(o => o.AddPolicy("MPAuthorPolicy", builder =>
+            //{
+            //    builder.AllowAnyOrigin()
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader();
+            //}));
 
         }
 

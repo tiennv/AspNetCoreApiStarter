@@ -15,7 +15,7 @@ namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(SecurityFilter))]
+    //[ServiceFilter(typeof(SecurityFilter))]
     public class ObjectsController : ControllerBase
     {
         private readonly IObjectsUserCase _objectsUserCase;
@@ -27,6 +27,20 @@ namespace MP.Author.Api.Controllers
             _objectsUserCase = objectsUserCase;
             _objectsPresenter = objectsPresenter;
             _mapper = mapper;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+            await _objectsUserCase.Get(id, _objectsPresenter);
+            return _objectsPresenter.ContentResult;
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult> Gets()
+        {
+            await _objectsUserCase.Gets(_objectsPresenter);
+            return _objectsPresenter.ContentResult;
         }
 
         [HttpPost]
@@ -52,13 +66,6 @@ namespace MP.Author.Api.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var requestDtos = _mapper.Map<List<ObjectsRequest>, List<ObjectsDtoRequest>>(request);
-            //if(requestDto!=null && requestDto.Count > 0)
-            //{
-            //    foreach(var item in requestDto)
-            //    {
-            //        await _objectsUserCase.Handle(item, _objectsPresenter);
-            //    }
-            //}
             await _objectsUserCase.Create(requestDtos, _objectsPresenter);
             return _objectsPresenter.ContentResult;
         }

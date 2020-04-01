@@ -21,6 +21,13 @@ namespace MP.Author.Core.UseCases
             _operationsRepository = operationsRepository;
         }
 
+        public async Task<bool> Delete(List<OperationsDtoRequest> ids, IOutputPort<OperationsDtoResponse> outputPort)
+        {
+            var response = await _operationsRepository.Delete(ids);
+            outputPort.Handle(response ? new OperationsDtoResponse(0, true, GlobalMessage.DELETE_SUCCESS_MES) : new OperationsDtoResponse(new[] { new Error(GlobalMessage.DELETE_FAIL_CODE, GlobalMessage.DELETE_FAIL_MES) }));
+            return response;
+        }
+
         public async Task<bool> Handle(OperationsDtoRequest message, IOutputPort<OperationsDtoResponse> outputPort)
         {
             var response = await _operationsRepository.Create(message);
