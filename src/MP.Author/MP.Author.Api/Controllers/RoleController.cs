@@ -15,7 +15,7 @@ namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(SecurityFilter))]
+    //[ServiceFilter(typeof(SecurityFilter))]
     public class RoleController : ControllerBase
     {
         private readonly IRoleUserCase _roleUserCase;
@@ -35,6 +35,13 @@ namespace MP.Author.Api.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var requestDto = _mapper.Map<RoleRequest, RoleDtoRequest>(request);
             await _roleUserCase.Handle(requestDto, _rolePresenter);
+            return _rolePresenter.ContentResult;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Gets()
+        {           
+            _roleUserCase.Gets(_rolePresenter);
             return _rolePresenter.ContentResult;
         }
     }

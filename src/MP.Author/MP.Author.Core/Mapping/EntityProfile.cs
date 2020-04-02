@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MP.Author.Core.Domain.Entities;
+using MP.Author.Core.Dto;
+using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using MP.Author.Core.Dto.UseCaseRequests;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace MP.Author.Core.Mapping
 {
@@ -13,6 +13,7 @@ namespace MP.Author.Core.Mapping
         {
             CreateMap<ObjectsDtoRequest, Objects>();//.ForMember(dest=>dest.Permissions, opt=>opt.Ignore());
             CreateMap<OperationsDtoRequest, Operations>();//.ForMember(dest=>dest.Permissions, opt=>opt.Ignore());
+            CreateMap<RoleResponse, RoleDto>();
         }
     }
 }

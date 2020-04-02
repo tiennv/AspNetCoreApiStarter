@@ -13,6 +13,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         Task<RoleResponse> Delete(string id);
         Task<RoleResponse> Update(string id, string name);
         Task<RoleResponse> GetRole(string id);
-        //Task<List<RoleResponse>> GetRoles(User user);
+        List<RoleResponse> Gets();
+
     }
 }

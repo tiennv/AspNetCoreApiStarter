@@ -15,11 +15,10 @@ namespace MP.Author.Infrastructure.Data.Repositories
     public sealed class RoleRepository : IRoleRepository
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IMapper _mapper;
-        public RoleRepository(RoleManager<IdentityRole> roleManager, IMapper mapper)
+        
+        public RoleRepository(RoleManager<IdentityRole> roleManager)
         {
-            _roleManager = roleManager;
-            _mapper = mapper;
+            _roleManager = roleManager;            
         }
 
         public async Task<RoleResponse> Create(string name)
@@ -66,6 +65,16 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return new RoleResponse("", "", false, null);
         }
 
-        
+        public List<RoleResponse> Gets()
+        {
+            var roles = _roleManager.Roles;
+            if (roles != null && roles.Count() > 0)
+            {
+                var responses = roles.Select(x => new RoleResponse(x.Id, x.Name, true, null)).ToList();
+                return responses;
+            }
+
+            return new List<RoleResponse>();
+        }
     }
 }
