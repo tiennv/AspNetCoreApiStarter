@@ -7,6 +7,7 @@ namespace MP.Author.Core.Domain.Entities
 {
     public class Permissions : BaseEntity
     {
+        public string Name { get; set; }
         public int ObjectId { get; set; }
         public int OperationId { get; set; }
         public virtual Objects Object { get; set; }

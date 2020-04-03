@@ -15,7 +15,7 @@ namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(SecurityFilter))]
+    //[ServiceFilter(typeof(SecurityFilter))]
     public class PermissionsController : ControllerBase
     {
         private readonly IPermissionsUserCase _permissionsUserCase;
@@ -29,6 +29,12 @@ namespace MP.Author.Api.Controllers
             _permissionsPresenter = permissionsPresenter;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            await _permissionsUserCase.GetAll(_permissionsPresenter);
+            return _permissionsPresenter.ContentResult;
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PermissionsRequest request)

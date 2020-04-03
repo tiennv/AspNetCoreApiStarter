@@ -43,9 +43,19 @@ namespace MP.Author.Infrastructure.Data.Repositories
 
         public async Task<int> Create(List<ObjectsDtoRequest> requests)
         {
-            var entities = _mapper.Map<List<Objects>>(requests);
-            _appDbContext.Objects.AddRange(entities);
-            var inserted = await _appDbContext.SaveChangesAsync();
+            var inserted = 0;
+            foreach (var item in requests)
+            {
+                var entityInserted = _appDbContext.Objects.Add(_mapper.Map<Objects>(item));
+                inserted = await _appDbContext.SaveChangesAsync();
+                if (inserted > 0 && item.Childrents != null && item.Childrents.Count > 0)
+                {
+                    item.Childrents.ForEach(x => x.ParentId = entityInserted.Entity.Id);
+                    _appDbContext.Objects.AddRange(_mapper.Map<List<Objects>>(item.Childrents));
+                    await _appDbContext.SaveChangesAsync();
+                }
+            }
+            
             return inserted;
         }
 

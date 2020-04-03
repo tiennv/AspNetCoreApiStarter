@@ -21,6 +21,7 @@ namespace MP.Author.Core.Dto
         public string Id { get; set; }
         public string ObjectId { get; set; }
         public string OperationId { get; set; }
+        public string Name { get; set; }
     }
 
     public class RolePermissionDto
@@ -60,6 +61,7 @@ namespace MP.Author.Core.Dto
         public string EnumAction { get; private set; }
         public string Icon { get; private set; }
         public OperationDto Operation { get; set; }
+        public List<OperationDto> Operations { get; set; }
         public List<ObjectDto> Childrents { get; set; }
     }    
 }

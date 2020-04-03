@@ -15,7 +15,7 @@ namespace MP.Author.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(SecurityFilter))]
+    //[ServiceFilter(typeof(SecurityFilter))]
     public class RolePermissionController : ControllerBase
     {
         private readonly IRolePermissionUserCase _rolePermissionsUserCase;

@@ -1,4 +1,5 @@
-﻿using MP.Author.Core.Dto;
+﻿using AutoMapper;
+using MP.Author.Core.Dto;
 using MP.Author.Core.Dto.UseCaseRequests;
 using MP.Author.Core.Dto.UseCaseResponses;
 using MP.Author.Core.Helpers;
@@ -15,9 +16,19 @@ namespace MP.Author.Core.UseCases
     public class PermissionsUserCase : IPermissionsUserCase
     {
         private readonly IPermissionsRepository _permissionsRepository;
-        public PermissionsUserCase(IPermissionsRepository permissionsRepository)
+        private readonly IMapper _mapper;
+        public PermissionsUserCase(IPermissionsRepository permissionsRepository, IMapper mapper)
         {
             _permissionsRepository = permissionsRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<bool> GetAll(IOutputPort<PermissionsDtoResponse> outputPort)
+        {
+            var entities = await _permissionsRepository.ListAll();
+            var objDto = _mapper.Map<List<PermissionDto>>(entities);
+            outputPort.Handle(new PermissionsDtoResponse(objDto, true, ""));
+            return true;
         }
 
         public async Task<bool> Handle(PermissionsDtoRequest message, IOutputPort<PermissionsDtoResponse> outputPort)
@@ -31,7 +42,7 @@ namespace MP.Author.Core.UseCases
             }
             else
             {
-                outputPort.Handle(new PermissionsDtoResponse(message.Id, message.ObjectId, message.OperationId,false, GlobalMessage.EXIST_ITEM, 400));
+                outputPort.Handle(new PermissionsDtoResponse(message.Id, message.ObjectId, message.OperationId, message.Name,false, GlobalMessage.EXIST_ITEM, 400));
                 return false;
             }
         }

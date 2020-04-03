@@ -9,14 +9,13 @@ namespace MP.Author.Core.Converts
     public class ObjectsRecusiver
     {
         public static List<ObjectDto> ReturnObjects(List<ObjectDto> source, List<ObjectDto> parentRoot)
-        {
-            var result = new List<ObjectDto>();
-
+        {            
             foreach (var item in parentRoot)
             {
-                RecusiveObjects(source, item, result);
+                RecusiveObjects(source, item, parentRoot);
             }
-            return result;
+            
+            return parentRoot;
         }
 
         private static List<ObjectDto> RecusiveObjects(List<ObjectDto> childs, ObjectDto parents, List<ObjectDto> target)
@@ -25,12 +24,12 @@ namespace MP.Author.Core.Converts
             if (objChild != null && objChild.Count() > 0)
             {
                 parents.Childrents = objChild.ToList();
-                target.Add(parents);
+                //target.Add(parents);
                 foreach (var child in objChild)
                 {
                     return RecusiveObjects(childs, child, target);
                 }
-            }
+            }            
             return target;
         }
     }

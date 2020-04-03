@@ -16,29 +16,15 @@ namespace MP.Author.Core.UseCases
 {
     public sealed class LoginUseCase : ILoginUseCase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IPermissionsRepository _permissionsRepository;
-        private readonly IOperationsRepository _operationsRepository;
-        private readonly IRolePermissionRepository _rolePermissionRepository;
-        private readonly IObjectsRepository _objectsRepository;
+        private readonly IUserRepository _userRepository;        
         private readonly IJwtFactory _jwtFactory;
-        private readonly ITokenFactory _tokenFactory;
-        private readonly IMapper _mapper;
+        private readonly ITokenFactory _tokenFactory;        
 
-        public LoginUseCase(IUserRepository userRepository, IPermissionsRepository permissionsRepository, 
-            IOperationsRepository operationsRepository, IObjectsRepository objectsRepository,
-            IRolePermissionRepository rolePermissionRepository,
-            IJwtFactory jwtFactory, ITokenFactory tokenFactory,
-            IMapper mapper)
+        public LoginUseCase(IUserRepository userRepository,IJwtFactory jwtFactory, ITokenFactory tokenFactory)
         {
             _userRepository = userRepository;
             _jwtFactory = jwtFactory;
-            _tokenFactory = tokenFactory;
-            _permissionsRepository = permissionsRepository;
-            _operationsRepository = operationsRepository;
-            _objectsRepository = objectsRepository;
-            _rolePermissionRepository = rolePermissionRepository;
-            _mapper = mapper;
+            _tokenFactory = tokenFactory;            
         }
 
         public async Task<bool> Handle(LoginDtoRequest message, IOutputPort<LoginDtoResponse> outputPort)

@@ -10,6 +10,7 @@ namespace MP.Author.Api.Models.Request
         public int Id { get; set; }
         public int ObjectId { get; set; }
         public int OperationId { get; set; }
+        public string Name { get; set; }
     }
     
 }
