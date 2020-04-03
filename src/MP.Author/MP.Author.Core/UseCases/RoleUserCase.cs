@@ -17,10 +17,12 @@ namespace MP.Author.Core.UseCases
     public class RoleUserCase : IRoleUserCase
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public RoleUserCase(IRoleRepository roleRepository, IMapper mapper)
+        public RoleUserCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
+            _permissionsRepository = permissionsRepository;
             _mapper = mapper;
         }
 
@@ -28,6 +30,7 @@ namespace MP.Author.Core.UseCases
         {
             var roles = _roleRepository.Gets();
             var response = _mapper.Map<List<RoleDto>>(roles);
+            response.ForEach(x => x.Permissions = GetPermissionByRole(x.Id));
             outputPort.Handle(roles != null && roles.Count > 0 ? new RoleDtoResponse(response, true, "") : new RoleDtoResponse(new List<Error>(), false, "Has not roles!"));
             return response!=null && response.Count > 0;
         }
@@ -37,6 +40,12 @@ namespace MP.Author.Core.UseCases
             var response = await _roleRepository.Create(message.Name);
             outputPort.Handle(response.Success  ? new RoleDtoResponse(response.Id, response.Name, true, GlobalMessage.INSERT_SUCCESS_MES) : new RoleDtoResponse(response.Errors, response.Success, response.Errors!=null ? response.Errors.FirstOrDefault().Description : ""));
             return response.Success;
+        }
+
+        private List<PermissionDto> GetPermissionByRole(string roleId)
+        {
+            var pers = _permissionsRepository.GetPermissionsByRoleId(roleId);
+            return _mapper.Map<List<PermissionDto>>(pers);
         }
     }
 }

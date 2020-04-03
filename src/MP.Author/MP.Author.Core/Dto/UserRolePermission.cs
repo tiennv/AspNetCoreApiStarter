@@ -14,6 +14,7 @@ namespace MP.Author.Core.Dto
     {
         public string Id { get; set; }
         public string Name { get; set; }        
+        public List<PermissionDto> Permissions { get; set; }
     }
 
     public class PermissionDto
@@ -62,7 +63,7 @@ namespace MP.Author.Core.Dto
         public string Icon { get; private set; }
         public OperationDto Operation { get; set; }
         public List<OperationDto> Operations { get; set; }
-        public List<ObjectDto> Childrents { get; set; }
+        public List<ObjectDto> children { get; set; }
     }    
 }
 

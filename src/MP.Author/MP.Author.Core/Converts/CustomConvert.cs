@@ -23,7 +23,7 @@ namespace MP.Author.Core.Converts
             var objChild = childs.Where(x => x.ParentId.Equals(parents.Id));
             if (objChild != null && objChild.Count() > 0)
             {
-                parents.Childrents = objChild.ToList();
+                parents.children = objChild.ToList();
                 //target.Add(parents);
                 foreach (var child in objChild)
                 {

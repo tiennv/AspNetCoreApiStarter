@@ -1,5 +1,6 @@
 ﻿using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Dto.UseCaseResponses;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     {
         Task<int> Create(PermissionsDtoRequest request);
         bool CheckExistObjectOperation(PermissionsDtoRequest request);
-        //List<Permissions> GetPermissionsByRoleId(string roleId);
+        List<Permissions> GetPermissionsByRoleId(string roleId);
     }
 }

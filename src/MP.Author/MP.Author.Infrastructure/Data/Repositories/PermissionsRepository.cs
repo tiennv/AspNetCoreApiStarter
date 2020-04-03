@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Dto.UseCaseResponses;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,22 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return entityInserted.Entity.Id;
         }
 
-        
+        public List<Permissions> GetPermissionsByRoleId(string roleId)
+        {
+            var entites = (from p in _appDbContext.Permissions
+                          join r in _appDbContext.Role_Permission
+                          on p.Id equals r.PermissionId
+                          where r.RoleId.Equals(roleId)
+                          select new Permissions
+                          {
+                              Id = p.Id,
+                              Name = p.Name,
+                              ObjectId = p.ObjectId,
+                              OperationId = p.OperationId                              
+                          }).ToList();
+
+            return entites;
+                    
+        }
     }
 }
