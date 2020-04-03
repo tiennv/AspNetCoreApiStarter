@@ -4,6 +4,7 @@ using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto;
 using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
+using MP.Author.Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,16 @@ namespace MP.Author.Infrastructure.Data.Repositories
 {
     public sealed class RoleRepository : IRoleRepository
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<AppRole> _roleManager;
         
-        public RoleRepository(RoleManager<IdentityRole> roleManager)
+        public RoleRepository(RoleManager<AppRole> roleManager)
         {
             _roleManager = roleManager;            
         }
 
         public async Task<RoleResponse> Create(string name)
         {
-            var identityResult = await _roleManager.CreateAsync(new IdentityRole { Name = name });            
+            var identityResult = await _roleManager.CreateAsync(new AppRole { Name = name });            
             return new RoleResponse("", name, identityResult.Succeeded, identityResult.Errors.Select(e => new Error(e.Code, e.Description)));
         }
 

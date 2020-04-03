@@ -17,7 +17,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
     public sealed class UserRepository : EfRepository<User>, IUserRepository
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
         //public UserRepository(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, AppDbContext appDbContext, AppIdentityDbContext appIdentityDbContext) : base(appDbContext, appIdentityDbContext)
         //{
@@ -25,7 +25,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
         //    _mapper = mapper;
         //    _roleManager = roleManager;
         //}
-        public UserRepository(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, 
+        public UserRepository(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, 
             AppDbContext appDbContext) : base(appDbContext)
         {
             _userManager = userManager;

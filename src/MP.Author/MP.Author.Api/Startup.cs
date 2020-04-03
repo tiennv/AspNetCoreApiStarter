@@ -127,13 +127,14 @@ namespace MP.Author.Api
                 o.Password.RequiredLength = 6;
             });         
 
-            identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
+            identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(AppRole), identityBuilder.Services);
             identityBuilder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-    
-             // Auto Mapper
-             services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile), typeof(EntityProfile) });
+            //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+
+            // Auto Mapper
+            services.AddAutoMapper(new[] { typeof(DataProfile), typeof(RequestProfile), typeof(EntityProfile) });
             
             
             //services.AddSingleton(mapper);
