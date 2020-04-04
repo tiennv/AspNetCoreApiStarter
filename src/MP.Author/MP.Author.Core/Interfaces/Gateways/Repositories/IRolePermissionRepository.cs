@@ -11,6 +11,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
     {
         Task<int> Create(RolePermissionDtoRequest request);
         Task<int> Create(List<RolePermissionDtoRequest> requests);
-        List<Role_Permission> GetPermissionsByRoleId(string roleId);
+        List<Role_Permission> GetPermissionsByRoleId(string roleId);        
     }
 }

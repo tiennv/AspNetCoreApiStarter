@@ -15,6 +15,7 @@ namespace MP.Author.Core.Mapping
             CreateMap<OperationsDtoRequest, Operations>();//.ForMember(dest=>dest.Permissions, opt=>opt.Ignore());
             CreateMap<RoleResponse, RoleDto>();
             CreateMap<Permissions, PermissionDto>();
+            CreateMap<RolePermissionDtoRequest, Role_Permission>();
         }
     }
 }
