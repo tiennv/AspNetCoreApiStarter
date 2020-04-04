@@ -19,12 +19,7 @@ namespace MP.Author.Infrastructure.Data.Repositories
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
-        //public UserRepository(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, AppDbContext appDbContext, AppIdentityDbContext appIdentityDbContext) : base(appDbContext, appIdentityDbContext)
-        //{
-        //    _userManager = userManager;
-        //    _mapper = mapper;
-        //    _roleManager = roleManager;
-        //}
+       
         public UserRepository(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, 
             AppDbContext appDbContext) : base(appDbContext)
         {
@@ -148,5 +143,11 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return false;
         }
 
+        public async Task<List<UserDto>> GetAllUser()
+        {
+            var userEntities = _userManager.Users.ToList();
+
+            return _mapper.Map<List<UserDto>>(userEntities);
+        }
     }
 }

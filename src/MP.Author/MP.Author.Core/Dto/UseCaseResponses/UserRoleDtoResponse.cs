@@ -8,7 +8,7 @@ namespace MP.Author.Core.Dto.UseCaseResponses
     public class UserRoleDtoResponse : UseCaseResponseMessage
     {
         public IEnumerable<Error> Errors { get; }
-
+        public List<UserRoleDto> UserRoles { get; }
         public UserRoleDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null, int statusCode = 200) : base(success, message, statusCode)
         {
             Errors = errors;
@@ -16,6 +16,11 @@ namespace MP.Author.Core.Dto.UseCaseResponses
 
         public UserRoleDtoResponse( bool success = false, string message = null, int statusCode=200) : base(success, message, statusCode)
         {
+        }
+
+        public UserRoleDtoResponse(List<UserRoleDto> userRoles, bool success = false, string message = null, int statusCode = 200) : base(success, message, statusCode)
+        {
+            UserRoles = userRoles;
         }
     }
 }

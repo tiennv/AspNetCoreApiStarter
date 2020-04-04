@@ -44,5 +44,12 @@ namespace MP.Author.Api.Controllers
             _roleUserCase.Gets(_rolePresenter);
             return _rolePresenter.ContentResult;
         }
+
+        [HttpGet("get-by-user/{userId}")]
+        public async Task<ActionResult> GetByUser(string userId)
+        {
+            await _roleUserCase.GetByUserAsync(userId, _rolePresenter);
+            return _rolePresenter.ContentResult;
+        }
     }
 }

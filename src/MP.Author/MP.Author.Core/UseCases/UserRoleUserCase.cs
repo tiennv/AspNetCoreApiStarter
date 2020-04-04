@@ -35,6 +35,11 @@ namespace MP.Author.Core.UseCases
             return response.Success;
         }
 
+        public Task<bool> GetAllUser(IOutputPort<UserRoleDtoResponse> outputPort)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Handle(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort)
         {
             var response = await _userRoleRepository.Create(request);

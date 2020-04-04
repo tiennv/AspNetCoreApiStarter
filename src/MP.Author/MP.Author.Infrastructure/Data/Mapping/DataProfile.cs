@@ -27,6 +27,9 @@ namespace MP.Author.Infrastructure.Data.Mapping
             CreateMap<OperationsDtoRequest, Operations>().ForMember(dest => dest.Permissions, opt => opt.Ignore());
             CreateMap<PermissionsDtoRequest, Permissions>();                
             CreateMap<RolePermissionDtoRequest, Role_Permission>();
+            CreateMap<AppUser, UserDto>().ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id)).
+                                            ForMember(dest=>dest.Id, opt=> opt.Ignore());
+            CreateMap<AppRole, UserRoleDto>();
         }
     }
 }

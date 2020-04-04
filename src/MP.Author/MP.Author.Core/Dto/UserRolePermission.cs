@@ -10,6 +10,24 @@ namespace MP.Author.Core.Dto
     {
     }
 
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Phonenumber { get; set; }
+        public string Fullname { get; set; }
+        public List<UserRoleDto> UserRoles { get; set; }
+    }
+
+    public class UserRoleDto
+    {
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
+    }
+
     public class RoleDto
     {
         public string Id { get; set; }

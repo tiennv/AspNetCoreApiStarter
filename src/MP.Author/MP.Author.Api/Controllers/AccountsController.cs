@@ -22,16 +22,18 @@ namespace MP.Author.Api.Controllers
         private readonly IUserRoleUserCase _userRoleUserCase;
         private readonly RegisterUserPresenter _registerUserPresenter;
         private readonly UserRolePresenter _userRolePresenter;
+        private readonly UserPresenter _userPresenter;
         private readonly IMapper _mapper;
 
         public AccountsController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter, 
-            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter,
+            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter, UserPresenter userPresenter,
             IMapper mapper)
         {
             _registerUserUseCase = registerUserUseCase;
             _registerUserPresenter = registerUserPresenter;
             _userRoleUserCase = userRoleUserCase;
             _userRolePresenter = userRolePresenter;
+            _userPresenter = userPresenter;
             _mapper = mapper;
         }
 
@@ -77,6 +79,13 @@ namespace MP.Author.Api.Controllers
            await _userRoleUserCase.Delete(requestDto, _userRolePresenter);
 
             return _userRolePresenter.ContentResult;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<ActionResult> GetAllUser()
+        {
+            await _registerUserUseCase.GetAllUser(_userPresenter);
+            return _userPresenter.ContentResult;
         }
 
     }

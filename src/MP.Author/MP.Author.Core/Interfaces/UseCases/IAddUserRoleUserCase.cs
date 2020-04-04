@@ -11,5 +11,6 @@ namespace MP.Author.Core.Interfaces.UseCases
     {
         Task<bool> Create(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort);
         Task<bool> Delete(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort);
+        Task<bool> GetAllUser(IOutputPort<UserRoleDtoResponse> outputPort);
     }
 }

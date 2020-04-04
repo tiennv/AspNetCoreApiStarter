@@ -24,5 +24,7 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
         Task<List<RoleDto>> GetRoles(string username);
 
         Task<List<ObjectDto>> GetObjects(string username);
+
+        Task<List<UserDto>> GetAllUser();
     }
 }

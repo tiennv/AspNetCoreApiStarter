@@ -17,13 +17,25 @@ namespace MP.Author.Core.UseCases
     public class RoleUserCase : IRoleUserCase
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public RoleUserCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
+        public RoleUserCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, 
+            IUserRoleRepository userRoleRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
             _permissionsRepository = permissionsRepository;
+            _userRoleRepository = userRoleRepository;
             _mapper = mapper;
+        }
+
+        public async Task<bool> GetByUserAsync(string userid, IOutputPort<RoleDtoResponse> outputPort)
+        {
+            var userRoleDtos = await _userRoleRepository.GetRoleByUserId(userid);
+            var response = _mapper.Map<List<RoleDto>>(userRoleDtos);
+            outputPort.Handle(new RoleDtoResponse(response, true, ""));
+
+            return true;
         }
 
         public bool Gets(IOutputPort<RoleDtoResponse> outputPort)
