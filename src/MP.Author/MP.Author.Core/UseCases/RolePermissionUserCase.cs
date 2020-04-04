@@ -43,6 +43,7 @@ namespace MP.Author.Core.UseCases
             return true;
         }       
 
+        // TODO: xem cho nay de lam cho nhung cho khac
         private async Task PopulatorRolePermissionsAsync(List<Role_Permission> currents, List<Role_Permission> news)
         {
             var listStay = new List<Role_Permission>();
@@ -52,27 +53,12 @@ namespace MP.Author.Core.UseCases
             if (currents.Count > news.Count)
             {
                 listStay = currents.Where(s => news.Any(n => n.PermissionId.Equals(s.PermissionId))).ToList();
-                //listRemove = currents.Where(s => news.All(n => !n.PermissionId.Equals(s.PermissionId))).ToList();
-
             }
             else
             {
                 // xem trong list news co item nao van giu, khong remove di
                 listStay = news.Where(s => currents.Any(n => n.PermissionId.Equals(s.PermissionId))).ToList();
-
-                //if (listStay != null && listStay.Count > 0)
-                //{
-                //    // lay ra list add moi theo list news
-                //    listAdd = news.Where(n => listStay.All(s => !s.PermissionId.Equals(n.PermissionId))).ToList();
-
-                //    // list remove 
-                //    listRemove = currents.Where(s => news.All(n => !n.PermissionId.Equals(s.PermissionId))).ToList();
-                //}
-                //else
-                //{
-                //    listAdd = news;
-                //    listRemove = currents;
-                //}
+                
             }
 
             if (listStay != null && listStay.Count > 0)
