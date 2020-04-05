@@ -11,5 +11,14 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public int Id { get; set; }
         public string RoleId { get; set; }
         public int PermissionId { get; set; }
+        public List<RoleObjectOpermationRequest> Objects { get; set; }
+    }
+
+    public class RoleObjectOpermationRequest
+    {
+        public int ObjectId { get; set; }
+        public int PermissionId { get; set; }
+        public int OperationId { get; set; }
+        public OperationsDtoRequest Operation { get; set; }
     }
 }

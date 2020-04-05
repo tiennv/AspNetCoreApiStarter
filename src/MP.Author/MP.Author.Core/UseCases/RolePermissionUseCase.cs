@@ -19,11 +19,17 @@ namespace MP.Author.Core.UseCases
     {
         private readonly IRolePermissionRepository _rolePermissionRepository;
         private readonly IPermissionsRepository _permissionsRepository;
+        private readonly IOperationsRepository _operationsRepository;
+        private readonly IObjectsRepository _objectsRepository;
         private readonly IMapper _mapper;
-        public RolePermissionUseCase(IRolePermissionRepository rolePermissionRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
+        public RolePermissionUseCase(IRolePermissionRepository rolePermissionRepository, IPermissionsRepository permissionsRepository,
+            IOperationsRepository operationsRepository, IObjectsRepository objectsRepository,
+            IMapper mapper)
         {
             _rolePermissionRepository = rolePermissionRepository;
             _permissionsRepository = permissionsRepository;
+            _operationsRepository = operationsRepository;
+            _objectsRepository = objectsRepository;
             _mapper = mapper;
         }
 
@@ -84,6 +90,41 @@ namespace MP.Author.Core.UseCases
             {
                 await _rolePermissionRepository.Add(item);
             }
+        }
+
+        public async Task<bool> SetRoleObjectPermission(RolePermissionDtoRequest requests)
+        {
+            foreach(var item in requests.Objects)
+            {
+                var objOperation = new Operations();
+                if (item.Operation.Id > 0)
+                {
+                    objOperation = _mapper.Map<Operations>(item.Operation);
+                    await _operationsRepository.Update(objOperation);                    
+                }
+                else
+                {
+                    objOperation = await _operationsRepository.Add(_mapper.Map<Operations>(item.Operation));
+                }
+                if (objOperation != null)
+                {                    
+                    if (item.PermissionId > 0)
+                    {
+                        var objPerTem = new Permissions(item.ObjectId, objOperation.Id);
+                        objPerTem.Id = item.PermissionId;
+                        await _permissionsRepository.Update(objPerTem);                        
+                    }
+                    else {
+                        var objPermission = await _permissionsRepository.Add(new Permissions(item.ObjectId, objOperation.Id));
+                        if (objPermission != null)
+                        {
+                            var objRolePermission = await _rolePermissionRepository.Add(new Role_Permission(requests.RoleId, objPermission.Id));
+                        }
+                    }
+                    
+                }
+            }            
+            return true;
         }
     }
 }

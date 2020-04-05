@@ -35,7 +35,7 @@ namespace MP.Author.Api.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var requestDto = _mapper.Map<RolePermissionRequest, RolePermissionDtoRequest>(request);
-            await _rolePermissionsUserCase.Handle(requestDto, _rolePermissionsPresenter);
+            await _rolePermissionsUserCase.SetRoleObjectPermission(requestDto);
             return _rolePermissionsPresenter.ContentResult;
         }
 
