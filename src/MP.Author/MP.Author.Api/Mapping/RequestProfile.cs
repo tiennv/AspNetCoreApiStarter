@@ -15,6 +15,7 @@ namespace MP.Author.Api.Mapping
             CreateMap<RoleRequest, RoleDtoRequest>();
             CreateMap<UserRoleRequest, UserRoleDtoRequest>();
             CreateMap<AddUserRoleRequest, AddUserRoleDtoRequest>();
+            CreateMap<MenusRequest, MenusDtoRequest>();
             //CreateMap<AppUser, User>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email)).
             //                           ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash)).
             //                           ForAllOtherMembers(opt => opt.Ignore());

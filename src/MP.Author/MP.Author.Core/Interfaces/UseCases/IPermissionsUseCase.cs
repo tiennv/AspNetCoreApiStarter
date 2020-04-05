@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IPermissionsUserCase : IUseCaseRequestHandler<PermissionsDtoRequest, PermissionsDtoResponse>
+    public interface IPermissionsUseCase : IUseCaseRequestHandler<PermissionsDtoRequest, PermissionsDtoResponse>
     {
         Task<bool> GetAll(IOutputPort<PermissionsDtoResponse> outputPort);
     }

@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class RoleUserCase : IRoleUserCase
+    public class RoleUseCase : IRoleUseCase
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public RoleUserCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, 
+        public RoleUseCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, 
             IUserRoleRepository userRoleRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;

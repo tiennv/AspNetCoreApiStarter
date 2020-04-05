@@ -36,6 +36,8 @@ namespace MP.Author.Infrastructure.Data
         public DbSet<Operations> Operations { get; set; }
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<Role_Permission> Role_Permission { get; set; }
+        public DbSet<Menus> Menus { get; set; }
+        public DbSet<MenuItems> MenuItems { get; set; }
 
         public override int SaveChanges()
         {

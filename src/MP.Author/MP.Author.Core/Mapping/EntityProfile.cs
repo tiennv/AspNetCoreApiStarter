@@ -18,6 +18,9 @@ namespace MP.Author.Core.Mapping
             CreateMap<RolePermissionDtoRequest, Role_Permission>();
             CreateMap<UserRoleDto, RoleDto>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RoleId)).
                                                 ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.RoleName));
+
+            CreateMap<MenusDtoRequest, Menus>();
+            CreateMap<Menus, MenusDto>();
         }
     }
 }

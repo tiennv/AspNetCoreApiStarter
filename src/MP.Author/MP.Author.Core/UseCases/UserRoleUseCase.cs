@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class UserRoleUserCase : IUserRoleUserCase
+    public class UserRoleUseCase : IUserRoleUseCase
     {
         private readonly IUserRoleRepository _userRoleRepository;
 
-        public UserRoleUserCase(IUserRoleRepository userRoleRepository)
+        public UserRoleUseCase(IUserRoleRepository userRoleRepository)
         {
             _userRoleRepository = userRoleRepository;
         }

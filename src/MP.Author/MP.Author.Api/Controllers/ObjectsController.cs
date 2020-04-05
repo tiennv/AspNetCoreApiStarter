@@ -18,11 +18,11 @@ namespace MP.Author.Api.Controllers
     //[ServiceFilter(typeof(SecurityFilter))]
     public class ObjectsController : ControllerBase
     {
-        private readonly IObjectsUserCase _objectsUserCase;
+        private readonly IObjectsUseCase _objectsUserCase;
         private readonly ObjectsPresenter _objectsPresenter;
         private readonly IMapper _mapper;
 
-        public ObjectsController(IObjectsUserCase objectsUserCase, ObjectsPresenter objectsPresenter, IMapper mapper)
+        public ObjectsController(IObjectsUseCase objectsUserCase, ObjectsPresenter objectsPresenter, IMapper mapper)
         {
             _objectsUserCase = objectsUserCase;
             _objectsPresenter = objectsPresenter;

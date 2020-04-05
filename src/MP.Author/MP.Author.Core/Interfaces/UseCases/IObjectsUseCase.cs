@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IObjectsUserCase : IUseCaseRequestHandler<ObjectsDtoRequest, ObjectsDtoResponse>
+    public interface IObjectsUseCase : IUseCaseRequestHandler<ObjectsDtoRequest, ObjectsDtoResponse>
     {
         Task<bool> Get(int id, IOutputPort<ObjectsDtoResponse> outputPort);
         Task<bool> Gets(IOutputPort<ObjectsDtoResponse> outputPort);

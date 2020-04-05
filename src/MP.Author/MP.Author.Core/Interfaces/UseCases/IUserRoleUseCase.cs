@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IUserRoleUserCase : IUseCaseRequestHandler<UserRoleDtoRequest, UserRoleDtoResponse>
+    public interface IUserRoleUseCase : IUseCaseRequestHandler<UserRoleDtoRequest, UserRoleDtoResponse>
     {
         Task<bool> Create(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort);
         Task<bool> Delete(UserRoleDtoRequest request, IOutputPort<UserRoleDtoResponse> outputPort);

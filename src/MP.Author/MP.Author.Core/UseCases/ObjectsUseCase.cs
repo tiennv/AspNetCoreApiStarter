@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class ObjectsUserCase : IObjectsUserCase
+    public class ObjectsUseCase : IObjectsUseCase
     {
         private readonly IObjectsRepository _objectsRepository;
         private readonly IMapper _mapper;
-        public ObjectsUserCase(IObjectsRepository objectsRepository, IMapper mapper)
+        public ObjectsUseCase(IObjectsRepository objectsRepository, IMapper mapper)
         {
             _objectsRepository = objectsRepository;
             _mapper = mapper;

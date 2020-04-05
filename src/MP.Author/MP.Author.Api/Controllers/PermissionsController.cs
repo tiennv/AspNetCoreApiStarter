@@ -18,11 +18,11 @@ namespace MP.Author.Api.Controllers
     //[ServiceFilter(typeof(SecurityFilter))]
     public class PermissionsController : ControllerBase
     {
-        private readonly IPermissionsUserCase _permissionsUserCase;
+        private readonly IPermissionsUseCase _permissionsUserCase;
         private readonly PermissionsPresenter _permissionsPresenter;
         private readonly IMapper _mapper;
 
-        public PermissionsController(IMapper mapper, IPermissionsUserCase permissionsUserCase, PermissionsPresenter permissionsPresenter)
+        public PermissionsController(IMapper mapper, IPermissionsUseCase permissionsUserCase, PermissionsPresenter permissionsPresenter)
         {
             _mapper = mapper;
             _permissionsUserCase = permissionsUserCase;

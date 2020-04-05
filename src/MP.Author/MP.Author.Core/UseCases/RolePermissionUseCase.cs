@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class RolePermissionUserCase : IRolePermissionUserCase
+    public class RolePermissionUseCase : IRolePermissionUseCase
     {
         private readonly IRolePermissionRepository _rolePermissionRepository;
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public RolePermissionUserCase(IRolePermissionRepository rolePermissionRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
+        public RolePermissionUseCase(IRolePermissionRepository rolePermissionRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
         {
             _rolePermissionRepository = rolePermissionRepository;
             _permissionsRepository = permissionsRepository;

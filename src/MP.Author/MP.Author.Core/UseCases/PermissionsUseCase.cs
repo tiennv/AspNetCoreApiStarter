@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class PermissionsUserCase : IPermissionsUserCase
+    public class PermissionsUseCase : IPermissionsUseCase
     {
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public PermissionsUserCase(IPermissionsRepository permissionsRepository, IMapper mapper)
+        public PermissionsUseCase(IPermissionsRepository permissionsRepository, IMapper mapper)
         {
             _permissionsRepository = permissionsRepository;
             _mapper = mapper;

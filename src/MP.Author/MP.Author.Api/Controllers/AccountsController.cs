@@ -19,14 +19,14 @@ namespace MP.Author.Api.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IRegisterUserUseCase _registerUserUseCase;
-        private readonly IUserRoleUserCase _userRoleUserCase;
+        private readonly IUserRoleUseCase _userRoleUserCase;
         private readonly RegisterUserPresenter _registerUserPresenter;
         private readonly UserRolePresenter _userRolePresenter;
         private readonly UserPresenter _userPresenter;
         private readonly IMapper _mapper;
 
         public AccountsController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter, 
-            IUserRoleUserCase userRoleUserCase, UserRolePresenter userRolePresenter, UserPresenter userPresenter,
+            IUserRoleUseCase userRoleUserCase, UserRolePresenter userRolePresenter, UserPresenter userPresenter,
             IMapper mapper)
         {
             _registerUserUseCase = registerUserUseCase;

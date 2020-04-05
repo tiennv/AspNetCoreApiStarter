@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IRoleUserCase : IUseCaseRequestHandler<RoleDtoRequest, RoleDtoResponse>
+    public interface IRoleUseCase : IUseCaseRequestHandler<RoleDtoRequest, RoleDtoResponse>
     {
         bool Gets(IOutputPort<RoleDtoResponse> outputPort);
         Task<bool> GetByUserAsync(string userid, IOutputPort<RoleDtoResponse> outputPort);

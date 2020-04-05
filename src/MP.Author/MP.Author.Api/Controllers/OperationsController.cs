@@ -17,11 +17,11 @@ namespace MP.Author.Api.Controllers
     [ApiController]
     public class OperationsController : ControllerBase
     {
-        private readonly IOperationsUserCase _operationsUserCase;
+        private readonly IOperationsUseCase _operationsUserCase;
         private readonly OperationsPresenter _operationsPresenter;
         private readonly IMapper _mapper;
 
-        public OperationsController(IOperationsUserCase operationsUserCase, OperationsPresenter operationsPresenter, IMapper mapper)
+        public OperationsController(IOperationsUseCase operationsUserCase, OperationsPresenter operationsPresenter, IMapper mapper)
         {
             _operationsUserCase = operationsUserCase;
             _operationsPresenter = operationsPresenter;

@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.UseCases
 {
-    public class OperationsUserCase : IOperationsUserCase
+    public class OperationsUseCase : IOperationsUseCase
     {
         private readonly IOperationsRepository _operationsRepository;
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
-        public OperationsUserCase(IOperationsRepository operationsRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
+        public OperationsUseCase(IOperationsRepository operationsRepository, IPermissionsRepository permissionsRepository, IMapper mapper)
         {
             _operationsRepository = operationsRepository;
             _permissionsRepository = permissionsRepository;

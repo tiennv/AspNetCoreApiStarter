@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MP.Author.Core.Interfaces.UseCases
 {
-    public interface IRolePermissionUserCase : IUseCaseRequestHandler<RolePermissionDtoRequest, RolePermissionDtoResponse>
+    public interface IRolePermissionUseCase : IUseCaseRequestHandler<RolePermissionDtoRequest, RolePermissionDtoResponse>
     {
         Task<bool> Create(List<RolePermissionDtoRequest> requests, IOutputPort<RolePermissionDtoResponse> outputPort);
     }
