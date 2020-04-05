@@ -96,32 +96,37 @@ namespace MP.Author.Core.UseCases
         {
             foreach(var item in requests.Objects)
             {
-                var objOperation = new Operations();
-                if (item.Operation.Id > 0)
+                if (item.Operation != null)
                 {
-                    objOperation = _mapper.Map<Operations>(item.Operation);
-                    await _operationsRepository.Update(objOperation);                    
-                }
-                else
-                {
-                    objOperation = await _operationsRepository.Add(_mapper.Map<Operations>(item.Operation));
-                }
-                if (objOperation != null)
-                {                    
-                    if (item.PermissionId > 0)
+                    var objOperation = new Operations();
+
+                    if (item.Operation.Id > 0)
                     {
-                        var objPerTem = new Permissions(item.ObjectId, objOperation.Id);
-                        objPerTem.Id = item.PermissionId;
-                        await _permissionsRepository.Update(objPerTem);                        
+                        objOperation = _mapper.Map<Operations>(item.Operation);
+                        await _operationsRepository.Update(objOperation);
                     }
-                    else {
-                        var objPermission = await _permissionsRepository.Add(new Permissions(item.ObjectId, objOperation.Id));
-                        if (objPermission != null)
+                    else
+                    {
+                        objOperation = await _operationsRepository.Add(_mapper.Map<Operations>(item.Operation));
+                    }
+                    if (objOperation != null)
+                    {
+                        if (item.PermissionId > 0)
                         {
-                            var objRolePermission = await _rolePermissionRepository.Add(new Role_Permission(requests.RoleId, objPermission.Id));
+                            var objPerTem = new Permissions(item.ObjectId, objOperation.Id);
+                            objPerTem.Id = item.PermissionId;
+                            await _permissionsRepository.Update(objPerTem);
                         }
+                        else
+                        {
+                            var objPermission = await _permissionsRepository.Add(new Permissions(item.ObjectId, objOperation.Id));
+                            if (objPermission != null)
+                            {
+                                var objRolePermission = await _rolePermissionRepository.Add(new Role_Permission(requests.RoleId, objPermission.Id));
+                            }
+                        }
+
                     }
-                    
                 }
             }            
             return true;

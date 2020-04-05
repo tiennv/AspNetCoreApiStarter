@@ -10,10 +10,10 @@ namespace MP.Author.Api.Models.Request
         public int Id { get; set; }
         public string RoleId { get; set; }
         public int PermissionId { get; set; }
-        public List<RoleObjectOpermationRequest> Objects { get; set; }
+        public List<RoleObjectOperationRequest> Objects { get; set; }
     }
 
-    public class RoleObjectOpermationRequest
+    public class RoleObjectOperationRequest
     {
         public int ObjectId { get; set; }
         public int PermissionId { get; set; }
