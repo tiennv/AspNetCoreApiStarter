@@ -8,5 +8,6 @@ namespace MP.Author.Core.Interfaces.UseCases
     {
         bool Gets(IOutputPort<RoleDtoResponse> outputPort);
         Task<bool> GetByUserAsync(string userid, IOutputPort<RoleDtoResponse> outputPort);
+        Task<bool> GetById(string roleId, IOutputPort<RoleDtoResponse> outputPort);
     }
 }

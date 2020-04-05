@@ -18,15 +18,43 @@ namespace MP.Author.Core.UseCases
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IObjectsRepository _objectsRepository;
+        private readonly IOperationsRepository _operationsRepository;
         private readonly IPermissionsRepository _permissionsRepository;
         private readonly IMapper _mapper;
         public RoleUseCase(IRoleRepository roleRepository, IPermissionsRepository permissionsRepository, 
-            IUserRoleRepository userRoleRepository, IMapper mapper)
+            IUserRoleRepository userRoleRepository, IObjectsRepository objectsRepository,
+            IOperationsRepository operationsRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
             _permissionsRepository = permissionsRepository;
             _userRoleRepository = userRoleRepository;
+            _objectsRepository = objectsRepository;
+            _operationsRepository = operationsRepository;
             _mapper = mapper;
+        }
+
+        public async Task<bool> GetById(string roleId, IOutputPort<RoleDtoResponse> outputPort)
+        {
+            var objRole = await _roleRepository.GetRole(roleId);
+            var objPermissions = _permissionsRepository.GetPermissionsByRoleId(roleId);            
+
+            foreach(var item in objPermissions)
+            {
+                var objObjs = await _objectsRepository.GetById(item.ObjectId);
+                item.Object = objObjs;
+                item.Operation = await _operationsRepository.GetById(item.OperationId);
+            }
+
+            var resObj = new RoleDto();
+            resObj.Id = objRole.Id;
+            resObj.Name = objRole.Name;
+            resObj.Permissions = _mapper.Map<List<PermissionDto>>(objPermissions);
+
+
+            var response = new RoleDtoResponse(resObj, true, "");
+            outputPort.Handle(response);
+            return true;
         }
 
         public async Task<bool> GetByUserAsync(string userid, IOutputPort<RoleDtoResponse> outputPort)

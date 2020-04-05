@@ -41,6 +41,9 @@ namespace MP.Author.Core.Dto
         public string ObjectId { get; set; }
         public string OperationId { get; set; }
         public string Name { get; set; }
+        public List<ObjectDto> Objects { get; set; }
+        public ObjectDto Object { get; set; }
+        public OperationDto Operation { get; set; }
     }
 
     public class RolePermissionDto

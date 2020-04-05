@@ -11,6 +11,7 @@ namespace MP.Author.Core.Dto.UseCaseResponses
         public string Name { get; }
         public IEnumerable<Error> Errors { get; }
         public List<RoleDto> Roles { get; }
+        public RoleDto Role { get; }
 
         public RoleDtoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
@@ -20,6 +21,11 @@ namespace MP.Author.Core.Dto.UseCaseResponses
         public RoleDtoResponse(List<RoleDto> roles, bool success = false, string message = null) : base(success, message)
         {
             Roles = roles;
+        }
+
+        public RoleDtoResponse(RoleDto role, bool success = false, string message = null) : base(success, message)
+        {
+            Role = role;
         }
 
         public RoleDtoResponse(string id, string name, bool success = false, string message = null) : base(success, message)
