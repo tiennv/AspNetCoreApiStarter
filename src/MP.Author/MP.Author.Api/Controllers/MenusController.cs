@@ -35,5 +35,14 @@ namespace MP.Author.Api.Controllers
             await _menusUseCase.Add(requestDto, _menusPresenter);
             return _menusPresenter.ContentResult;
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] MenusRequest request)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var requestDto = _mapper.Map<MenusDtoRequest>(request);
+            await _menusUseCase.Update(requestDto, _menusPresenter);
+            return _menusPresenter.ContentResult;
+        }
     }
 }

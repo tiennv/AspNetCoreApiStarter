@@ -44,5 +44,22 @@ namespace MP.Author.Core.UseCases
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> Update(MenusDtoRequest request, IOutputPort<MenusDtoResponse> outputPort)
+        {
+            var entity = await _menusRepository.GetById(request.Id);
+            if (entity != null)
+            {
+                entity.Name = request.Name;
+                entity.IsShow = request.IsShow;
+                await _menusRepository.Update(entity);
+                outputPort.Handle(new MenusDtoResponse(_mapper.Map<MenusDto>(entity), true, ""));
+            }
+            else
+            {
+                outputPort.Handle(new MenusDtoResponse(new[] { new Error(GlobalMessage.UPDATE_FAIL_CODE, GlobalMessage.UPDATE_FAIL_MES) }, false, GlobalMessage.UPDATE_FAIL_MES));
+            }
+            return true;
+        }
     }
 }

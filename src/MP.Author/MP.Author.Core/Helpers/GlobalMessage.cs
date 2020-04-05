@@ -11,6 +11,7 @@ namespace MP.Author.Core.Helpers
         public static String INSERT_SUCCESS_MES = "Thêm mới thành công!";
         public static String INSERT_FAIL_MES = "Thêm mới thất bại!";
         public static String UPDATE_SUCCESS_MES = "Cập nhật thành công!";
+        public static String UPDATE_FAIL_MES = "Cập nhật thất bại!";
         public static String UPDATE_FAIL_CODE = "update_fail";
         public static String UPDATE_SUCCESS_CODE = "update_success";
 
