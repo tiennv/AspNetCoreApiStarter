@@ -65,6 +65,8 @@ namespace MP.Author.Core.UseCases
             {
                 entity.Name = request.Name;
                 entity.IsShow = request.IsShow;
+                entity.Order = request.Order;
+                entity.Url = request.Url;
                 await _menusRepository.Update(entity);
                 outputPort.Handle(new MenusDtoResponse(_mapper.Map<MenusDto>(entity), true, ""));
             }
