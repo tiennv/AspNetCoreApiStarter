@@ -40,6 +40,13 @@ namespace MP.Author.Core.UseCases
             return inserted != null;
         }
 
+        public async Task Gets(IOutputPort<MenusDtoResponse> outputPort)
+        {
+            var entites = await _menusRepository.ListAll();
+            var objDtos = _mapper.Map<List<MenusDto>>(entites);
+            outputPort.Handle(new MenusDtoResponse(objDtos, true, ""));
+        }
+
         public Task<bool> Handle(MenusDtoRequest message, IOutputPort<MenusDtoResponse> outputPort)
         {
             throw new NotImplementedException();

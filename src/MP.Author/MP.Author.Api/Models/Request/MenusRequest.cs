@@ -18,6 +18,5 @@ namespace MP.Author.Api.Models.Request
     {
         public int MenuId { get; set; }
         public int ObjectId { get; set; }
-
     }
 }

@@ -44,5 +44,12 @@ namespace MP.Author.Api.Controllers
             await _menusUseCase.Update(requestDto, _menusPresenter);
             return _menusPresenter.ContentResult;
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Gets()
+        {            
+            await _menusUseCase.Gets(_menusPresenter);
+            return _menusPresenter.ContentResult;
+        }
     }
 }
