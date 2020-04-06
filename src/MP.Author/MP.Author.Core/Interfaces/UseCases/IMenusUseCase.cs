@@ -9,5 +9,6 @@ namespace MP.Author.Core.Interfaces.UseCases
         Task<bool> Add(MenusDtoRequest request, IOutputPort<MenusDtoResponse> outputPort);
         Task<bool> Update(MenusDtoRequest request, IOutputPort<MenusDtoResponse> outputPort);
         Task Gets(IOutputPort<MenusDtoResponse> outputPort);
+        Task Get(int menuId, IOutputPort<MenusDtoResponse> outputPort);
     }
 }

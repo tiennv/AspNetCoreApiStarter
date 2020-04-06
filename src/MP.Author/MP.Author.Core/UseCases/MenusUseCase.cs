@@ -40,6 +40,12 @@ namespace MP.Author.Core.UseCases
             return inserted != null;
         }
 
+        public async Task Get(int menuId, IOutputPort<MenusDtoResponse> outputPort)
+        {
+            var entity = await _menusRepository.GetById(menuId);
+            outputPort.Handle(new MenusDtoResponse(_mapper.Map<MenusDto>(entity), true, ""));
+        }
+
         public async Task Gets(IOutputPort<MenusDtoResponse> outputPort)
         {
             var entites = await _menusRepository.ListAll();

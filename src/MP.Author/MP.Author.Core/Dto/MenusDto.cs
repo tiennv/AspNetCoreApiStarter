@@ -10,6 +10,7 @@ namespace MP.Author.Core.Dto
         public string Name { get; set; }
         public bool IsShow { get; set; }
         public string Url { get; set; }
+        public int Order { get; set; }
         public List<MenuItemDto> MenuItems { get; set; }
     }
 

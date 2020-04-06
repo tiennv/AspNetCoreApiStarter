@@ -12,13 +12,15 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public string Name { get; set; }
         public bool IsShow { get; set; }
         public string Url { get; set; }
+        public int Order { get; set; }
 
-        public MenusDtoRequest(int id, string name, bool isShow=false, string url = null)
+        public MenusDtoRequest(int id, string name, int order = 0, bool isShow=false, string url = null)
         {
             Id = id;
             Name = name;
             IsShow = isShow;
             Url = url;
+            Order = order;
         }
     }
 }

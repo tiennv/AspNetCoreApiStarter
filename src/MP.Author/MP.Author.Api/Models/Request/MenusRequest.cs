@@ -11,6 +11,7 @@ namespace MP.Author.Api.Models.Request
         public string Name { get; set; }
         public bool IsShow { get; set; }
         public string Url { get; set; }
+        public int Order { get; set; }
         public List<MenuItemsRequest> MenuItems { get; set; }
     }
 
