@@ -34,11 +34,39 @@ namespace MP.Author.Infrastructure.Data.Repositories
             _appDbContext.Role_Permission.AddRange(entities);
             var inserted = await _appDbContext.SaveChangesAsync();
             return inserted;
-        } 
+        }
+
+        public Role_Permission GetByRolePermission(string roleId, int permissionId)
+        {
+            return _appDbContext.Role_Permission.FirstOrDefault(x => x.PermissionId.Equals(permissionId) && x.RoleId.Equals(roleId));
+        }
+
+        public async Task<bool> DeleteByRolePermissionAsync(string roleId, int permissionId)
+        {
+            var entity = _appDbContext.Role_Permission.FirstOrDefault(x => x.PermissionId.Equals(permissionId) && x.RoleId.Equals(roleId));
+            if (entity != null)
+            {
+                _appDbContext.Remove(entity);
+                var deleted = await _appDbContext.SaveChangesAsync();
+                return deleted > 0;
+            }
+            return true;
+        }
 
         public List<Role_Permission> GetPermissionsByRoleId(string roleId)
         {
             return _appDbContext.Role_Permission.Where(x => x.RoleId.Equals(roleId)).ToList();
+        }
+
+        public async Task<bool> DeleteByRolePermissionAsync(string roleId)
+        {
+            var obj = GetPermissionsByRoleId(roleId);
+            if(obj!=null && obj.Count > 0)
+            {
+                _appDbContext.RemoveRange(obj);
+                await _appDbContext.SaveChangesAsync();
+            }
+            return true;
         }
     }
 }

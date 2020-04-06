@@ -21,5 +21,12 @@ namespace MP.Author.Core.Domain.Entities
             OperationId = operationId;
             ObjectId = objectId;
         }
+
+        internal Permissions(int id, int objectId, int operationId)
+        {
+            Id = id;
+            OperationId = operationId;
+            ObjectId = objectId;
+        }
     }
 }

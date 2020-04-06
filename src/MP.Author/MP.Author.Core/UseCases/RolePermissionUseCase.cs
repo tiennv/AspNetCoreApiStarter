@@ -94,12 +94,32 @@ namespace MP.Author.Core.UseCases
 
         public async Task<bool> SetRoleObjectPermission(RolePermissionDtoRequest requests, IOutputPort<RolePermissionDtoResponse> outputPort)
         {
-            foreach(var item in requests.Objects)
+            // delete role permission
+            await _rolePermissionRepository.DeleteByRolePermissionAsync(requests.RoleId);
+
+            foreach (var item in requests.Objects)
             {
                 if (item.Operation != null)
                 {
                     var objOperation = new Operations();
 
+                    if (item.PermissionId > 0) {
+
+                        // delete permission
+                        var perEntry = await _permissionsRepository.GetById(item.PermissionId);
+                        if (perEntry != null)
+                        {
+                            await _permissionsRepository.Delete(perEntry);
+                        }
+
+                        // delete operation
+                        var operaEntry = await _operationsRepository.GetById(item.OperationId);
+                        if (operaEntry!=null) {
+                            await _operationsRepository.Delete(_mapper.Map<Operations>(operaEntry));
+                        }
+
+                    }
+                    /* TODO: tam dong
                     if (item.Operation.Id > 0)
                     {
                         objOperation = _mapper.Map<Operations>(item.Operation);
@@ -109,9 +129,16 @@ namespace MP.Author.Core.UseCases
                     {
                         objOperation = await _operationsRepository.Add(_mapper.Map<Operations>(item.Operation));
                     }
+                    */
+                    objOperation = await _operationsRepository.Add(_mapper.Map<Operations>(item.Operation));
                     if (objOperation != null)
                     {
-                        if (item.PermissionId > 0)
+                        var objPermission = await _permissionsRepository.Add(new Permissions(item.ObjectId, objOperation.Id));
+                        if (objPermission != null)
+                        {
+                            var objRolePermission = await _rolePermissionRepository.Add(new Role_Permission(requests.RoleId, objPermission.Id));
+                        }
+                        /*if (item.PermissionId > 0)
                         {
                             var objPerTem = new Permissions(item.ObjectId, objOperation.Id);
                             objPerTem.Id = item.PermissionId;
@@ -124,7 +151,7 @@ namespace MP.Author.Core.UseCases
                             {
                                 var objRolePermission = await _rolePermissionRepository.Add(new Role_Permission(requests.RoleId, objPermission.Id));
                             }
-                        }
+                        }*/
 
                     }
                 }
