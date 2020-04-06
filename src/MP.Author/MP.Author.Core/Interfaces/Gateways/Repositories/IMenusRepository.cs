@@ -1,6 +1,7 @@
 ﻿using MP.Author.Core.Domain.Entities;
 using MP.Author.Core.Dto.GatewayResponses.Repositories;
 using MP.Author.Core.Dto.UseCaseRequests;
+using MP.Author.Core.Dto.UseCaseResponses;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,6 @@ namespace MP.Author.Core.Interfaces.Gateways.Repositories
 {
     public interface IMenusRepository : IRepository<Menus>
     {
-        //Task<MenusResponse> Create(MenusDtoRequest request);
+        //Task<bool> GetAll(IOutputPort<MenusDtoResponse> outputPort);
     }
 }

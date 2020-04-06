@@ -21,6 +21,8 @@ namespace MP.Author.Core.Helpers
         public static String DELETE_SUCCESS_CODE = "delete_success";
 
         public static String EXIST_ITEM = "Đã tồn tại bản ghi!";
+
+        public static String HAS_NOT_ITEM = "Không tìm thấy bản ghi!";
     }
 
 

@@ -66,14 +66,39 @@ namespace MP.Author.Core.UseCases
         public async Task Get(int menuId, IOutputPort<MenusDtoResponse> outputPort)
         {
             var entity = await _menusRepository.GetById(menuId);
-            outputPort.Handle(new MenusDtoResponse(_mapper.Map<MenusDto>(entity), true, ""));
+            var menuDto = _mapper.Map<MenusDto>(entity);
+            if(menuDto!=null)
+            {
+                var menuItem = _menuItemsRepository.GetByMenuId(menuDto.Id);
+                if (menuItem != null)
+                {
+                    menuDto.MenuItems = menuItem;
+                }
+            }
+            outputPort.Handle(new MenusDtoResponse(menuDto, true, ""));
         }
 
         public async Task Gets(IOutputPort<MenusDtoResponse> outputPort)
         {
-            var entites = await _menusRepository.ListAll();
-            var objDtos = _mapper.Map<List<MenusDto>>(entites);
-            outputPort.Handle(new MenusDtoResponse(objDtos, true, ""));
+            var menus = await _menusRepository.ListAll();
+            if(menus!=null && menus.Count > 0)
+            {
+                var menuDtos = _mapper.Map<List<MenusDto>>(menus);
+                foreach(var menu in menuDtos)
+                {
+                    var menuItem = _menuItemsRepository.GetByMenuId(menu.Id);
+                    if (menuItem != null)
+                    {
+                        menu.MenuItems = menuItem;
+                    }
+                }
+                outputPort.Handle(new MenusDtoResponse(menuDtos, true, ""));
+            }
+            else
+            {
+                outputPort.Handle(new MenusDtoResponse(new List<MenusDto>(), false, GlobalMessage.HAS_NOT_ITEM));
+            }
+           
         }
 
         public Task<bool> Handle(MenusDtoRequest message, IOutputPort<MenusDtoResponse> outputPort)
