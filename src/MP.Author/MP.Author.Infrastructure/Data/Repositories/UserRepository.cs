@@ -119,15 +119,15 @@ namespace MP.Author.Infrastructure.Data.Repositories
             {
                 var tempObj = objects.ToList().FirstOrDefault(x => x.Id.Equals(per.ObjectId));
                 if (!IsExistObject(objObjects, tempObj.Id))
-                {                    
-                    //var tempOper = operations.ToList().FirstOrDefault(x => x.Id.Equals(per.OperationId));
-                    //if (tempObj != null)
-                    //{
-                    //    var objDto = _mapper.Map<ObjectDto>(tempObj);
-                    //    objDto.Operation = _mapper.Map<OperationDto>(tempOper);                        
-                    //    objObjects.Add(objDto);
-                        
-                    //}
+                {
+                    var tempOper = operations.ToList().FirstOrDefault(x => x.Id.Equals(per.OperationId));
+                    if (tempObj != null)
+                    {
+                        var objDto = _mapper.Map<ObjectDto>(tempObj);
+                        objDto.Operation = _mapper.Map<OperationDto>(tempOper);
+                        objObjects.Add(objDto);
+
+                    }
                 }
             }
 

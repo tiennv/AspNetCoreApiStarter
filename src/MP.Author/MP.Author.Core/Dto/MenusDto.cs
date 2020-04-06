@@ -20,5 +20,6 @@ namespace MP.Author.Core.Dto
         public int MenuId { get; set; }
         public int ObjectId { get; set; }
         public string ObjectName { get; set; }
+        public ObjectDto Object { get; set; }
     }
 }
