@@ -92,7 +92,7 @@ namespace MP.Author.Core.UseCases
             }
         }
 
-        public async Task<bool> SetRoleObjectPermission(RolePermissionDtoRequest requests)
+        public async Task<bool> SetRoleObjectPermission(RolePermissionDtoRequest requests, IOutputPort<RolePermissionDtoResponse> outputPort)
         {
             foreach(var item in requests.Objects)
             {
@@ -128,7 +128,8 @@ namespace MP.Author.Core.UseCases
 
                     }
                 }
-            }            
+            }
+            outputPort.Handle(new RolePermissionDtoResponse(0, true, GlobalMessage.INSERT_SUCCESS_MES));
             return true;
         }
     }
