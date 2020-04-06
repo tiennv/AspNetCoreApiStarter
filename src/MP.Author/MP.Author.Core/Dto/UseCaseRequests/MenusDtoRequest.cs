@@ -13,14 +13,16 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public bool IsShow { get; set; }
         public string Url { get; set; }
         public int Order { get; set; }
+        public List<int> ObjectIds { get; set; }
 
-        public MenusDtoRequest(int id, string name, int order = 0, bool isShow=false, string url = null)
+        public MenusDtoRequest(int id, string name, int order = 0, bool isShow=false, string url = null, List<int> objectIds = null)
         {
             Id = id;
             Name = name;
             IsShow = isShow;
             Url = url;
             Order = order;
+            ObjectIds = objectIds;
         }
     }
 }

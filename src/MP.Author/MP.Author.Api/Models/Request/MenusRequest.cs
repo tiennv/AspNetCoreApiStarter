@@ -12,7 +12,8 @@ namespace MP.Author.Api.Models.Request
         public bool IsShow { get; set; }
         public string Url { get; set; }
         public int Order { get; set; }
-        public List<MenuItemsRequest> MenuItems { get; set; }
+        //public List<MenuItemsRequest> MenuItems { get; set; }
+        public List<int> ObjectIds { get; set; }
     }
 
     public class MenuItemsRequest

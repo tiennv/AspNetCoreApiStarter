@@ -49,6 +49,16 @@ namespace MP.Author.Core.UseCases
             return true;
         }
 
+        public async Task<bool> GetParent(IOutputPort<ObjectsDtoResponse> outputPort)
+        {
+            var entities = await _objectsRepository.ListAll();
+            var objDto = _mapper.Map<List<ObjectDto>>(entities);
+            var objParents = objDto.Where(x => x.ParentId.Equals(0));            
+            outputPort.Handle(new ObjectsDtoResponse(objParents.ToList(), true, ""));
+
+            return true;
+        }
+
         public async Task<bool> Gets(IOutputPort<ObjectsDtoResponse> outputPort)
         {
             var entities = await _objectsRepository.ListAll();

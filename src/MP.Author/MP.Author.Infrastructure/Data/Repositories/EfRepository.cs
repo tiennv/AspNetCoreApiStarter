@@ -66,6 +66,13 @@ namespace MP.Author.Infrastructure.Data.Repositories
             return entity;
         }
 
+        public async Task<bool> AddRange(List<T> entities)
+        {
+            _appDbContext.Set<T>().AddRange(entities);
+            var inserted = await _appDbContext.SaveChangesAsync();
+            return inserted > 0;
+        }
+
         public async Task Update(T entity)
         {
             _appDbContext.Entry(entity).State = EntityState.Modified;

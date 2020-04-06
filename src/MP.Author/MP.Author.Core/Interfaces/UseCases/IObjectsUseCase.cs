@@ -9,6 +9,7 @@ namespace MP.Author.Core.Interfaces.UseCases
     {
         Task<bool> Get(int id, IOutputPort<ObjectsDtoResponse> outputPort);
         Task<bool> Gets(IOutputPort<ObjectsDtoResponse> outputPort);
+        Task<bool> GetParent(IOutputPort<ObjectsDtoResponse> outputPort);
         Task<bool> Update(ObjectsDtoRequest message, IOutputPort<ObjectsDtoResponse> outputPort);
         Task<bool> Create(List<ObjectsDtoRequest> request, IOutputPort<ObjectsDtoResponse> outputPort);
         Task<bool> Delete(List<ObjectsDtoRequest> ids, IOutputPort<ObjectsDtoResponse> outputPort);

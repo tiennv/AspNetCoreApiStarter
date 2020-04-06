@@ -43,6 +43,13 @@ namespace MP.Author.Api.Controllers
             return _objectsPresenter.ContentResult;
         }
 
+        [HttpGet("parent")]
+        public async Task<ActionResult> GetParents()
+        {
+            await _objectsUserCase.GetParent(_objectsPresenter);
+            return _objectsPresenter.ContentResult;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ObjectsRequest request)
         {

@@ -17,10 +17,12 @@ namespace MP.Author.Core.UseCases
     public sealed class MenusUseCase : IMenusUseCase
     {
         private readonly IMenusRepository _menusRepository;
+        private readonly IMenuItemsRepository _menuItemsRepository;
         private readonly IMapper _mapper;
-        public MenusUseCase(IMenusRepository menusRepository, IMapper mapper)
+        public MenusUseCase(IMenusRepository menusRepository, IMenuItemsRepository menuItemsRepository, IMapper mapper)
         {
             _menusRepository = menusRepository;
+            _menuItemsRepository = menuItemsRepository;
             _mapper = mapper;
         }
         public async Task<bool> Add(MenusDtoRequest request, IOutputPort<MenusDtoResponse> outputPort)
@@ -38,6 +40,27 @@ namespace MP.Author.Core.UseCases
             }
 
             return inserted != null;
+        }
+
+        public async Task<bool> AddItem(MenusDtoRequest request, IOutputPort<MenusDtoResponse> outputPort)
+        {
+            if (request.ObjectIds != null && request.ObjectIds.Count > 0)
+            {
+                var entities = new List<MenuItems>();
+                foreach (var item in request.ObjectIds)
+                {
+                    var entry = new MenuItems
+                    {
+                        MenuId = request.Id,
+                        ObjectId = item
+                    };
+
+                    entities.Add(entry);
+                }
+
+                return await _menuItemsRepository.AddRange(entities);
+            }
+            return false;
         }
 
         public async Task Get(int menuId, IOutputPort<MenusDtoResponse> outputPort)
