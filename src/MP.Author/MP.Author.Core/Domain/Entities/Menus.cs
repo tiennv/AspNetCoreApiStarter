@@ -9,6 +9,7 @@ namespace MP.Author.Core.Domain.Entities
     {
         public string Name { get; set; }
         public bool IsShow { get; set; }
+        public string Url { get; set; }
     }
 
     public class MenuItems : BaseEntity
