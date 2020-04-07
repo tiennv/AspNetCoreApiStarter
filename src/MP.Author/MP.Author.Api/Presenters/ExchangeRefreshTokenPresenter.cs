@@ -25,16 +25,16 @@ namespace MP.Author.Api.Presenters
             ContentResult.Content = JsonSerializer.SerializeObject(HandleResponse(response));
         }
 
-        private BaseResponse<ExchangeRefreshTokenDtoResponse> HandleResponse(ExchangeRefreshTokenDtoResponse response)
+        private BaseResponse<RefreshTokenResponse> HandleResponse(ExchangeRefreshTokenDtoResponse response)
         {
-            var result = new BaseResponse<ExchangeRefreshTokenDtoResponse>();
+            var result = new BaseResponse<RefreshTokenResponse>();
 
             result.code = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
             result.error = response.Success ? 0 : 1;
             result.msg = response.Message;
             if (response != null && response.Success)
             {
-                result.data = response;
+                result.data = new RefreshTokenResponse(response.RefreshToken, response.AccessToken.Token, DateTime.Now.AddSeconds(response.AccessToken.ExpiresIn).ToString("yyyy-MM-dd HH:mm"));
             }
 
             return result;

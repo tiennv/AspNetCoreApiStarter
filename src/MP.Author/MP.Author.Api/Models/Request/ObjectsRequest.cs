@@ -25,7 +25,7 @@ namespace MP.Author.Api.Models.Request
         public string EnumAction { get; set; }
         public string Icon { get; set; }
 
-        public List<ObjectsRequest> Childrents { get; set; }
+        public List<ObjectsRequest> Children { get; set; }
     }   
     
     public class ObjectIdRequest

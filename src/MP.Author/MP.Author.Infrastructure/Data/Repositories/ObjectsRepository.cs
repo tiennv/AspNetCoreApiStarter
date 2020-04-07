@@ -23,9 +23,9 @@ namespace MP.Author.Infrastructure.Data.Repositories
             var entityInserted = _appDbContext.Objects.Add(entity);
             var inserted = await _appDbContext.SaveChangesAsync();
             // Neu co list childrent
-            if(inserted > 0 && objects.Childrents!=null && objects.Childrents.Count > 0)
+            if(inserted > 0 && objects.Children!=null && objects.Children.Count > 0)
             {
-                foreach(var item in objects.Childrents)
+                foreach(var item in objects.Children)
                 {
                     if (item != null)
                     {
@@ -48,10 +48,10 @@ namespace MP.Author.Infrastructure.Data.Repositories
             {
                 var entityInserted = _appDbContext.Objects.Add(_mapper.Map<Objects>(item));
                 inserted = await _appDbContext.SaveChangesAsync();
-                if (inserted > 0 && item.Childrents != null && item.Childrents.Count > 0)
+                if (inserted > 0 && item.Children != null && item.Children.Count > 0)
                 {
-                    item.Childrents.ForEach(x => x.ParentId = entityInserted.Entity.Id);
-                    _appDbContext.Objects.AddRange(_mapper.Map<List<Objects>>(item.Childrents));
+                    item.Children.ForEach(x => x.ParentId = entityInserted.Entity.Id);
+                    _appDbContext.Objects.AddRange(_mapper.Map<List<Objects>>(item.Children));
                     await _appDbContext.SaveChangesAsync();
                 }
             }

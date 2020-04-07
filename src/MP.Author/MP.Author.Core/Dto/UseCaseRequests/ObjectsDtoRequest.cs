@@ -19,7 +19,7 @@ namespace MP.Author.Core.Dto.UseCaseRequests
         public string Route { get; set; }
         public string EnumAction { get; set; }
         public string Icon { get; set; }
-        public List<ObjectsDtoRequest> Childrents { get; set; }
+        public List<ObjectsDtoRequest> Children { get; set; }
 
         public ObjectsDtoRequest(int id)
         {
@@ -41,7 +41,7 @@ namespace MP.Author.Core.Dto.UseCaseRequests
             EnumAction = enumAction;
             Icon = icon;
             ParentId = parentId;
-            Childrents = childrents;
+            Children = childrents;
         }
     }
 }
