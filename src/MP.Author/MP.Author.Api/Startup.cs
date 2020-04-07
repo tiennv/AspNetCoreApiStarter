@@ -34,6 +34,8 @@ using System.Threading.Tasks;
 using MP.Author.Api.Presenters;
 using MP.Author.Core.Mapping;
 using MP.Author.Api.Middleware;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace MP.Author.Api
 {
@@ -173,12 +175,18 @@ namespace MP.Author.Api
 
             services.AddScoped<SecurityFilter>();
 
-            //services.AddCors(o => o.AddPolicy("MPAuthorPolicy", builder =>
-            //{
-            //    builder.AllowAnyOrigin()
-            //           .AllowAnyMethod()
-            //           .AllowAnyHeader();
-            //}));
+            
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
 
         }
 
@@ -223,7 +231,7 @@ namespace MP.Author.Api
 
             }
 
-            //app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseResponseCompression();
 
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
