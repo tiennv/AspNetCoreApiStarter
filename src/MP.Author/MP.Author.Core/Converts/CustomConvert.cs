@@ -20,10 +20,11 @@ namespace MP.Author.Core.Converts
 
         private static List<ObjectDto> RecusiveObjects(List<ObjectDto> childs, ObjectDto parents, List<ObjectDto> target)
         {
-            var objChild = childs.Where(x => x.ParentId.Equals(parents.Id) && x.IsPage);
+            var objChild = childs.Where(x => x.ParentId.Equals(parents.Id));
             if (objChild != null && objChild.Count() > 0)
             {
-                parents.children = objChild.Where(x=>x.IsPage).ToList();
+                //parents.children = objChild.Where(x=>x.IsPage).ToList();
+                parents.children = objChild.ToList();
                 //target.Add(parents);
                 foreach (var child in objChild)
                 {
