@@ -328,3 +328,15 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IRoleUserCase.cs
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IRolePermissionUserCase.cs
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IPermissionsUserCase.cs
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IOperationsUserCase.cs
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IObjectsUserCase.cs
+/src/MP.Author/MP.Author.Core/Interfaces/UseCases/IAddUserRoleUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/UserRoleUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/RoleUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/RolePermissionUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/PermissionsUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/OperationsUserCase.cs
+/src/MP.Author/MP.Author.Core/UseCases/ObjectsUserCase.cs

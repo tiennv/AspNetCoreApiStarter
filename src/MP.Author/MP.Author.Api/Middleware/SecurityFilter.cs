@@ -13,13 +13,12 @@ using System.Net;
 namespace MP.Author.Api.Middleware
 {
     public class SecurityFilter : IAuthorizationFilter
-    {
-        private readonly IJwtTokenValidator _jwtTokenValidator;
+    {        
         private readonly AuthSettings _authSettings;
         private readonly IExchangeRefreshTokenUseCase _exchangeRefreshTokenUseCase;
-        public SecurityFilter(IExchangeRefreshTokenUseCase exchangeRefreshTokenUseCase, IJwtTokenValidator jwtTokenValidator, IOptions<AuthSettings> authSettings)
-        {            
-            _jwtTokenValidator = jwtTokenValidator;
+        public SecurityFilter(IExchangeRefreshTokenUseCase exchangeRefreshTokenUseCase, IOptions<AuthSettings> authSettings)
+        {           
+            
             _authSettings = authSettings.Value;
             _exchangeRefreshTokenUseCase = exchangeRefreshTokenUseCase;
         }

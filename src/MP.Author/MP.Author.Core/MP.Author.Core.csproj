@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\UseCases\IOperationsUserCase.cs" />
+    <Compile Remove="Interfaces\UseCases\IPermissionsUserCase.cs" />
+    <Compile Remove="Interfaces\UseCases\IRolePermissionUserCase.cs" />
+    <Compile Remove="Interfaces\UseCases\IRoleUserCase.cs" />
+    <Compile Remove="UseCases\ObjectsUserCase.cs" />
+    <Compile Remove="UseCases\OperationsUserCase.cs" />
+    <Compile Remove="UseCases\PermissionsUserCase.cs" />
+    <Compile Remove="UseCases\RolePermissionUserCase.cs" />
+    <Compile Remove="UseCases\RoleUserCase.cs" />
+    <Compile Remove="UseCases\UserRoleUserCase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />

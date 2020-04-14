@@ -8,6 +8,7 @@ using MP.Author.Core.Interfaces;
 using MP.Author.Core.Interfaces.Gateways.Repositories;
 using MP.Author.Core.Interfaces.Services;
 using MP.Author.Core.Interfaces.UseCases;
+using MP.Author.Core.Specifications;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,13 +19,15 @@ namespace MP.Author.Core.UseCases
     {
         private readonly IUserRepository _userRepository;        
         private readonly IJwtFactory _jwtFactory;
-        private readonly ITokenFactory _tokenFactory;        
+        private readonly ITokenFactory _tokenFactory;
+        private readonly IJwtTokenValidator _jwtTokenValidator;
 
-        public LoginUseCase(IUserRepository userRepository,IJwtFactory jwtFactory, ITokenFactory tokenFactory)
+        public LoginUseCase(IUserRepository userRepository,IJwtFactory jwtFactory, ITokenFactory tokenFactory, IJwtTokenValidator jwtTokenValidator)
         {
             _userRepository = userRepository;
             _jwtFactory = jwtFactory;
-            _tokenFactory = tokenFactory;            
+            _tokenFactory = tokenFactory;
+            _jwtTokenValidator = jwtTokenValidator;
         }
 
         public async Task<bool> Handle(LoginDtoRequest message, IOutputPort<LoginDtoResponse> outputPort)
@@ -58,31 +61,36 @@ namespace MP.Author.Core.UseCases
             }
             outputPort.Handle(new LoginDtoResponse(new[] { new Error("login_failure", "Invalid username or password.") }));
             return false;
-        }        
-/*
-        private List<ObjectDto> ReturnObjects(List<ObjectDto> source, List<ObjectDto> parentRoot)
-        {
-            var result = new List<ObjectDto>();
-            
-            foreach (var item in parentRoot)
-            {
-                RecusiveObjects(source, item, result);                
-            }
-            return result;
         }
 
-        private List<ObjectDto> RecusiveObjects(List<ObjectDto> childs, ObjectDto parents, List<ObjectDto> target)
+        public async Task<bool> ValidationPermissions(ValidationPermissionDtoRequest request, IOutputPort<ValidationPermissionDtoResponse> outputPort)
         {
-            var objChild = childs.Where(x => x.ParentId.Equals(parents.Id));
-            if (objChild != null && objChild.Count() > 0)
+            var cp = _jwtTokenValidator.GetPrincipalFromToken(request.AccessToken, request.SigningKey);
+            if (cp != null)
             {
-                parents.Childrents = objChild.ToList();
-                target.Add(parents);
-                foreach (var child in objChild) {
-                    return RecusiveObjects(childs, child, target);
+                var id = cp.Claims.First(c => c.Type == "id");
+                var user = await _userRepository.GetSingleBySpec(new UserSpecification(id.Value));
+                if (user != null)
+                {
+                    var objs = await _userRepository.GetObjects(user.UserName);
+                    var obj = objs.FirstOrDefault(x => (x.ControllerName.ToLower().Equals(request.ControllerName.ToLower()) && x.ActionName.ToLower().Equals(request.ActionName.ToLower()))
+                                            || x.Route.ToLower().Equals(request.Route.ToLower()));
+
+                    outputPort.Handle(new ValidationPermissionDtoResponse(obj, obj!=null, obj!=null ? "" : "Has not permission!"));
+                    return true;
+                }
+                else
+                {
+                    outputPort.Handle(new ValidationPermissionDtoResponse(new Error("404", "User is null!"), null, false, "User is null!"));
+                    return false;
                 }
             }
-            return target;
-        }       */
+            else
+            {
+                outputPort.Handle(new ValidationPermissionDtoResponse(new Error("401", "Invalid token!"), null, false, "Invalid token!"));
+                return false;
+            }
+            
+        }
     }
 }

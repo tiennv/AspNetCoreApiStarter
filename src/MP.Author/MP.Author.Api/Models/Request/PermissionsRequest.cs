@@ -12,5 +12,12 @@ namespace MP.Author.Api.Models.Request
         public int OperationId { get; set; }
         public string Name { get; set; }
     }
+
+    public class ValidationPermissionRequest
+    {
+        public string Route { get; set; }
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }        
+    }
     
 }
