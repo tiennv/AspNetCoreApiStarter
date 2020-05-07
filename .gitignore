@@ -52,7 +52,7 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-**/Properties/launchSettings.json
+
 
 # StyleCop
 StyleCopReport.xml
@@ -340,3 +340,4 @@ ASALocalRun/
 /src/MP.Author/MP.Author.Core/UseCases/PermissionsUserCase.cs
 /src/MP.Author/MP.Author.Core/UseCases/OperationsUserCase.cs
 /src/MP.Author/MP.Author.Core/UseCases/ObjectsUserCase.cs
+/src/Tests/Web.Api.IntegrationTests/Properties/launchSettings.json
