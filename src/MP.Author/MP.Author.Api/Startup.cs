@@ -226,7 +226,7 @@ namespace MP.Author.Api
                 });
 
             }
-            else
+            else if(env.IsProduction())
             {
 
             }
