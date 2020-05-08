@@ -36,6 +36,7 @@ using MP.Author.Core.Mapping;
 using MP.Author.Api.Middleware;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
+using System.IO;
 
 namespace MP.Author.Api
 {
@@ -57,8 +58,9 @@ namespace MP.Author.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();            
-            
+            services.AddControllers();
+            services.AddApiVersioning();
+
             var connection = Configuration["ConnectionStrings:Default"];           
 
             var databaseType = Configuration["DatabaseType"];
@@ -153,6 +155,7 @@ namespace MP.Author.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v2" });
                 // Swagger 2.+ support
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -180,6 +183,9 @@ namespace MP.Author.Api
                      }
                 });
 
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.AddScoped<SecurityFilter>();
@@ -248,6 +254,7 @@ namespace MP.Author.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MobiPlus Authentication Api V1 on " + env.EnvironmentName);
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "MobiPlus Authentication Api V2 on " + env.EnvironmentName);
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

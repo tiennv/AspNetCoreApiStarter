@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MP.Author.Api</name>
+    </assembly>
+    <members>
+        <member name="M:MP.Author.Api.Controllers.AccountsController.Post(MP.Author.Api.Models.Request.RegisterUserRequest)">
+            <summary>
+            Register Users
+            </summary>
+            <param name="request"></param>
+            <returns></returns>                
+        </member>
+    </members>
+</doc>

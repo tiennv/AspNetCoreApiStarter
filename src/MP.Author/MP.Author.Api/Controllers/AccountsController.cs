@@ -14,7 +14,9 @@ using MP.Author.Core.Interfaces.UseCases;
 
 namespace MP.Author.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -37,8 +39,14 @@ namespace MP.Author.Api.Controllers
             _mapper = mapper;
         }
 
-        // POST api/accounts
+        /// <summary>
+        /// Register Users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>                
         [HttpPost]
+        [ApiVersion("2")]
+        [ApiVersion("3")]
         public async Task<ActionResult> Post([FromBody]RegisterUserRequest request)
         {
             if (!ModelState.IsValid)
