@@ -41,12 +41,16 @@ namespace MP.Author.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment Env { get; }
+
 
         public ILifetimeScope AutofacContainer { get; private set; }
 
@@ -57,8 +61,13 @@ namespace MP.Author.Api
             
             var connection = Configuration["ConnectionStrings:Default"];           
 
-            services.AddDbContext<AppDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
-            services.AddDbContext<AppIdentityDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
+            var databaseType = Configuration["DatabaseType"];
+
+            if (databaseType.Equals("MySQL"))
+            {
+                services.AddDbContext<AppDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
+                services.AddDbContext<AppIdentityDbContext>(options => options.UseMySql(connection, b => b.MigrationsAssembly("MP.Author.Infrastructure")), ServiceLifetime.Scoped);
+            }
 
             // Register the ConfigurationBuilder instance of AuthSettings
             var authSettings = Configuration.GetSection(nameof(AuthSettings));
@@ -143,7 +152,7 @@ namespace MP.Author.Api
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MobiPlus Authentication Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v1" });
                 // Swagger 2.+ support
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -238,7 +247,7 @@ namespace MP.Author.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MobiPlus Authentication Api V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MobiPlus Authentication Api V1 on " + env.EnvironmentName);
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
