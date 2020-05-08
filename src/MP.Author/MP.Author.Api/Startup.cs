@@ -154,7 +154,22 @@ namespace MP.Author.Api
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v1",                    
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "TIENNV",
+                        Email = string.Empty,
+                        Url = new Uri("https://twitter.com/spboyer"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "MobiPlus Authentication Api " + Env.EnvironmentName, Version = "v2" });
                 // Swagger 2.+ support
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
